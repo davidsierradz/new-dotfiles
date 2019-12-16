@@ -248,6 +248,7 @@ function glofzf() {
 #--------------------------------Aliases---------------------------------------# {{{
 alias -g GHFZF='| gh'
 alias -g lastbranch='$(cat .git/lastbranch)'
+compdef config=git
 #--------------------------------End Aliases-----------------------------------#
 #}}}
 
