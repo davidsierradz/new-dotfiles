@@ -1,0 +1,3 @@
+#!/bin/bash
+set -x
+/usr/bin/nvim -d "$2" "$5"

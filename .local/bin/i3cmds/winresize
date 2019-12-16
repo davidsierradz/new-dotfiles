@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+echo "📐" | rofi -m -1 -sidebar-mode -location 2 -dmenu -p "Give width and height:" | xargs xdotool windowsize "$(xdotool getwindowfocus)"

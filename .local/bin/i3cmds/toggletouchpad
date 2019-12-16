@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# toggle touchpad status
+
+device="ELAN1300:00 04F3:3057 Touchpad"
+enabled=$(xinput --list-props "$device" | grep "Device Enabled" | awk '{print $NF}')
+
+if [[ "$enabled" == "1" ]]; then
+    xinput --disable "$device"
+    echo "TouchPad deactivated"
+    notify-send -h string:x-canonical-private-synchronous:my-notification "🖱 TouchPad deactivated"
+else
+    xinput --enable "$device"
+    echo "TouchPad reactivated"
+    notify-send -h string:x-canonical-private-synchronous:my-notification "🖱 TouchPad reactivated"
+fi

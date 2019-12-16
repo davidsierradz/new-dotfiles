@@ -1,0 +1,42 @@
+[core]
+  pager = "/usr/bin/bat --style=\"plain\" --color=\"never\""
+  excludesFile = "$HOME/.config/git/ignore"
+[user]
+	email = davidsierradz@gmail.com
+	name = davidsierradz
+[merge]
+  tool = vimdiff
+  conflictstyle = diff3
+[mergetool]
+  prompt = false
+  keepBackup = false
+[mergetool "vimdiff"]
+  cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[difftool]
+  tool = vimdiff
+  prompt = false
+  trustExitCode = true
+[difftool "vimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE $BASE -c '$wincmd w' -c 'wincmd J' -c 'wincmd k' -c 'wincmd _'
+[alias]
+	lg = log --graph --date-order --date=format-local:'%F %R' --full-history --color --decorate --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'
+  lga = log --graph --date-order --date=format-local:'%F %R' --full-history --all --color --decorate --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'
+  co = checkout
+  st = status
+  ss = status -s -b
+  b = branch
+  sh = show
+  p = push
+  l = pull
+  m = merge
+  d = diff
+  f = fetch
+  c = commit
+  rb = rebase
+  files = "!f() { git diff --name-only $(git merge-base HEAD \"${1:-master}\") ; }; f"
+  stat = "!f () { git diff --stat $(git merge-base HEAD \"${1:-master}\") ; }; f"
+  rl = reflog --pretty=reflog
+[pretty]
+  reflog = %C(auto)%h %<|(20)%gd %C(blue)%ci%C(reset) %gs (%s)
+[pull]
+  ff = only
