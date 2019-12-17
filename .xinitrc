@@ -8,6 +8,8 @@
 # and so they are needed there. To prevent doubling up commands, I source them
 # here with the line below.
 
+[ -f ~/.xprofile ] && . ~/.xprofile
+
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
@@ -38,8 +40,6 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
   unset f
 fi
 
-[ -f "$HOME/.xprofile" ] && . ~/.xprofile
-
 sleep 3
 
 xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --mode 1920x1080 --pos 1366x0 --rotate normal --output HDMI2 --off --output VIRTUAL1 --off
@@ -48,4 +48,13 @@ setbg &		# Set the background
 
 rinit &
 
-exec i3
+# Your default LARBS WM is determined in your `~/.profile` on login.  Here we
+# run the proper command to run when the graphical environment starts.
+
+case "$LARBSWM" in
+	dwm) while :; do
+		ssh-agent dwm || break
+		done ;;
+	i3) exec i3 ;;
+	*) echo "No valid LARBS window manager detected." ;;
+esac

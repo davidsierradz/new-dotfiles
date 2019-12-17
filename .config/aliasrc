@@ -1,46 +1,61 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
-# yt="youtube-dl --add-metadata -i -o '%(upload_date)s-%(title)s.%(ext)s'" \
+# Use neovim for vim if present.
+command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d"
 
-alias ka="killall" \
-  SS="sudo systemctl" \
-  YT="youtube-viewer" \
-  b='bat' \
+# Verbosity and settings that you pretty much just always are going to want.
+alias \
+	cp="cp -iv" \
+	mv="mv -iv" \
+	rm="rm -v" \
+	mkd="mkdir -pv" \
+	ffmpeg="ffmpeg -hide_banner"
+
+# Colorize commands when possible.
+alias \
+	ls="ls -hN --color=auto --group-directories-first" \
+	grep="grep --color=auto" \
+	diff="diff --color=auto" \
+	ccat="highlight --out-format=ansi"
+
+# These common commands are just too long! Abbreviate them.
+alias \
+	ka="killall" \
+	g="git" \
+	trem="transmission-remote" \
+	YT="youtube-viewer" \
+	sdn="sudo shutdown -h now" \
+	f="$FILE" \
+	e="$EDITOR" \
+	v="$EDITOR" \
+	p="sudo pacman" \
+
+# This alias is important. It enables the `pauseallmpv` command.
+alias mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)"
+
+# Some other stuff
+alias \
+	magit="nvim -c MagitOnly" \
+	ref="shortcuts >/dev/null; source ~/.config/shortcutrc" \
+	weath="less -S ~/.local/share/weatherreport" \
+
+alias b='bat' \
   c='clear' \
   calcurse="calcurse -D ~/.config/calcurse" \
   ccat="highlight --out-format=ansi" \
   config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME' \
   d='docker' \
-  diff="diff --color=auto" \
-  e="$EDITOR" \
-  f="$FILE" \
-  ffmpeg="ffmpeg -hide_banner" \
-  g="git" \
   glg="git log --graph --date-order --date=format-local:'%F %R' --full-history --color --decorate --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'" \
   glga="git log --graph --date-order --date=format-local:'%F %R' --full-history --all --color --decorate --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'" \
-  grep="grep --color=auto" \
   gua="git remote | xargs -L1 git push --all" \
   gss="git status -sb" \
   icat="kitty +kitten icat" \
   ll='ls -lAFh --group-directories-first' \
   llt='ls -lAFht --group-directories-first' \
-  ls="ls -hN --color=auto --group-directories-first" \
-  lsp="pacman -Qett --color=always | less" \
-  magit="nvim -c MagitOnly" \
-  mkd="mkdir -pv" \
-  mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
-  p="sudo pacman" \
-  ref="shortcuts >/dev/null; source ~/.config/shortcutrc" \
-  sdn="sudo shutdown -h now" \
-  trem="transmission-remote" \
-  upc="sudo pacman -Syu; pkill -RTMIN+8 i3blocks" \
-  v="$EDITOR" \
   vw="nvim -u ~/.config/nvim/wiki-init.vim -c VimwikiIndex" \
-  x="sxiv -ft *" \
   y="yarn" \
   yl="yarn lint" \
   ytw="yarn test --watch" \
-  yta="yt -x -f bestaudio/best"
 
 if [ -n "$ZSH_VERSION" ]; then
   alias -g J='| python -m json.tool'
@@ -53,8 +68,6 @@ elif [ -n "$BASH_VERSION" ]; then
   _xfunc git __git_complete g _git
   complete -F _yarn y
 fi
-
-command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d" # Use neovim for vim if present.
 
 vf() { fzf | xargs -r -I % $EDITOR % ;}
 

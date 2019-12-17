@@ -419,10 +419,10 @@ let g:coc_snippet_prev = '<c-k>'
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 "}}}
 ""/ pear-tree {{{
 "/
@@ -459,12 +459,12 @@ xnoremap x d
 nnoremap xx dd
 nnoremap X D
 "}}}
-""/ vim-yoink {{{
+""/ vim-easymotion {{{
 "/
-nmap p <plug>(YoinkPaste_p)
-nmap P <plug>(YoinkPaste_P)
-nmap y <plug>(YoinkYankPreserveCursorPosition)
-xmap y <plug>(YoinkYankPreserveCursorPosition)
+" One char search.
+nmap <C-space> <Plug>(easymotion-s)
+vmap <C-space> <Plug>(easymotion-s)
+omap <C-space> <Plug>(easymotion-s)
 "}}}
 ""/ vim-subversive {{{
 "/
@@ -480,6 +480,13 @@ nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
 nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
+"}}}
+""/ vim-yoink {{{
+"/
+nmap p <plug>(YoinkPaste_p)
+nmap P <plug>(YoinkPaste_P)
+nmap y <plug>(YoinkYankPreserveCursorPosition)
+xmap y <plug>(YoinkYankPreserveCursorPosition)
 "}}}
 "}}}
 ""/ leader (SPC) {{{

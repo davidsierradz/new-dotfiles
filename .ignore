@@ -28,3 +28,5 @@ go/
 code/third-party/
 .vscode-oss/
 mount/
+.nuget
+.local/share/NuGet
