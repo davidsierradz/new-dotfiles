@@ -73,6 +73,7 @@ export GIT_PS1_HIDE_IF_PWD_IGNORED=1
 export VISUAL=$EDITOR
 export USE_EDITOR=$EDITOR
 export NODE_PATH="$NODE_PATH:/home/neuromante/.local/lib/node_modules"
+[ -f ~/.config/local-envs ] && . ~/.config/local-envs
 
 # Start graphical server on tty1 if not already running.
 [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x Xorg >/dev/null && exec startx
