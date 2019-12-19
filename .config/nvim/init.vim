@@ -22,9 +22,6 @@ Plug 'easymotion/vim-easymotion'
 " Visualize your Vim undo tree.
 Plug 'simnalamburt/vim-mundo'
 
-" Automatic closing of quotes, parenthesis, brackets also expands spaces and enters.
-" Plug 'tmsvg/pear-tree'
-
 " Change or add pair of chars surrouding an object.
 Plug 'tpope/vim-surround'
 
@@ -52,7 +49,6 @@ Plug 'tpope/vim-commentary'
 
 "--------------Interface---------------- {{{
 " Minimal colorscheme for vim.
-Plug 'davidsierradz/vim-colors-off'
 Plug 'davidsierradz/gruvbox'
 
 " Smart close of buffers.
@@ -61,14 +57,10 @@ Plug 'Asheq/close-buffers.vim'
 " Search your selection text with * or #.
 Plug 'haya14busa/vim-asterisk'
 
-" Make the yanked region apparent.
-" Plug 'machakann/vim-highlightedyank'
-
 " Lightline (statusbar) plugins.
 Plug 'itchyny/lightline.vim'
 Plug 'davidsierradz/lightline-gruvbox.vim'
 Plug 'maximbaz/lightline-trailing-whitespace'
-Plug 'maximbaz/lightline-ale'
 
 " Smooth scrolling for Vim done right.
 Plug 'psliwka/vim-smoothie'
@@ -98,14 +90,8 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 "}}}
 
 "-------Completions and omnifuncs------- {{{
-" Snippet Engine.
-" Plug 'SirVer/ultisnips'
-
 " List of snippets for Ultisnips.
 Plug 'honza/vim-snippets'
-
-" Syntax checker and linter.
-Plug 'w0rp/ale'
 
 " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode.
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -114,6 +100,10 @@ Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 "------Syntax files and Languages------- {{{
 " Yet Another JavaScript Syntax for Vim.
 Plug 'yuezk/vim-js'
+
+" Typescript syntax files for Vim.
+Plug 'leafgarland/typescript-vim'
+let g:typescript_indent_disable = 1
 
 " React JSX syntax highlighting and indenting for vim.
 Plug 'maxmellon/vim-jsx-pretty'
@@ -297,6 +287,7 @@ nnoremap <M-v> vg$
 " Go to start or end of non-blank line chars.
 noremap H g^
 noremap L g$
+vnoremap L g_
 
 " Swap join lines behaviour.
 nnoremap <silent> gJ mzJ`zldiw:delmarks z<cr>
@@ -423,23 +414,6 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-"}}}
-""/ pear-tree {{{
-"/
-" imap <BS> <Plug>(PearTreeBackspace)
-" imap <CR> <Plug>(PearTreeExpand)
-" imap <Esc> <Plug>(PearTreeFinishExpansion)
-" imap <M-Space> <Plug>(PearTreeSpace)
-" imap <C-g><C-g> <Plug>(PearTreeJump)
-"}}}
-""/ ultisnips {{{
-"/
-" let g:UltiSnipsJumpForwardTrigger   = "<M-n>"
-" let g:UltiSnipsJumpBackwardTrigger  = "<M-p>"
-
-" Expand the snippet.
-" imap <M-u> <Plug>(ultisnips_expand)
-" xmap <silent> <C-x><C-s> <Plug>(ultisnips_expand)
 "}}}
 ""/ vim-asterisk {{{
 "/
@@ -590,13 +564,6 @@ unlet s:i
 "}}}
 ""/ fzf (z) {{{
 "/
-" nnoremap <leader>zq :Rg<CR><C-\><C-n>0i
-" nnoremap <leader>zw :Rgg<CR><C-\><C-n>0i
-" nnoremap <leader>ze :Rggg<CR><C-\><C-n>0i
-" nnoremap <leader>zh :History<CR><C-\><C-n>0i
-" nnoremap <leader>zx :Snippets<CR><C-\><C-n>0i
-" nnoremap <leader>zz :Buffers<CR><C-\><C-n>0i
-" nnoremap <leader>zp :Files<CR><C-\><C-n>0i
 nnoremap <leader>zq :Rg<CR>
 nnoremap <leader>zw :Rgg<CR>
 nnoremap <leader>ze :Rggg<CR>
@@ -658,6 +625,8 @@ nnoremap <silent> <leader>lp  :<C-u>CocListResume<CR>
 nmap <silent> <Leader>yb yob
 nmap <silent> <Leader>yc yoc
 nmap <silent> <Leader>yd yod
+" Toggles conceallevel 0 to 3.
+nnoremap <silent> <Leader>ye :<C-R>=&conceallevel is# 0 ? "set conceallevel=3" : "set conceallevel=0"<CR><CR>
 " Toggles formatoptions to add comment after <CR> or o (and O).
 nnoremap <silent> <Leader>yf :<C-R>=&formatoptions !~# "cro" ? "setlocal formatoptions+=cro" : "setlocal formatoptions-=cro"<CR><CR>
 nmap <silent> <Leader>yh yoh
@@ -726,18 +695,8 @@ autocmd User Node
 "}}}
 ""/ plugins (SPC) {{{
 "/
-""/ ale.vim (a) {{{
-"/
-" Navigate ALE errors.
-nmap <silent> <leader><leader>a[ <Plug>(ale_previous_wrap)
-nmap <silent> <leader><leader>a] <Plug>(ale_next_wrap)
-"}}}
 ""/ coc.nvim (c) {{{
 "/
-"}}}
-""/ ultisnips (u) {{{
-"/
-" let g:UltiSnipsListSnippets = "<leader><leader>ul"
 "}}}
 ""/ vim-easymotion (e) {{{
 "/
@@ -774,49 +733,6 @@ nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> 
 
 
 "--------------------------------Plugins Configuration-------------------------"{{{
-""/ ale.vim {{{
-"/
-" Don't use the sign column/gutter for ALE.
-" let g:ale_set_signs = 1
-
-" Lint always in Normal Mode.
-let g:ale_lint_on_text_changed = 'normal'
-
-" Set ALE's 200ms delay to zero.
-" let g:ale_lint_delay = 0
-
-" Set gorgeous colors for marked lines to sane, readable combinations
-" working with any colorscheme.
-au VimEnter,BufEnter,ColorScheme *
-      \ exec "hi! ALEInfoLine guifg=".(&background is? 'light'?'#808000':'#ffff00')." guibg=".(&background is? 'light'?'#ffff00':'#555500') |
-      \ exec "hi! ALEWarningLine guifg=".(&background is? 'light'?'#808000':'#ffff00')." guibg=".(&background is? 'light'?'#ffff00':'#555500') |
-      \ exec "hi! ALEErrorLine guifg=".(&background is? 'light'?'#ff0000':'#ff0000')." guibg=".(&background is? 'light'?'#ffcccc':'#550000') |
-      \ exec "hi! ALEInfo gui=bold,standout guifg=".(&background is? 'light'?'#808000':'#ffff00')." guibg=".(&background is? 'light'?'#ffff00':'#555500') |
-      \ exec "hi! ALEWarning gui=bold,standout guifg=".(&background is? 'light'?'#808000':'#ffff00')." guibg=".(&background is? 'light'?'#ffff00':'#555500') |
-      \ exec "hi! ALEError gui=bold,standout guifg=".(&background is? 'light'?'#ff0000':'#ff0000')." guibg=".(&background is? 'light'?'#ffcccc':'#550000')
-
-let g:ale_echo_msg_format = "%s - %linter%"
-
-"let g:ale_set_quickfix = 1
-
-let g:ale_linters = {
-      \ 'markdown': ['markdownlint'],
-      \ 'vimwiki': ['markdownlint'],
-      \ 'css': ['stylelint'],
-      \ 'sh': ['shell'],
-      \ 'bash': ['shell'],
-      \}
-
-let g:ale_linter_aliases = {'vimwiki': 'markdown'}
-
-" let g:ale_fix_on_save = 0
-
-let g:ale_markdown_mdl_options = '--config ~/notes/.markdownlintrc'
-
-"let g:ale_javascript_prettier_options = '--single-quote --trailing-comma all --no-semi'
-
-let g:ale_linters_explicit = 1
-"}}}
 ""/ close-buffers.vim {{{
 "/
 "}}}
@@ -876,10 +792,13 @@ let g:coc_global_extensions = [
       \ 'coc-html',
       \ 'coc-json',
       \ 'coc-lists',
+      \ 'coc-markdownlint',
       \ 'coc-pairs',
       \ 'coc-prettier',
+      \ 'coc-sh',
       \ 'coc-snippets',
       \ 'coc-tsserver',
+      \ 'coc-vimlsp',
       \ 'coc-yank',
       \ ]
 
@@ -1038,10 +957,6 @@ let g:lightline = {
       \ },
       \ 'component_expand': {
       \   'trailing': 'lightline#trailing_whitespace#component',
-      \   'linter_checking': 'lightline#ale#checking',
-      \   'linter_warnings': 'lightline#ale#warnings',
-      \   'linter_errors': 'lightline#ale#errors',
-      \   'linter_ok': 'lightline#ale#ok',
       \   'coc_error'        : 'LightlineCocErrors',
       \   'coc_warning'      : 'LightlineCocWarnings',
       \   'coc_info'         : 'LightlineCocInfos',
@@ -1100,33 +1015,6 @@ let g:lightline#trailing_whitespace#indicator='•'
 "/
 let g:mkdp_browser = '/usr/bin/qutebrowser'
 "}}}
-""/ pear-tree {{{
-"/
-" let g:pear_tree_pairs = {
-"       \ '(': {'closer': ')'},
-"       \ '[': {'closer': ']'},
-"       \ '{': {'closer': '}'},
-"       \ "'": {'closer': "'"},
-"       \ '"': {'closer': '"'},
-"       \ '`': {'closer': '`'},
-"       \ '"""': {'closer': '"""'},
-"       \ "'''": {'closer': "'''"},
-"       \ '<!--': {'closer': '-->'},
-"       \ }
-
-" let g:pear_tree_repeatable_expand = 0
-" let g:pear_tree_map_special_keys = 0
-" let g:pear_tree_smart_openers = 0
-" let g:pear_tree_smart_closers = 0
-" let g:pear_tree_smart_backspace = 0
-
-"}}}
-""/ Ultisnips.vim {{{
-"/
-" set runtimepath+=~/.config/nvim/snips
-" let g:UltiSnipsExpandTrigger        = "<Plug>(ultisnips_expand)"
-" let g:UltiSnipsRemoveSelectModeMappings = 0
-"}}}
 ""/ vim-asterisk {{{
 "/
 " Enable keepCursor feature.
@@ -1172,10 +1060,6 @@ let g:EasyMotion_keys = 'ASDGHKLQWERTYUIOPZXCVBNMFJ;'
 " Search last motion used and disable highlight.
 let g:EasyMotion_move_highlight = 0
 "}}}
-""/ vim-highlightedyank {{{
-"/
-" highlight link HighlightedyankRegion ErrorMsg
-"}}}
 ""/ vim-matchup {{{
 "/
 
@@ -1188,7 +1072,6 @@ let g:matchup_matchparen_status_offscreen = 0
 
 "let g:matchup_matchparen_deferred = 1
 "let g:matchup_matchparen_hi_surround_always = 1
-
 "}}}
 ""/ vim-mundo {{{
 "/
@@ -1227,11 +1110,6 @@ let g:which_key_map['`'] = {
 
 let g:which_key_map[' '] = {
       \ 'name' : '+plugins',
-      \ 'a' : {
-      \   'name' : '+ale',
-      \   '[' : 'previous-error',
-      \   ']' : 'next-error',
-      \   },
       \ 'c' : {
       \   'name' : '+coc',
       \   },
@@ -1502,20 +1380,6 @@ function! DeleteWindowIfNotLast()
 
   echo "Only one window or buffer."
   return 0
-endfunction
-
-" Display errors from Ale in statusline
-function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-
-    return l:counts.total is# 0 ? '' : printf(
-    \   '%dW %dE',
-    \   all_non_errors,
-    \   all_errors
-    \)
 endfunction
 
 " Return some highlight group as a dictionary.

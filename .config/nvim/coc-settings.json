@@ -11,14 +11,15 @@
     "vimwiki",
     "yaml"
   ],
-  "diagnostic.displayByAle": false,
-  "diagnostic.refreshAfterSave": false,
-  "diagnostic.refreshOnInsertMode": false,
   "diagnostic.virtualText": true,
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
   "coc.source.file.triggerCharacters": ["/", ".", ".."],
   "coc.source.file.ignoreHidden": false,
   "prettier.semi": false,
   "prettier.singleQuote": true,
-  "prettier.trailingComma": "all"
+  "prettier.trailingComma": "all",
+  "markdownlint.config": {
+    "default": true,
+    "line_length": false
+  }
 }
