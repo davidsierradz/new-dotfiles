@@ -90,18 +90,18 @@ function terminal-scheme() {
   sed -i "s#^\(rofi.theme: /usr/share/rofi/themes/gruvbox-*\).*#\1$1-soft.rasi#g" $rofi_config_file
   if test -z "$WORK"; then
     qute_config_file=~/.config/qutebrowser/config.py
-    if [[ $0 == 'light' ]]; then
-      sed -i "s#^\(c\.content\.user_stylesheets = \).*#\0[]#" $qute_config_file
-      sed -i "s#^\(c\.colors\.webpage\.bg = \).*#\0'white'#" $qute_config_file
+    if [[ $1 == 'light' ]]; then
+      sed -i "s#^\(c\.content\.user_stylesheets = \).*#\1[]#" $qute_config_file
+      sed -i "s#^\(c\.colors\.webpage\.bg = \).*#\1'white'#" $qute_config_file
     else
-      sed -i "s#^\(c\.content\.user_stylesheets = \).*#\0'~/.config/qutebrowser/dark2.css'#" $qute_config_file
-      sed -i "s#^\(c\.colors\.webpage\.bg = \).*#\0'black'#" $qute_config_file
+      sed -i "s#^\(c\.content\.user_stylesheets = \).*#\1'~/.config/qutebrowser/dark2.css'#" $qute_config_file
+      sed -i "s#^\(c\.colors\.webpage\.bg = \).*#\1'black'#" $qute_config_file
     fi
     if xwininfo -tree -root | grep ' ("qutebrowser" ' > /dev/null 1>&1; then
-      if [[ $0 == 'light' ]]; then
+      if [[ $1 == 'light' ]]; then
         qutebrowser ':set --temp content.user_stylesheets [] ;; set --temp colors.webpage.bg "white"' > /dev/null 1>&1
       else
-        qutebrowser ':set --temp content.user_stylesheets "~/.config/qutebrowser/dark1.css" ;; set --temp colors.webpage.bg "black"' > /dev/null 2>&1
+        qutebrowser ':set --temp content.user_stylesheets "~/.config/qutebrowser/dark2.css" ;; set --temp colors.webpage.bg "black"' > /dev/null 2>&1
       fi
     fi
   fi
