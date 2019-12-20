@@ -13,6 +13,7 @@
   ],
   "diagnostic.virtualText": true,
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
+  "snippets.extends": {"vimwiki": ["markdown", "vimwiki"]},
   "coc.source.file.triggerCharacters": ["/", ".", ".."],
   "coc.source.file.ignoreHidden": false,
   "prettier.semi": false,

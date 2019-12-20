@@ -49,9 +49,6 @@ Plug 'Asheq/close-buffers.vim'
 " Search your selection text with * or #.
 Plug 'haya14busa/vim-asterisk'
 
-" Make the yanked region apparent.
-" Plug 'machakann/vim-highlightedyank'
-
 " Draw boxes and arrows in ascii.
 Plug 'gyim/vim-boxdraw', { 'for': 'markdown' }
 
@@ -157,7 +154,7 @@ let g:loaded_ruby_provider = 0
 let g:loaded_python_provider = 0
 let g:python3_host_prog = '/usr/bin/python3'
 
-let &shadafile = $HOME . '/.local/share/nvim/shada/vimwiki.shada'
+let &shadafile = stdpath('data') . '/shada/vimwiki.shada'
 "--------------------------------End General-----------------------------------"
 "}}}
 
