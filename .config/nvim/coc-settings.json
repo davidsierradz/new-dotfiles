@@ -1,5 +1,4 @@
 {
-  "javascript.validate.enable": false,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "html",
@@ -11,16 +10,19 @@
     "vimwiki",
     "yaml"
   ],
-  "diagnostic.virtualText": true,
-  "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
-  "snippets.extends": {"vimwiki": ["markdown", "vimwiki"]},
-  "coc.source.file.triggerCharacters": ["/", ".", ".."],
   "coc.source.file.ignoreHidden": false,
-  "prettier.semi": false,
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "all",
+  "coc.source.file.triggerCharacters": ["/", ".", ".."],
+  "diagnostic.virtualText": false,
+  "diagnostic.refreshOnInsertMode": true,
+  "javascript.validate.enable": false,
   "markdownlint.config": {
     "default": true,
     "line_length": false
-  }
+  },
+  "prettier.semi": false,
+  "highlight.colors.enable": false,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "snippets.extends": {"vimwiki": ["markdown", "vimwiki"]},
+  "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips"
 }

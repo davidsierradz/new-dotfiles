@@ -53,8 +53,9 @@ map X :!ext %f &<CR>
 nnoremap s :shell<cr>
 nnoremap w :view<cr>
 vnoremap w :view<cr>gv
-nnoremap yd :!echo %d | xclip %i<cr>
-nnoremap yf :!echo %c:p | xclip %i<cr>
+nnoremap yd :!echo %d | xclip -selection clipboard %i<cr>
+nnoremap yn :!echo -n %c | xclip -selection clipboard %i<cr>
+nnoremap yf :!echo %c:p | xclip -selection clipboard %i<cr>
 nnoremap I cw<c-a>
 nnoremap cc cw<c-u>
 nnoremap A cw

@@ -16,9 +16,6 @@ Plug 'justinmk/vim-dirvish'
 Plug 'andymass/vim-matchup'
 let g:loaded_matchit = 1
 
-" Jump anywhere in current screen.
-Plug 'easymotion/vim-easymotion'
-
 " Visualize your Vim undo tree.
 Plug 'simnalamburt/vim-mundo'
 
@@ -325,10 +322,8 @@ nnoremap U <c-r>
 
 " Colon-related mappings.
 nnoremap ; :
-nnoremap ;; ;
 xnoremap ; :
 xnoremap ;; ;
-nnoremap ,, ,
 xnoremap ,, ,
 
 cnoremap <M-b> <S-Left>
@@ -414,6 +409,13 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" coc-smartf
+" press <esc> to cancel.
+nmap f <Plug>(coc-smartf-forward)
+nmap F <Plug>(coc-smartf-backward)
+nmap ;; <Plug>(coc-smartf-repeat)
+nmap ,, <Plug>(coc-smartf-repeat-opposite)
 "}}}
 ""/ vim-asterisk {{{
 "/
@@ -432,13 +434,6 @@ nnoremap x d
 xnoremap x d
 nnoremap xx dd
 nnoremap X D
-"}}}
-""/ vim-easymotion {{{
-"/
-" One char search.
-nmap <C-space> <Plug>(easymotion-s)
-vmap <C-space> <Plug>(easymotion-s)
-omap <C-space> <Plug>(easymotion-s)
 "}}}
 ""/ vim-subversive {{{
 "/
@@ -459,8 +454,6 @@ nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
 "/
 nmap p <plug>(YoinkPaste_p)
 nmap P <plug>(YoinkPaste_P)
-nmap y <plug>(YoinkYankPreserveCursorPosition)
-xmap y <plug>(YoinkYankPreserveCursorPosition)
 "}}}
 "}}}
 ""/ leader (SPC) {{{
@@ -698,15 +691,6 @@ autocmd User Node
 ""/ coc.nvim (c) {{{
 "/
 "}}}
-""/ vim-easymotion (e) {{{
-"/
-" One char search.
-nmap <leader><leader>ea <Plug>(easymotion-s)
-vmap <leader><leader>ea <Plug>(easymotion-s)
-omap <leader><leader>ea <Plug>(easymotion-s)
-nmap <leader><leader>e; <Plug>(easymotion-next)
-nmap <leader><leader>e, <Plug>(easymotion-prev)
-"}}}
 ""/ matchup (m) {{{
 "/
 nmap <silent> <leader><leader>mm <plug>(matchup-hi-surround)
@@ -796,13 +780,18 @@ let g:coc_global_extensions = [
       \ 'coc-pairs',
       \ 'coc-prettier',
       \ 'coc-sh',
+      \ 'coc-smartf',
       \ 'coc-snippets',
+      \ 'coc-tslint-plugin',
       \ 'coc-tsserver',
       \ 'coc-vimlsp',
       \ 'coc-yank',
       \ ]
 
-
+augroup Smartf
+  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
+  autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
+augroup end
 "}}}
 ""/ editorconfig/editorconfig-vim {{{
 "/
@@ -890,8 +879,10 @@ endif
 
 " Terminal buffer options for fzf
 
-autocmd! FileType fzf
-autocmd  FileType fzf set noshowmode noruler nonu
+augroup fzf
+  autocmd! FileType fzf
+  autocmd FileType fzf set noshowmode noruler nonu
+augroup END
 
 if has('nvim') && exists('&winblend') && &termguicolors
   set winblend=10
@@ -931,23 +922,24 @@ let g:lightline = {
       \ 'active': {
       \   'left': [
       \     ['mode', 'paste'],
-      \     ['readonly', 'relativefilename', 'modified'],
+      \     ['readonly', 'relativefilepath', 'modified'],
       \   ],
       \   'right': [
       \     ['trailing'],
-      \     ['coc_error', 'coc_warning', 'coc_hint', 'coc_info', 'coc_fix', 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok'],
+      \     ['coc_error', 'coc_warning', 'coc_hint', 'coc_info', 'coc_fix'],
       \     ['virtuallineinfo', 'percentage'],
       \     ['foldlevel', 'fileformat', 'fileencoding', 'filetype']
       \   ]
       \ },
       \ 'inactive': {
       \   'left': [
-      \     ['readonly', 'relativefilename', 'modified'],
+      \     ['readonly', 'relativefilepath', 'modified'],
       \   ],
       \   'right': []
       \ },
       \ 'component': {
-      \   'relativefilename': '%f',
+      \   'mode': '%{lightline#mode()}',
+      \   'relativefilepath': '%f',
       \   'percentage': '%p%%',
       \   'virtuallineinfo': '%l-%c%V',
       \ },
@@ -964,15 +956,11 @@ let g:lightline = {
       \   'coc_fix'          : 'LightlineCocFixes',
       \ },
       \ 'component_type': {
-      \   'linter_checking': 'left',
-      \   'linter_warnings': 'warning',
-      \   'linter_errors': 'error',
-      \   'linter_ok': 'left',
       \   'coc_error' : 'error',
       \   'coc_warning' : 'warning',
       \   'coc_info' : 'tabsel',
-      \   'coc_hint' : 'middle',
-      \   'coc_fix' : 'middle',
+      \   'coc_hint' : 'tabsel',
+      \   'coc_fix' : 'tabsel',
       \   'trailing': 'warning',
       \ },
       \ }
@@ -1039,26 +1027,8 @@ let g:dirvish_relative_paths = 1
 " Set <leader>cd to change directories in dirvish buffers.
 augroup dirvish_events
   autocmd!
-  " Unmap <C-P> to use FZF :Files
-  autocmd FileType dirvish
-        \ silent! unmap <buffer> <C-p>
-  autocmd FileType dirvish
-        \ setlocal cursorline
+  autocmd FileType dirvish setlocal cursorline
 augroup END
-"}}}
-""/ vim-easymotion {{{
-"/
-" Disable default mappings.
-let g:EasyMotion_do_mapping=0
-
-let g:EasyMotion_smartcase = 1
-
-let g:EasyMotion_use_upper = 1
-
-let g:EasyMotion_keys = 'ASDGHKLQWERTYUIOPZXCVBNMFJ;'
-
-" Search last motion used and disable highlight.
-let g:EasyMotion_move_highlight = 0
 "}}}
 ""/ vim-matchup {{{
 "/
@@ -1094,7 +1064,7 @@ autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
       \| autocmd BufLeave <buffer> set laststatus=2
 
-let g:which_key_floating_opts = { 'row': '+1', 'width': '+1' }
+let g:which_key_floating_opts = { 'row': '+1', 'width': '+2' }
 
 call which_key#register('<Space>', "g:which_key_map")
 
@@ -1340,11 +1310,9 @@ augroup initvim
   autocmd DiffUpdated * if &diff | syntax off | else | syntax on | endif
 
   autocmd filetype markdown setl iskeyword+=-
-        \ | setl spell spl=es,en noru nu rnu cul wrap spf=~/.config/nvim/spell/es.utf-8.add
+        \ | setl spell spl=es,en noru nu rnu nocul wrap spf=~/.config/nvim/spell/es.utf-8.add
         \ | setl dictionary+=/usr/share/dict/words,/usr/share/dict/spanish complete+=kspell
 
-  " autocmd TermEnter * setlocal scrolloff=0
-  " autocmd TermLeave * setlocal scrolloff=1
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
 augroup END
@@ -1438,4 +1406,4 @@ endif
 set nohlsearch
 "--------------------------------End Colors------------------------------------"
 "}}}
-" vim: set fdm=marker fmr={{{,}}} fdl=0 :
+" vim: set fdm=marker fmr={{{,}}} fdl=4 :

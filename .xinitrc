@@ -40,13 +40,23 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
   unset f
 fi
 
-sleep 3
+sleep 2
 
-xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --mode 1920x1080 --pos 1366x0 --rotate normal --output HDMI2 --off --output VIRTUAL1 --off
+if test -n "$WORK"; then
+  xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --mode 1920x1080 --pos 1366x0 --rotate normal --output HDMI2 --off --output VIRTUAL1 --off
+elif test -n "$HOME_BIG_MONITOR"; then
+  xrandr --output eDP1 --off --output HDMI1 --rate 75 --primary --mode 2560x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
+elif test -n "$HOME_TWO_MONITOR"; then
+  xrandr --output eDP1 --primary --mode 1920x1080 --pos 2560x0 --rotate normal --output HDMI1 --rate 75 --mode 2560x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
+else
+  xrandr --output eDP1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI1 --off --output VIRTUAL1 --off
+fi
 
 setbg &		# Set the background
 
 rinit &
+
+sleep 1
 
 # Your default LARBS WM is determined in your `~/.profile` on login.  Here we
 # run the proper command to run when the graphical environment starts.

@@ -7,9 +7,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'andymass/vim-matchup'
 let g:loaded_matchit = 1
 
-" Jump anywhere in current screen.
-Plug 'easymotion/vim-easymotion'
-
 " Visualize your Vim undo tree.
 Plug 'simnalamburt/vim-mundo'
 
@@ -289,10 +286,8 @@ nnoremap U <c-r>
 
 " Colon-related mappings.
 nnoremap ; :
-nnoremap ;; ;
 xnoremap ; :
 xnoremap ;; ;
-nnoremap ,, ,
 xnoremap ,, ,
 
 cnoremap <M-b> <S-Left>
@@ -378,6 +373,13 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" coc-smartf
+" press <esc> to cancel.
+nmap f <Plug>(coc-smartf-forward)
+nmap F <Plug>(coc-smartf-backward)
+nmap ;; <Plug>(coc-smartf-repeat)
+nmap ,, <Plug>(coc-smartf-repeat-opposite)
 "}}}
 ""/ vim-asterisk {{{
 "/
@@ -396,13 +398,6 @@ nnoremap x d
 xnoremap x d
 nnoremap xx dd
 nnoremap X D
-"}}}
-""/ vim-easymotion {{{
-"/
-" One char search.
-nmap <C-space> <Plug>(easymotion-s)
-vmap <C-space> <Plug>(easymotion-s)
-omap <C-space> <Plug>(easymotion-s)
 "}}}
 ""/ vim-subversive {{{
 "/
@@ -423,8 +418,6 @@ nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
 "/
 nmap p <plug>(YoinkPaste_p)
 nmap P <plug>(YoinkPaste_P)
-nmap y <plug>(YoinkYankPreserveCursorPosition)
-xmap y <plug>(YoinkYankPreserveCursorPosition)
 "}}}
 "}}}
 ""/ leader (SPC) {{{
@@ -662,15 +655,6 @@ autocmd User Node
 ""/ coc.nvim (c) {{{
 "/
 "}}}
-""/ vim-easymotion (e) {{{
-"/
-" One char search.
-nmap <leader><leader>ea <Plug>(easymotion-s)
-vmap <leader><leader>ea <Plug>(easymotion-s)
-omap <leader><leader>ea <Plug>(easymotion-s)
-nmap <leader><leader>e; <Plug>(easymotion-next)
-nmap <leader><leader>e, <Plug>(easymotion-prev)
-"}}}
 ""/ matchup (m) {{{
 "/
 nmap <silent> <leader><leader>mm <plug>(matchup-hi-surround)
@@ -756,9 +740,15 @@ let g:coc_global_extensions = [
       \ 'coc-markdownlint',
       \ 'coc-pairs',
       \ 'coc-prettier',
+      \ 'coc-smartf',
       \ 'coc-snippets',
       \ 'coc-yank',
       \ ]
+
+augroup Smartf
+  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
+  autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
+augroup end
 
 let g:coc_filetype_map = {
       \ 'vimwiki': 'markdown',
@@ -850,8 +840,10 @@ endif
 
 " Terminal buffer options for fzf
 
-autocmd! FileType fzf
-autocmd  FileType fzf set noshowmode noruler nonu
+augroup fzf
+  autocmd! FileType fzf
+  autocmd FileType fzf set noshowmode noruler nonu
+augroup END
 
 if has('nvim') && exists('&winblend') && &termguicolors
   set winblend=10
@@ -982,20 +974,6 @@ augroup setvirtualedit
   autocmd BufEnter *.md setlocal virtualedit+=all
 augroup end
 "}}}
-""/ vim-easymotion {{{
-"/
-" Disable default mappings.
-let g:EasyMotion_do_mapping=0
-
-let g:EasyMotion_smartcase = 1
-
-let g:EasyMotion_use_upper = 1
-
-let g:EasyMotion_keys = 'ASDGHKLQWERTYUIOPZXCVBNMFJ;'
-
-" Search last motion used and disable highlight.
-let g:EasyMotion_move_highlight = 0
-"}}}
 ""/ vim-matchup {{{
 "/
 
@@ -1030,7 +1008,7 @@ autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
       \| autocmd BufLeave <buffer> set laststatus=2
 
-let g:which_key_floating_opts = { 'row': '+1', 'width': '+1' }
+let g:which_key_floating_opts = { 'row': '+1', 'width': '+3' }
 
 call which_key#register('<Space>', "g:which_key_map")
 
@@ -1272,6 +1250,9 @@ augroup initvim
   autocmd FileType css setlocal formatprg=prettier\ --parser\ css
   autocmd FileType yaml setlocal formatprg=prettier\ --parser\ yaml
   autocmd FileType vimwiki setlocal formatprg=prettier\ --parser\ markdown
+
+  autocmd InsertEnter * set noignorecase
+  autocmd InsertLeave * set ignorecase
 augroup END
 "--------------------------------End Auto Commands-----------------------------"
 "}}}
@@ -1352,4 +1333,4 @@ set background=light
 colorscheme pencil
 "--------------------------------End Colors------------------------------------"
 "}}}
-" vim: set fdm=marker fmr={{{,}}} fdl=0 :
+" vim: set fdm=marker fmr={{{,}}} fdl=4 :

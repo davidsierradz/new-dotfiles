@@ -8,10 +8,14 @@ remaps &		# run the remaps script, switching caps/esc and more; check it for mor
 # xcompmgr &		# xcompmgr for transparency
 # $STATUSBAR &		# script for updating the status bar
 dunst &			# dunst for notifications
-if test -z "$WORK"; then
-  sxhkd -m 1 &		# Bind keys with sxhkd
-else
+if test -n "$WORK"; then
   sxhkd -m 1 -c "$HOME/.config/sxhkd/sxhkdrc.work" &		# Bind keys with sxhkd
+elif test -n "$HOME_BIG_MONITOR"; then
+  sxhkd -m 1 -c "$HOME/.config/sxhkd/sxhkdrc.home" &		# Bind keys with sxhkd
+elif test -n "$HOME_TWO_MONITOR"; then
+  sxhkd -m 1 -c "$HOME/.config/sxhkd/sxhkdrc.home2" &		# Bind keys with sxhkd
+else
+  sxhkd -m 1 &		# Bind keys with sxhkd
 fi
 unclutter --ignore-scrolling --timeout 2 --jitter 15 --exclude-root --fork & 	# Remove mouse when idle
 # mpd-module-update &	# Check for when to update the mpd module

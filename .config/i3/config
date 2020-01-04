@@ -253,6 +253,7 @@ bindsym $mod+Shift+g               mode "$mode_gaps"
 bindsym $mod+h                     focus left
 bindsym $mod+Shift+h               move left 30
 bindsym $mod+Ctrl+h                move workspace to output left
+bindsym $mod+Shift+Ctrl+h          focus parent; focus left; focus child
 
 bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -1 --instance-group "float-ones" -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
 bindsym $mod+Ctrl+i                exec --no-startup-id ddspawn 'zsh' '-o font_size=18 -1 --instance-group "float-ones"'
@@ -271,6 +272,7 @@ bindsym $mod+Ctrl+k                workspace next
 bindsym $mod+l                     focus right
 bindsym $mod+Shift+l               move right 30
 bindsym $mod+Ctrl+l                move workspace to output right
+bindsym $mod+Shift+Ctrl+l          focus parent; focus right; focus child
 
 bindsym $mod+m                     bar mode toggle
 
@@ -321,7 +323,7 @@ bindsym $mod+Shift+y               exec --no-startup-id i3resize left
 
 bindsym XF86ScreenSaver            exec --no-startup-id i3lock --color=000000 --show-failed-attempts
 
-bindsym XF86TouchpadToggle         exec --no-startup-id ~/dotfiles/scripts/toggle-touchpad.sh
+bindsym XF86TouchpadToggle         exec --no-startup-id toggletouchpad
 
 
 
@@ -379,3 +381,8 @@ bindsym $mod+Shift+Up              move up 1 px
 bindsym $mod+Right                 focus right
 bindsym $mod+Ctrl+Right            move workspace to output right
 bindsym $mod+Shift+Right           move right 1 px
+
+exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/neuromante/.config/i3/workspace1.json'"
+exec --no-startup-id "/usr/bin/kitty -1"
+exec --no-startup-id "/usr/bin/kitty -1"
+exec --no-startup-id "/usr/bin/kitty -1"

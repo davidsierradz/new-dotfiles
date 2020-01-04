@@ -14,7 +14,7 @@ source=('git+https://gitlab.com/interception/linux/tools.git' 'udevmon.service')
 md5sums=('SKIP' 'dcbbb73258945188d319cdc3598662e7')
 
 prepare() {
-    sed -i "s/\/etc\/udevmon\.yaml/\/home\/$name\/\.config\/interception-tools\/udevmon\.yaml/g" udevmon.service
+    sed -i "s/\/etc\/udevmon\.yaml/\/home\/neuromante\/\.config\/interception-tools\/udevmon\.yaml/g" udevmon.service
 }
 
 build() {

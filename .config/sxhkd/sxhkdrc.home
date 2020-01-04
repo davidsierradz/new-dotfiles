@@ -74,15 +74,31 @@ shift+XF86AudioRaiseVolume
 control+XF86AudioRaiseVolume
 	lmc up 1
 
-XF86AudioNext
-  lmc next
-XF86AudioPlay
-  lmc toggle
-
 XF86AudioPrev
-  lmc prev
-XF86AudioStop
-  lmc toggle
+	xbacklight -dec 1
+
+XF86AudioPlay
+	xbacklight -inc 1
+
+shift+XF86AudioPrev
+	xbacklight -dec 10
+
+shift+XF86AudioPlay
+	xbacklight -inc 10
+
+
+control+XF86AudioPrev
+	sudo ddcutil setvcp 10 - 10
+
+control+XF86AudioPlay
+	sudo ddcutil setvcp 10 + 10
+
+shift+control+XF86AudioPrev
+	sudo ddcutil setvcp 10 - 20
+
+shift+control+XF86AudioPlay
+	sudo ddcutil setvcp 10 + 20
+
 
 XF86MonBrightnessDown
 	xbacklight -dec 1
@@ -95,6 +111,19 @@ shift+XF86MonBrightnessDown
 
 shift+XF86MonBrightnessUp
 	xbacklight -inc 10
+
+
+control+XF86MonBrightnessDown
+	sudo ddcutil setvcp 10 - 10
+
+control+XF86MonBrightnessUp
+	sudo ddcutil setvcp 10 + 10
+
+shift+control+XF86MonBrightnessDown
+	sudo ddcutil setvcp 10 - 20
+
+shift+control+XF86MonBrightnessUp
+	sudo ddcutil setvcp 10 + 20
 
 
 # Recording
