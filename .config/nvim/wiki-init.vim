@@ -932,7 +932,7 @@ augroup pencil
                 \ | call lexical#init()
                 \ | setl iskeyword+=-
                 \ | setl spell spl=es,en noru nu rnu cul spf=~/.config/nvim/spell/es.utf-8.add
-                \ | setl dictionary+=/usr/share/dict/words,/usr/share/dict/spanish complete+=kspell
+                \ | setl dictionary+=/usr/share/dict/words complete+=kspell
 augroup END
 
 let g:pencil#wrapModeDefault = 'soft'
@@ -954,7 +954,7 @@ let g:vimwiki_list = [
 
 let g:vimwiki_global_ext = 0
 
-let g:vimwiki_folding = 'expr'
+let g:vimwiki_folding = 'custom'
 
 let g:vimwiki_auto_header = 1
 
@@ -965,6 +965,23 @@ iab <expr> dts strftime("%Y-%m-%d_%H:%M:%S")
 " autocmd FileType vimwiki setlocal fdm=marker fmr={{{,}}}
 
 let g:vimwiki_listsyms = ' .oOx'
+
+function! VimwikiFoldLevelCustom(lnum) abort
+  let line = getline(a:lnum)
+
+  " Header/section folding...
+  if line =~# vimwiki#vars#get_syntaxlocal('rxHeader') && !vimwiki#u#is_codeblock(a:lnum)
+    return '>'.vimwiki#u#count_first_sym(line)
+  else
+    return '='
+  endif
+endfunction
+
+augroup VimrcAuGroup
+  autocmd!
+  autocmd FileType vimwiki setlocal foldmethod=expr |
+        \ setlocal foldenable | set foldexpr=VimwikiFoldLevelCustom(v:lnum)
+augroup END
 "}}}
 ""/ vim-boxdraw {{{
 " The cursor can go nuts.
@@ -1230,10 +1247,10 @@ command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
 augroup initvim
   au!
   " Return to last edit position when opening files (You want this!).
-  autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
-        \ endif
+  " autocmd BufReadPost *
+  "       \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  "       \     execute 'normal! g`"zvzz' |
+  "       \ endif
 
   " Update the auto read of a file after 4 seconds.
   autocmd CursorHold * silent! checktime
