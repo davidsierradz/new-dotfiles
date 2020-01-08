@@ -570,6 +570,7 @@ nnoremap <leader>zp :Files<CR>
 "}}}
 ""/ git (g) {{{
 "/
+nnoremap <leader>gg :Flog<CR>
 "}}}
 ""/ lsp (l) {{{
 "/
@@ -769,6 +770,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 let g:coc_global_extensions = [
       \ 'coc-css',
+      \ 'coc-dictionary',
       \ 'coc-emmet',
       \ 'coc-eslint',
       \ 'coc-explorer',
@@ -1129,6 +1131,11 @@ let g:which_key_map.f = {
       \ '9': 'which_key_ignore',
       \ }
 
+let g:which_key_map.g = {
+      \ 'name' : '+git',
+      \ 'g': 'Flog',
+      \ }
+
 let g:which_key_map.b = {
       \ 'name' : '+buffers',
       \ '[1-9]': 'buffer [1-9]',
@@ -1311,7 +1318,7 @@ augroup initvim
 
   autocmd filetype markdown setl iskeyword+=-
         \ | setl spell spl=es,en noru nu rnu nocul wrap spf=~/.config/nvim/spell/es.utf-8.add
-        \ | setl dictionary+=/usr/share/dict/words,/usr/share/dict/spanish complete+=kspell
+        \ | setl dictionary+=/usr/share/dict/words complete+=kspell
 
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase

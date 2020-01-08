@@ -1,0 +1,17 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "markdown",
+    "vimwiki"
+  ],
+  "diagnostic.refreshOnInsertMode": true,
+  "markdownlint.config": {
+    "default": true,
+    "line_length": false
+  },
+  "prettier.semi": false,
+  "highlight.colors.enable": false,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "snippets.extends": {"vimwiki": ["markdown", "vimwiki"]},
+  "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips"
+}

@@ -485,31 +485,31 @@ unlet s:i
 "}}}
 ""/ windows (w) {{{
 "/
-nnoremap <Leader>ww <C-W>w
-nnoremap <Leader>wr <C-W>r
-nnoremap <Leader>wd <C-W>c
-nnoremap <Leader>wq <C-W>q
-nnoremap <Leader>wj <C-W>j
-nnoremap <Leader>wk <C-W>k
-nnoremap <Leader>wh <C-W>h
-nnoremap <Leader>wl <C-W>l
-nnoremap <Leader>wH <C-W>H
-nnoremap <Leader>wL <C-W>L
-nnoremap <Leader>wJ <C-W>J
-nnoremap <Leader>wK <C-W>K
-nnoremap <Leader>w= <C-W>=
-nnoremap <leader>ws <c-w>s
-nnoremap <leader>wv <c-w>v
-nnoremap <leader>w\| <c-w>\|
-nnoremap <leader>w_ <c-w>_
-nnoremap <leader>wo <c-w>o
-nnoremap <leader>w+ <c-w>\|<c-w>_
+" nnoremap <Leader>ww <C-W>w
+" nnoremap <Leader>wr <C-W>r
+" nnoremap <Leader>wd <C-W>c
+" nnoremap <Leader>wq <C-W>q
+" nnoremap <Leader>wj <C-W>j
+" nnoremap <Leader>wk <C-W>k
+" nnoremap <Leader>wh <C-W>h
+" nnoremap <Leader>wl <C-W>l
+" nnoremap <Leader>wH <C-W>H
+" nnoremap <Leader>wL <C-W>L
+" nnoremap <Leader>wJ <C-W>J
+" nnoremap <Leader>wK <C-W>K
+" nnoremap <Leader>w= <C-W>=
+" nnoremap <leader>ws <c-w>s
+" nnoremap <leader>wv <c-w>v
+" nnoremap <leader>w\| <c-w>\|
+" nnoremap <leader>w_ <c-w>_
+" nnoremap <leader>wo <c-w>o
+" nnoremap <leader>w+ <c-w>\|<c-w>_
 
-for s:i in range(1, 9)
-  " <Leader>w[1-9] move to window [1-9]
-  execute 'nnoremap <Leader>w'.s:i ' :'.s:i.'wincmd w<CR>'
-endfor
-unlet s:i
+" for s:i in range(1, 9)
+"   " <Leader>w[1-9] move to window [1-9]
+"   execute 'nnoremap <Leader>w'.s:i ' :'.s:i.'wincmd w<CR>'
+" endfor
+" unlet s:i
 "}}}
 ""/ tabs (t) {{{
 "/
@@ -652,6 +652,11 @@ autocmd User Node
 "}}}
 ""/ plugins (SPC) {{{
 "/
+""/ vimwiki (w) {{{
+"/
+nmap <leader><leader>w+ <Plug>VimwikiNormalizeLink
+vmap <leader><leader>w+ <Plug>VimwikiNormalizeLinkVisual
+"}}}
 ""/ coc.nvim (c) {{{
 "/
 "}}}
@@ -732,6 +737,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 let g:coc_extension_root = $HOME . '/.config/coc/extensions-wiki'
+let g:coc_config_home = $HOME . '/.config/nvim/wiki'
 
 let g:coc_global_extensions = [
       \ 'coc-dictionary',
@@ -1043,6 +1049,10 @@ let g:which_key_map['`'] = {
 
 let g:which_key_map[' '] = {
       \ 'name' : '+plugins',
+      \ 'w' : {
+      \   'name' : '+vimwiki',
+      \   '+' : '<Plug>VimwikiNormalizeLink',
+      \   },
       \ 'c' : {
       \   'name' : '+coc',
       \   },
@@ -1116,38 +1126,38 @@ let g:which_key_map.b = {
       \ 'k': 'kill',
       \ }
 
-let g:which_key_map.w = {
-      \ 'name' : '+windows',
-      \ '[1-9]': 'window [1-9]',
-      \ '1': 'which_key_ignore',
-      \ '2': 'which_key_ignore',
-      \ '3': 'which_key_ignore',
-      \ '4': 'which_key_ignore',
-      \ '5': 'which_key_ignore',
-      \ '6': 'which_key_ignore',
-      \ '7': 'which_key_ignore',
-      \ '8': 'which_key_ignore',
-      \ '9': 'which_key_ignore',
-      \ 'w': 'next',
-      \ 'r': 'rotate',
-      \ 'd': 'close',
-      \ 'q': 'quit',
-      \ 'j': 'go-down',
-      \ 'k': 'go-up',
-      \ 'h': 'go-left',
-      \ 'l': 'go-right',
-      \ 'H': 'move-left',
-      \ 'L': 'move-right',
-      \ 'J': 'move-down',
-      \ 'K': 'move-up',
-      \ '=': 'balance',
-      \ '+': 'max-all',
-      \ 's': 'split',
-      \ 'v': 'vsplit',
-      \ '_': 'max-vertical',
-      \ '|': 'max-horizontal',
-      \ 'o': 'only',
-      \ }
+" let g:which_key_map.w = {
+"       \ 'name' : '+windows',
+"       \ '[1-9]': 'window [1-9]',
+"       \ '1': 'which_key_ignore',
+"       \ '2': 'which_key_ignore',
+"       \ '3': 'which_key_ignore',
+"       \ '4': 'which_key_ignore',
+"       \ '5': 'which_key_ignore',
+"       \ '6': 'which_key_ignore',
+"       \ '7': 'which_key_ignore',
+"       \ '8': 'which_key_ignore',
+"       \ '9': 'which_key_ignore',
+"       \ 'w': 'next',
+"       \ 'r': 'rotate',
+"       \ 'd': 'close',
+"       \ 'q': 'quit',
+"       \ 'j': 'go-down',
+"       \ 'k': 'go-up',
+"       \ 'h': 'go-left',
+"       \ 'l': 'go-right',
+"       \ 'H': 'move-left',
+"       \ 'L': 'move-right',
+"       \ 'J': 'move-down',
+"       \ 'K': 'move-up',
+"       \ '=': 'balance',
+"       \ '+': 'max-all',
+"       \ 's': 'split',
+"       \ 'v': 'vsplit',
+"       \ '_': 'max-vertical',
+"       \ '|': 'max-horizontal',
+"       \ 'o': 'only',
+"       \ }
 
 let g:which_key_map.t = {
       \ 'name' : '+tabs',
