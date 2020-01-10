@@ -343,8 +343,9 @@ TRAPWINCH() {
 #--------------------------------Variables-------------------------------------# {{{
 # zsh autosugestions plugin settings
 
+ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=1'
-ZSH_AUTOSUGGEST_STRATEGY=match_prev_cmd
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion)
 
 # Remove forward-char widgets from ACCEPT
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=("${(@)ZSH_AUTOSUGGEST_ACCEPT_WIDGETS:#forward-char}")
