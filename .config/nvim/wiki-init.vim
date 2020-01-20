@@ -597,6 +597,7 @@ nmap <silent> <Leader>yu you
 nmap <silent> <Leader>yv yov
 nmap <silent> <Leader>yw yow
 nmap <silent> <Leader>yx yox
+nnoremap <silent> <Leader>yz :<C-R>=&dictionary is# "/usr/share/dict/words" ? "set dictionary=/usr/share/dict/spanish" : "set dictionary=/usr/share/dict/words"<CR><CR>
 
 
 " Toggle pastemode
@@ -742,6 +743,7 @@ let g:coc_config_home = $HOME . '/.config/nvim/wiki'
 let g:coc_global_extensions = [
       \ 'coc-dictionary',
       \ 'coc-emmet',
+      \ 'coc-json',
       \ 'coc-lists',
       \ 'coc-markdownlint',
       \ 'coc-pairs',
@@ -938,7 +940,7 @@ augroup pencil
                 \ | call lexical#init()
                 \ | setl iskeyword+=-
                 \ | setl spell spl=es,en noru nu rnu cul spf=~/.config/nvim/spell/es.utf-8.add
-                \ | setl dictionary+=/usr/share/dict/words complete+=kspell
+                \ | setl dictionary=/usr/share/dict/words complete+=kspell
 augroup END
 
 let g:pencil#wrapModeDefault = 'soft'
@@ -1208,6 +1210,7 @@ let g:which_key_map.y = {
       \ 'v': 'virtualedit',
       \ 'w': 'wrap',
       \ 'x': 'cursorlin cursorcolor',
+      \ 'z': 'dictionary(en,es)',
       \ }
 
 let g:which_key_map.s = {
