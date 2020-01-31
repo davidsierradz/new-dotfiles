@@ -345,7 +345,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+inoremap <silent><expr> <M-CR> pumvisible() ? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Create mappings for function text object, requires document symbols feature of languageserver.
@@ -761,6 +761,10 @@ augroup end
 let g:coc_filetype_map = {
       \ 'vimwiki': 'markdown',
       \ }
+
+augroup Pairs
+  autocmd FileType vimwiki let b:coc_pairs = [["```", "```"]]
+augroup end
 "}}}
 ""/ editorconfig/editorconfig-vim {{{
 "/
@@ -989,6 +993,17 @@ augroup VimrcAuGroup
   autocmd!
   autocmd FileType vimwiki setlocal foldmethod=expr |
         \ setlocal foldenable | set foldexpr=VimwikiFoldLevelCustom(v:lnum)
+  " In kitty we are mapping shift+enter to <M-<> for this to work.
+  autocmd FileType vimwiki inoremap <silent><buffer> <M-lt>
+        \ <Esc>:VimwikiReturn 2 2<CR>
+  " Check if current lines is a codeblock (```), if yes use coc#on_enter
+  " if not, use VimwikiReturn (for lists)
+  autocmd FileType vimwiki inoremap <silent><buffer><expr> <CR>
+        \ vimwiki#u#is_codeblock(line(".")) ?
+            \ pumvisible() ?
+                \ coc#_select_confirm()
+                \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+            \: "<C-]><Esc>:VimwikiReturn 1 5<CR>"
 augroup END
 "}}}
 ""/ vim-boxdraw {{{
