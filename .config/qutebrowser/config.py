@@ -73,13 +73,17 @@ c.auto_save.session = True
 ## Type: QssColor
 # c.colors.completion.item.selected.border.bottom = '#bbbb00'
 
-## Top border color of the completion widget category headers.
+## Top border color of the selected completion item.
 ## Type: QssColor
 # c.colors.completion.item.selected.border.top = '#bbbb00'
 
 ## Foreground color of the selected completion item.
 ## Type: QtColor
 # c.colors.completion.item.selected.fg = 'black'
+
+## Foreground color of the matched text in the selected completion item.
+## Type: QtColor
+# c.colors.completion.item.selected.match.fg = '#ff4444'
 
 ## Foreground color of the matched text in the completion.
 ## Type: QtColor
@@ -96,6 +100,26 @@ c.auto_save.session = True
 ## Color of the scrollbar handle in the completion view.
 ## Type: QssColor
 # c.colors.completion.scrollbar.fg = 'white'
+
+## Background color of the context menu. If set to null, the Qt default
+## is used.
+## Type: QssColor
+# c.colors.contextmenu.menu.bg = None
+
+## Foreground color of the context menu. If set to null, the Qt default
+## is used.
+## Type: QssColor
+# c.colors.contextmenu.menu.fg = None
+
+## Background color of the context menu's selected item. If set to null,
+## the Qt default is used.
+## Type: QssColor
+# c.colors.contextmenu.selected.bg = None
+
+## Foreground color of the context menu's selected item. If set to null,
+## the Qt default is used.
+## Type: QssColor
+# c.colors.contextmenu.selected.fg = None
 
 ## Background color for the download bar.
 ## Type: QssColor
@@ -153,7 +177,7 @@ c.auto_save.session = True
 # c.colors.hints.fg = 'black'
 
 ## Font color for the matched part of hints.
-## Type: QssColor
+## Type: QtColor
 # c.colors.hints.match.fg = 'green'
 
 ## Background color of the keyhint widget.
@@ -408,6 +432,10 @@ c.colors.tabs.selected.odd.bg = '#cb4b16'
 ## Type: QtColor
 c.colors.webpage.bg = 'white'
 
+## Force `prefers-color-scheme: dark` colors for websites.
+## Type: Bool
+# c.colors.webpage.prefers_color_scheme_dark = False
+
 ## Number of commands to save in the command history. 0: no history / -1:
 ## unlimited
 ## Type: Int
@@ -554,7 +582,7 @@ c.content.default_encoding = 'utf-8'
 
 ## Try to pre-fetch DNS entries to speed up browsing.
 ## Type: Bool
-# c.content.dns_prefetch = True
+# c.content.dns_prefetch = False
 
 ## Expand each subframe to its contents. This will flatten all the frames
 ## to become one scrollable page.
@@ -594,10 +622,19 @@ c.content.default_encoding = 'utf-8'
 ##   - same-domain: Only send the Referer for the same domain. This will still protect your privacy, but shouldn't break any sites. With QtWebEngine, the referer will still be sent for other domains, but with stripped path information.
 # c.content.headers.referer = 'same-domain'
 
-## User agent to send. Unset to send the default. Note that the value
+## User agent to send.  The following placeholders are defined:  *
+## `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
+## The underlying WebKit version (set to a fixed value   with
+## QtWebEngine). * `{qt_key}`: "Qt" for QtWebKit, "QtWebEngine" for
+## QtWebEngine. * `{qt_version}`: The underlying Qt version. *
+## `{upstream_browser_key}`: "Version" for QtWebKit, "Chrome" for
+## QtWebEngine. * `{upstream_browser_version}`: The corresponding
+## Safari/Chrome version. * `{qutebrowser_version}`: The currently
+## running qutebrowser version.  The default value is equal to the
+## unchanged user agent of QtWebKit/QtWebEngine.  Note that the value
 ## read from JavaScript is always the global value.
-## Type: String
-# c.content.headers.user_agent = None
+## Type: FormatString
+# c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}'
 
 ## Enable host blocking.
 ## Type: Bool
@@ -622,7 +659,7 @@ c.content.default_encoding = 'utf-8'
 ## setting with a URL pattern instead. Local domains are always exempt
 ## from hostblocking.
 ## Type: List of UrlPattern
-# c.content.host_blocking.whitelist = ['piwik.org']
+# c.content.host_blocking.whitelist = []
 
 ## Enable hyperlink auditing (`<a ping>`).
 ## Type: Bool
@@ -673,7 +710,9 @@ for site in js_whitelist:
 ## Log levels to use for JavaScript console logging messages. When a
 ## JavaScript message with the level given in the dictionary key is
 ## logged, the corresponding dictionary value selects the qutebrowser
-## logger to use. On QtWebKit, the "unknown" setting is always used.
+## logger to use. On QtWebKit, the "unknown" setting is always used. The
+## following levels are valid: `none`, `debug`, `info`, `warning`,
+## `error`.
 ## Type: Dict
 # c.content.javascript.log = {'unknown': 'debug', 'info': 'debug', 'warning': 'debug', 'error': 'debug'}
 
@@ -781,6 +820,11 @@ c.content.mute = True
 ##   - ask
 # c.content.register_protocol_handler = 'ask'
 
+## Enable quirks (such as faked user agent headers) needed to get
+## specific sites to work properly.
+## Type: Bool
+# c.content.site_specific_quirks = True
+
 ## Validate SSL handshakes.
 ## Type: BoolAsk
 ## Valid values:
@@ -821,9 +865,11 @@ config.bind('<Alt-Shift-D>', f'config-cycle -t content.user_stylesheets {css1} {
 
 ## Monitor load requests for cross-site scripting attempts. Suspicious
 ## scripts will be blocked and reported in the inspector's JavaScript
-## console.
+## console. Note that bypasses for the XSS auditor are widely known and
+## it can be abused for cross-site info leaks in some scenarios, see:
+## https://www.chromium.org/developers/design-documents/xss-auditor
 ## Type: Bool
-# c.content.xss_auditing = True
+# c.content.xss_auditing = False
 
 ## Directory to save downloads to. If unset, a sensible OS-specific
 ## default is used.
@@ -866,7 +912,7 @@ config.bind('<Alt-Shift-D>', f'config-cycle -t content.user_stylesheets {css1} {
 # c.downloads.remove_finished = -1
 
 ## Editor (and arguments) to use for the `open-editor` command. The
-## following placeholders are defined: * `{file}`: Filename of the file
+## following placeholders are defined:  * `{file}`: Filename of the file
 ## to be edited. * `{line}`: Line in which the caret is found in the
 ## text. * `{column}`: Column in which the caret is found in the text. *
 ## `{line0}`: Same as `{line}`, but starting from index 0. * `{column0}`:
@@ -886,9 +932,27 @@ c.fonts.completion.category = 'bold 10pt Noto Sans Mono'
 ## Type: Font
 c.fonts.completion.entry = '10pt Noto Sans Mono'
 
+## Font used for the context menu. If set to null, the Qt default is
+## used.
+## Type: Font
+# c.fonts.contextmenu = None
+
 ## Font used for the debugging console.
 ## Type: QtFont
 c.fonts.debug_console = '10pt Noto Sans Mono'
+
+## Default font families to use. Whenever "default_family" is used in a
+## font setting, it's replaced with the fonts listed here. If set to an
+## empty value, a system-specific monospace default is used.
+## Type: List of Font, or Font
+c.fonts.default_family = ["Noto Sans Mono","xos4 Terminus", "Terminus", "Monospace", "Monaco", "Bitstream Vera Sans Mono", "Andale Mono", "Courier New", "Courier", "Liberation Mono", "monospace", "Fixed", "Consolas", "Terminal"]
+
+## Default font size to use. Whenever "default_size" is used in a font
+## setting, it's replaced with the size listed here. Valid values are
+## either a float value with a "pt" suffix, or an integer value with a
+## "px" suffix.
+## Type: String
+# c.fonts.default_size = '10pt'
 
 ## Font used for the downloadbar.
 ## Type: Font
@@ -913,11 +977,6 @@ c.fonts.messages.info = '10pt Noto Sans Mono'
 ## Font used for warning messages.
 ## Type: Font
 c.fonts.messages.warning = '10pt Noto Sans Mono'
-
-## Default monospace fonts. Whenever "monospace" is used in a font
-## setting, it's replaced with the fonts listed here.
-## Type: Font
-c.fonts.default_family = ["Noto Sans Mono","xos4 Terminus", "Terminus", "Monospace", "Monaco", "Bitstream Vera Sans Mono", "Andale Mono", "Courier New", "Courier", "Liberation Mono", "monospace", "Fixed", "Consolas", "Terminal"]
 
 ## Font used for prompts.
 ## Type: Font
@@ -1003,7 +1062,7 @@ c.hints.auto_follow = 'always'
 ## Valid values:
 ##   - javascript: Better but slower
 ##   - python: Slightly worse but faster
-# c.hints.find_implementation = 'javascript'
+c.hints.find_implementation = 'javascript'
 
 ## Hide unmatched hints in rapid mode.
 ## Type: Bool
@@ -1180,7 +1239,7 @@ c.hints.uppercase = True
 # c.new_instance_open_target = 'tab'
 
 ## Which window to choose when opening links as new tabs. When
-## `new_instance_open_target` is not set to `window`, this is ignored.
+## `new_instance_open_target` is set to `window`, this is ignored.
 ## Type: String
 ## Valid values:
 ##   - first-opened: Open new tabs in the first (oldest) opened window.
@@ -1210,6 +1269,13 @@ c.hints.uppercase = True
 ## Type: String
 # c.qt.force_platform = None
 
+## Force a Qt platformtheme to use. This sets the `QT_QPA_PLATFORMTHEME`
+## environment variable which controls dialogs like the filepicker. By
+## default, Qt determines the platform theme based on the desktop
+## environment.
+## Type: String
+# c.qt.force_platformtheme = None
+
 ## Force software rendering for QtWebEngine. This is needed for
 ## QtWebEngine to work with Nouveau drivers and can be useful in other
 ## scenarios related to graphic issues.
@@ -1222,9 +1288,10 @@ c.hints.uppercase = True
 # c.qt.force_software_rendering = 'none'
 
 ## Turn on Qt HighDPI scaling. This is equivalent to setting
-## QT_AUTO_SCREEN_SCALE_FACTOR=1 in the environment. It's off by default
-## as it can cause issues with some bitmap fonts. As an alternative to
-## this, it's possible to set font sizes and the `zoom.default` setting.
+## QT_AUTO_SCREEN_SCALE_FACTOR=1 or QT_ENABLE_HIGHDPI_SCALING=1 (Qt >=
+## 5.14) in the environment. It's off by default as it can cause issues
+## with some bitmap fonts. As an alternative to this, it's possible to
+## set font sizes and the `zoom.default` setting.
 ## Type: Bool
 # c.qt.highdpi = False
 
@@ -1395,6 +1462,10 @@ c.tabs.background = True
 ##   - pinned: Show favicons only on pinned tabs.
 # c.tabs.favicons.show = 'always'
 
+## Maximum stack size to remember for tab switches (-1 for no maximum).
+## Type: Int
+# c.tabs.focus_stack_size = 10
+
 ## Padding (in pixels) for tab indicators.
 ## Type: Padding
 # c.tabs.indicator.padding = {'top': 2, 'bottom': 2, 'left': 0, 'right': 4}
@@ -1540,6 +1611,16 @@ c.tabs.title.format = '{index}:{current_title} {audio}'
 ## Type: FormatString
 # c.tabs.title.format_pinned = '{index}'
 
+## Show tooltips on tabs. Note this setting only affects windows opened
+## after it has been set.
+## Type: Bool
+# c.tabs.tooltips = True
+
+## Number of close tab actions to remember, per window (-1 for no
+## maximum).
+## Type: Int
+# c.tabs.undo_stack_size = 100
+
 ## Width (in pixels or as percentage of the window) of the tab bar if
 ## it's vertical.
 ## Type: PercOrInt
@@ -1639,16 +1720,6 @@ c.url.start_pages = ['about:blank']
 # config.bind("'", 'enter-mode jump_mark')
 # config.bind('+', 'zoom-in')
 # config.bind('-', 'zoom-out')
-config.bind('zi', 'run-with-count 3 zoom-in')
-config.bind('zo', 'run-with-count 3 zoom-out')
-config.bind(',r', 'spawn --userscript readability-js')
-config.bind(',t', 'hint links spawn nohup mpv --ytdl-format="bestvideo[height<=480]+bestaudio/best[height<=480]" {hint-url}')
-config.bind(',,', "hint all run jseval -q let q = document.querySelector('[src*=\"{hint-url}\"],[href*=\"{hint-url}\"]');q.setAttribute('tabIndex', '-1');q.focus()")
-# For YouTube
-config.bind(',m', 'spawn nohup mpv --ytdl-format="bestvideo[height<=480]+bestaudio/best[height<=480]" {url}')
-config.bind(',w', 'spawn nohup i3 "exec --no-startup-id xterm -e w3m {url}"')
-config.bind(',W', 'hint links spawn nohup i3 "exec --no-startup-id xterm -e w3m {hint-url}"')
-# config.bind(',;', "hint all run jseval -q console.log(this)")
 # config.bind('.', 'repeat-command')
 # config.bind('/', 'set-cmd-text /')
 # config.bind(':', 'set-cmd-text :')
@@ -1665,8 +1736,6 @@ config.bind(',W', 'hint links spawn nohup i3 "exec --no-startup-id xterm -e w3m 
 # config.bind(';r', 'hint --rapid links tab-bg')
 # config.bind(';t', 'hint inputs')
 # config.bind(';y', 'hint links yank')
-config.bind(';k', 'hint kill delete')
-config.bind(';;', 'hint all hover')
 # config.bind('<Alt-1>', 'tab-focus 1')
 # config.bind('<Alt-2>', 'tab-focus 2')
 # config.bind('<Alt-3>', 'tab-focus 3')
@@ -1679,39 +1748,29 @@ config.bind(';;', 'hint all hover')
 # config.bind('<Alt-m>', 'tab-mute')
 # config.bind('<Ctrl-A>', 'navigate increment')
 # config.bind('<Ctrl-Alt-p>', 'print')
-config.bind('<Ctrl-u>', 'run-with-count 11 scroll up')
-config.bind('d', 'scroll-page 0 0.6')
 # config.bind('<Ctrl-B>', 'scroll-page 0 -1')
 # config.bind('<Ctrl-D>', 'scroll-page 0 0.5')
 # config.bind('<Ctrl-F5>', 'reload -f')
-config.bind('<Ctrl-d>', 'run-with-count 11 scroll down')
 # config.bind('<Ctrl-F>', 'scroll-page 0 1')
 # config.bind('<Ctrl-N>', 'open -w')
 # config.bind('<Ctrl-PgDown>', 'tab-next')
 # config.bind('<Ctrl-PgUp>', 'tab-prev')
-config.bind('<Ctrl-Q>', 'nop')
 # config.bind('<Ctrl-Q>', 'quit')
 # config.bind('<Ctrl-Return>', 'follow-selected -t')
 # config.bind('<Ctrl-Shift-N>', 'open -p')
-config.bind('X', 'undo')
 # config.bind('<Ctrl-Shift-T>', 'undo')
-config.bind('<Ctrl-Shift-Tab>', 'tab-prev')
+# config.bind('<Ctrl-Shift-Tab>', 'nop')
 # config.bind('<Ctrl-Shift-W>', 'close')
 # config.bind('<Ctrl-T>', 'open -t')
-config.bind('<Backspace>', 'tab-focus last')
-config.bind('u', 'scroll-page 0 -0.6')
-config.bind('<Ctrl-Tab>', 'tab-next')
+# config.bind('<Ctrl-Tab>', 'tab-focus last')
 # config.bind('<Ctrl-U>', 'scroll-page 0 -0.5')
 # config.bind('<Ctrl-V>', 'enter-mode passthrough')
-config.bind('<Alt-`>', 'enter-mode passthrough')
-config.bind('x', 'tab-close')
 # config.bind('<Ctrl-W>', 'tab-close')
 # config.bind('<Ctrl-X>', 'navigate decrement')
 # config.bind('<Ctrl-^>', 'tab-focus last')
 # config.bind('<Ctrl-h>', 'home')
 # config.bind('<Ctrl-p>', 'tab-pin')
 # config.bind('<Ctrl-s>', 'stop')
-config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave;; jseval -q document.activeElement.blur();; enter-mode caret;; fake-key --global <Escape>')
 # config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave')
 # config.bind('<F11>', 'fullscreen')
 # config.bind('<F5>', 'reload')
@@ -1722,21 +1781,13 @@ config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave;; jseval
 # config.bind('?', 'set-cmd-text ?')
 # config.bind('@', 'run-macro')
 # config.bind('B', 'set-cmd-text -s :quickmark-load -t')
-config.bind('c', 'tab-close --prev')
-config.bind('C', 'tab-close --next')
 # config.bind('D', 'tab-close -o')
 # config.bind('F', 'hint all tab')
 # config.bind('G', 'scroll-to-perc')
 # config.bind('H', 'back')
-config.bind('<Alt-left>', 'back')
-config.bind('<Alt-k>', 'tab-next')
-config.bind('K', 'tab-next')
-config.bind('<Alt-j>', 'tab-prev')
-config.bind('J', 'tab-prev')
 # config.bind('J', 'tab-next')
 # config.bind('K', 'tab-prev')
 # config.bind('L', 'forward')
-config.bind('<Alt-right>', 'forward')
 # config.bind('M', 'bookmark-add')
 # config.bind('N', 'search-prev')
 # config.bind('O', 'set-cmd-text -s :open -t')
@@ -1772,23 +1823,15 @@ config.bind('<Alt-right>', 'forward')
 # config.bind('gd', 'download')
 # config.bind('gf', 'view-source')
 # config.bind('gg', 'scroll-to-perc 0')
-config.bind('gi', 'hint inputs')
 # config.bind('gi', 'hint inputs --first')
 # config.bind('gl', 'tab-move -')
-config.bind('<less>', 'tab-move -')
 # config.bind('gm', 'tab-move')
 # config.bind('go', 'set-cmd-text :open {url:pretty}')
 # config.bind('gr', 'tab-move +')
-config.bind('<greater>', 'tab-move +')
-config.bind('<Space>', 'set-cmd-text -s :buffer')
 # config.bind('gt', 'set-cmd-text -s :buffer')
 # config.bind('gu', 'navigate up')
 # config.bind('h', 'scroll left')
 # config.bind('i', 'enter-mode insert')
-config.bind('<Ctrl-j>', 'scroll down')
-config.bind('<Ctrl-k>', 'scroll up')
-config.bind('j', 'scroll-px 0 40')
-config.bind('k', 'scroll-px 0 -40')
 # config.bind('j', 'scroll down')
 # config.bind('k', 'scroll up')
 # config.bind('l', 'scroll right')
@@ -1804,8 +1847,6 @@ config.bind('k', 'scroll-px 0 -40')
 # config.bind('sl', 'set-cmd-text -s :set -t')
 # config.bind('ss', 'set-cmd-text -s :set')
 # config.bind('tIH', 'config-cycle -p -u *://*.{url:host}/* content.images ;; reload')
-# Right Shift
-config.bind('€', 'config-cycle -t tabs.show always never ;; config-cycle -t statusbar.hide false true')
 # config.bind('tIh', 'config-cycle -p -u *://{url:host}/* content.images ;; reload')
 # config.bind('tIu', 'config-cycle -p -u {url} content.images ;; reload')
 # config.bind('tPH', 'config-cycle -p -u *://*.{url:host}/* content.plugins ;; reload')
@@ -1814,8 +1855,6 @@ config.bind('€', 'config-cycle -t tabs.show always never ;; config-cycle -t st
 # config.bind('tSH', 'config-cycle -p -u *://*.{url:host}/* content.javascript.enabled ;; reload')
 # config.bind('tSh', 'config-cycle -p -u *://{url:host}/* content.javascript.enabled ;; reload')
 # config.bind('tSu', 'config-cycle -p -u {url} content.javascript.enabled ;; reload')
-config.bind('tt', 'config-cycle -p -t -u {url:domain}/* content.javascript.enabled ;; reload')
-config.bind('tT', 'config-cycle -p -u {url:domain}/* content.javascript.enabled ;; reload')
 # config.bind('th', 'back -t')
 # config.bind('tiH', 'config-cycle -p -t -u *://*.{url:host}/* content.images ;; reload')
 # config.bind('tih', 'config-cycle -p -t -u *://{url:host}/* content.images ;; reload')
@@ -1824,7 +1863,7 @@ config.bind('tT', 'config-cycle -p -u {url:domain}/* content.javascript.enabled 
 # config.bind('tpH', 'config-cycle -p -t -u *://*.{url:host}/* content.plugins ;; reload')
 # config.bind('tph', 'config-cycle -p -t -u *://{url:host}/* content.plugins ;; reload')
 # config.bind('tpu', 'config-cycle -p -t -u {url} content.plugins ;; reload')
-config.bind('tsH', 'config-cycle -p -u *://*.{url:host}/* content.javascript.enabled ;; reload')
+# config.bind('tsH', 'config-cycle -p -t -u *://*.{url:host}/* content.javascript.enabled ;; reload')
 # config.bind('tsh', 'config-cycle -p -t -u *://{url:host}/* content.javascript.enabled ;; reload')
 # config.bind('tsu', 'config-cycle -p -t -u {url} content.javascript.enabled ;; reload')
 # config.bind('u', 'undo')
@@ -1925,15 +1964,10 @@ config.bind('tsH', 'config-cycle -p -u *://*.{url:host}/* content.javascript.ena
 ## Bindings for insert mode
 # config.bind('<Ctrl-E>', 'open-editor', mode='insert')
 # config.bind('<Escape>', 'leave-mode', mode='insert')
-# config.bind('<Shift-Ins>', 'insert-text {primary}', mode='insert')
+# config.bind('<Shift-Ins>', 'insert-text -- {primary}', mode='insert')
 
 ## Bindings for passthrough mode
 # config.bind('<Shift-Escape>', 'leave-mode', mode='passthrough')
-config.bind('<Alt-`>', 'leave-mode', mode='passthrough')
-config.bind('<Alt-k>', 'tab-next', mode='passthrough')
-config.bind('<Alt-j>', 'tab-prev', mode='passthrough')
-config.bind('<Ctrl-t>', 'open -t', mode='passthrough')
-config.bind('<Ctrl-w>', 'tab-close', mode='passthrough')
 
 ## Bindings for prompt mode
 # config.bind('<Alt-B>', 'rl-backward-word', mode='prompt')
@@ -1969,8 +2003,73 @@ config.bind('<Ctrl-w>', 'tab-close', mode='passthrough')
 # config.bind('<Alt-Y>', 'prompt-yank', mode='yesno')
 # config.bind('<Escape>', 'leave-mode', mode='yesno')
 # config.bind('<Return>', 'prompt-accept', mode='yesno')
+# config.bind('N', 'prompt-accept --save no', mode='yesno')
+# config.bind('Y', 'prompt-accept --save yes', mode='yesno')
 # config.bind('n', 'prompt-accept no', mode='yesno')
 # config.bind('y', 'prompt-accept yes', mode='yesno')
+
+config.bind('zi', 'run-with-count 3 zoom-in')
+config.bind('zo', 'run-with-count 3 zoom-out')
+config.bind(',r', 'spawn --userscript readability-js')
+config.bind(',t', 'hint links spawn nohup mpv --ytdl-format="bestvideo[height<=480]+bestaudio/best[height<=480]" {hint-url}')
+config.bind(',,', "hint all run jseval -q let q = document.querySelector('[src*=\"{hint-url}\"],[href*=\"{hint-url}\"]');q.setAttribute('tabIndex', '-1');q.focus()")
+# For YouTube
+config.bind(',m', 'spawn nohup mpv --ytdl-format="bestvideo[height<=480]+bestaudio/best[height<=480]" {url}')
+config.bind(',w', 'spawn nohup i3 "exec --no-startup-id xterm -e w3m {url}"')
+config.bind(',W', 'hint links spawn nohup i3 "exec --no-startup-id xterm -e w3m {hint-url}"')
+
+config.bind(';k', 'hint kill delete')
+config.bind(';;', 'hint all hover')
+
+config.bind('<Ctrl-u>', 'run-with-count 11 scroll up')
+config.bind('d', 'scroll-page 0 0.6')
+
+config.bind('<Ctrl-d>', 'run-with-count 11 scroll down')
+
+config.bind('<Ctrl-Q>', 'nop')
+config.bind('X', 'undo')
+
+config.bind('<Ctrl-Shift-Tab>', 'tab-prev')
+
+config.bind('<Backspace>', 'tab-focus last')
+config.bind('u', 'scroll-page 0 -0.6')
+config.bind('<Ctrl-Tab>', 'tab-next')
+
+config.bind('<Alt-`>', 'enter-mode passthrough')
+config.bind('x', 'tab-close')
+
+config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave;; jseval -q document.activeElement.blur();; enter-mode caret;; fake-key --global <Escape>')
+
+config.bind('c', 'tab-close --prev')
+config.bind('C', 'tab-close --next')
+
+config.bind('<Alt-left>', 'back')
+config.bind('<Alt-k>', 'tab-next')
+config.bind('K', 'tab-next')
+config.bind('<Alt-j>', 'tab-prev')
+config.bind('J', 'tab-prev')
+config.bind('<Alt-right>', 'forward')
+config.bind('gi', 'hint inputs')
+config.bind('<less>', 'tab-move -')
+config.bind('<greater>', 'tab-move +')
+config.bind('<Space>', 'set-cmd-text -s :buffer')
+config.bind('<Ctrl-j>', 'scroll down')
+config.bind('<Ctrl-k>', 'scroll up')
+config.bind('j', 'scroll-px 0 40')
+config.bind('k', 'scroll-px 0 -40')
+
+config.bind('€', 'config-cycle -t tabs.show always never ;; config-cycle -t statusbar.hide false true')
+
+config.bind('tt', 'config-cycle -p -t -u {url:domain}/* content.javascript.enabled ;; reload')
+config.bind('tT', 'config-cycle -p -u {url:domain}/* content.javascript.enabled ;; reload')
+
+config.bind('tsH', 'config-cycle -p -u *://*.{url:host}/* content.javascript.enabled ;; reload')
+
+config.bind('<Alt-`>', 'leave-mode', mode='passthrough')
+config.bind('<Alt-k>', 'tab-next', mode='passthrough')
+config.bind('<Alt-j>', 'tab-prev', mode='passthrough')
+config.bind('<Ctrl-t>', 'open -t', mode='passthrough')
+config.bind('<Ctrl-w>', 'tab-close', mode='passthrough')
 
 ## This is here so configs done via the GUI are still loaded.
 ## Remove it to not load settings done via the GUI.
