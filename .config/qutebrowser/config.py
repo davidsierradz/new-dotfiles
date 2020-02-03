@@ -926,11 +926,11 @@ config.bind('<Alt-Shift-D>', f'config-cycle -t content.user_stylesheets {css1} {
 
 ## Font used in the completion categories.
 ## Type: Font
-c.fonts.completion.category = 'bold 10pt Noto Sans Mono'
+c.fonts.completion.category = 'bold 10pt default_family'
 
 ## Font used in the completion widget.
 ## Type: Font
-c.fonts.completion.entry = '10pt Noto Sans Mono'
+c.fonts.completion.entry = '10pt default_family'
 
 ## Font used for the context menu. If set to null, the Qt default is
 ## used.
@@ -939,13 +939,13 @@ c.fonts.completion.entry = '10pt Noto Sans Mono'
 
 ## Font used for the debugging console.
 ## Type: QtFont
-c.fonts.debug_console = '10pt Noto Sans Mono'
+c.fonts.debug_console = '10pt default_family'
 
 ## Default font families to use. Whenever "default_family" is used in a
 ## font setting, it's replaced with the fonts listed here. If set to an
 ## empty value, a system-specific monospace default is used.
 ## Type: List of Font, or Font
-c.fonts.default_family = ["Noto Sans Mono","xos4 Terminus", "Terminus", "Monospace", "Monaco", "Bitstream Vera Sans Mono", "Andale Mono", "Courier New", "Courier", "Liberation Mono", "monospace", "Fixed", "Consolas", "Terminal"]
+c.fonts.default_family = ["Noto Sans Mono", "Monospace", "monospace", "Fixed", "Consolas", "Terminal"]
 
 ## Default font size to use. Whenever "default_size" is used in a font
 ## setting, it's replaced with the size listed here. Valid values are
@@ -956,27 +956,27 @@ c.fonts.default_family = ["Noto Sans Mono","xos4 Terminus", "Terminus", "Monospa
 
 ## Font used for the downloadbar.
 ## Type: Font
-c.fonts.downloads = '10pt Noto Sans Mono'
+c.fonts.downloads = '10pt default_family'
 
 ## Font used for the hints.
 ## Type: Font
-c.fonts.hints = 'bold 10pt Noto Sans Mono'
+c.fonts.hints = 'bold 10pt default_family'
 
 ## Font used in the keyhint widget.
 ## Type: Font
-c.fonts.keyhint = '10pt Noto Sans Mono'
+c.fonts.keyhint = '10pt default_family'
 
 ## Font used for error messages.
 ## Type: Font
-c.fonts.messages.error = '10pt Noto Sans Mono'
+c.fonts.messages.error = '10pt default_family'
 
 ## Font used for info messages.
 ## Type: Font
-c.fonts.messages.info = '10pt Noto Sans Mono'
+c.fonts.messages.info = '10pt default_family'
 
 ## Font used for warning messages.
 ## Type: Font
-c.fonts.messages.warning = '10pt Noto Sans Mono'
+c.fonts.messages.warning = '10pt default_family'
 
 ## Font used for prompts.
 ## Type: Font
@@ -984,11 +984,11 @@ c.fonts.prompts = '10pt sans-serif'
 
 ## Font used in the statusbar.
 ## Type: Font
-c.fonts.statusbar = '10pt Noto Sans Mono'
+c.fonts.statusbar = '10pt default_family'
 
 ## Font used in the tab bar.
 ## Type: QtFont
-c.fonts.tabs = '10pt Noto Sans Mono'
+c.fonts.tabs = '10pt default_family'
 
 ## Font family for cursive fonts.
 ## Type: FontFamily
@@ -1000,7 +1000,7 @@ c.fonts.tabs = '10pt Noto Sans Mono'
 
 ## Font family for fixed fonts.
 ## Type: FontFamily
-c.fonts.web.family.fixed = 'Noto Sans Mono'
+c.fonts.web.family.fixed = 'default_family'
 
 ## Font family for sans-serif fonts.
 ## Type: FontFamily
