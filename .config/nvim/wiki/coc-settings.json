@@ -1,6 +1,5 @@
 {
   "coc.preferences.formatOnSaveFiletypes": ["markdown", "vimwiki"],
-  "diagnostic.refreshOnInsertMode": true,
   "markdownlint.config": {
     "default": true,
     "line_length": false

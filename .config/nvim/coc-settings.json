@@ -24,5 +24,7 @@
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
   "snippets.extends": {"vimwiki": ["markdown", "vimwiki"]},
-  "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips"
+  "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
+  "smartf.wordJump": false,
+  "smartf.jumpOnTrigger": false
 }

@@ -119,6 +119,7 @@ bind --mode=input       <C-m> text.backward_word
 bind --mode=insert      <A-m> text.forward_word
 bind --mode=input       <A-m> text.forward_word
 
+bind <A-Escape> mode input
 bind --mode=insert      <A-Escape> mode input
 bind --mode=input      <A-Escape> mode insert
 

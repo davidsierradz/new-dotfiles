@@ -107,6 +107,8 @@ Plug 'maxmellon/vim-jsx-pretty'
 
 " Tools and environment to make Vim superb for developing with Node.js. Like Rails.vim for Node.
 Plug 'moll/vim-node'
+
+Plug 'norcalli/nvim-terminal.lua'
 "}}}
 
 " Initialize plugin system
@@ -323,6 +325,9 @@ nnoremap U <c-r>
 " Colon-related mappings.
 nnoremap ; :
 xnoremap ; :
+
+nnoremap ;; ;
+nnoremap ,, ,
 xnoremap ;; ;
 xnoremap ,, ,
 
@@ -412,10 +417,10 @@ nmap <silent> gr <Plug>(coc-references)
 
 " coc-smartf
 " press <esc> to cancel.
-nmap f <Plug>(coc-smartf-forward)
-nmap F <Plug>(coc-smartf-backward)
-nmap ;; <Plug>(coc-smartf-repeat)
-nmap ,, <Plug>(coc-smartf-repeat-opposite)
+nmap <C-Space> <Plug>(coc-smartf-forward)
+nmap <M-Space> <Plug>(coc-smartf-backward)
+" nmap ;; <Plug>(coc-smartf-repeat)
+" nmap ,, <Plug>(coc-smartf-repeat-opposite)
 "}}}
 ""/ vim-asterisk {{{
 "/
@@ -791,7 +796,7 @@ let g:coc_global_extensions = [
       \ ]
 
 augroup Smartf
-  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
+  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#cc241d gui=bold
   autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
 augroup end
 "}}}
@@ -1411,6 +1416,7 @@ else
   let g:lightline.colorscheme = 'gruvbox'
 endif
 set nohlsearch
+lua require'terminal'.setup()
 "--------------------------------End Colors------------------------------------"
 "}}}
 " vim: set fdm=marker fmr={{{,}}} fdl=4 :
