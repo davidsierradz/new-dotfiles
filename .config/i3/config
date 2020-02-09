@@ -51,7 +51,7 @@ set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 set $mode_spotify p: play/pause j: next k: previous ; Caps to also quit
-set $mode_run Run a:htop s:vifm d:calc f:cal g:rss
+set $mode_run Run a:htop s:vifm d:calc f:cal g:rss i:vw
 
 
 
@@ -130,6 +130,8 @@ mode "$mode_run" {
   bindsym Shift+f       exec $term -1 calcurse -D ~/.config/calcurse, mode "default"
   bindsym g             exec --no-startup-id ddspawn 'newsboat' '-o font_size=18 -1 --instance-group "float-ones"', mode "default"
   bindsym Shift+g       exec $term -1 newsboat, mode "default"
+  bindsym i             exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -1 --instance-group "float-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex', mode "default"
+  bindsym Shift+i       exec $term -1 --instance-group "free-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex, mode "default"
 
   bindsym Return        mode "default"
   bindsym Escape        mode "default"
@@ -255,7 +257,7 @@ bindsym $mod+Shift+h               move left 30
 bindsym $mod+Ctrl+h                move workspace to output left
 bindsym $mod+Shift+Ctrl+h          focus parent; focus left; focus child
 
-bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -1 --instance-group "float-ones" -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
+bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -1 --instance-group "float-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
 bindsym $mod+Ctrl+i                exec --no-startup-id ddspawn 'zsh' '-o font_size=18 -1 --instance-group "float-ones"'
 bindsym $mod+Shift+i               exec --no-startup-id i3resize up
 
