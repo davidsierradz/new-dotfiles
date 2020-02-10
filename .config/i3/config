@@ -131,7 +131,7 @@ mode "$mode_run" {
   bindsym g             exec --no-startup-id ddspawn 'newsboat' '-o font_size=18 -1 --instance-group "float-ones"', mode "default"
   bindsym Shift+g       exec $term -1 newsboat, mode "default"
   bindsym i             exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -1 --instance-group "float-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex', mode "default"
-  bindsym Shift+i       exec $term -1 --instance-group "free-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex, mode "default"
+  bindsym Shift+i       exec $term -1 --instance-group "writer-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex, mode "default"
 
   bindsym Return        mode "default"
   bindsym Escape        mode "default"
