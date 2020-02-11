@@ -404,4 +404,18 @@ CORRECT_IGNORE='_*'
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# kitty +complete setup zsh
+
+_kitty() {
+  local src
+  # Send all words up to the word the cursor is currently on
+  src=$(printf "%s
+  " "${(@)words[1,$CURRENT]}" | kitty +complete zsh)
+  if [[ $? == 0 ]]; then
+    eval ${src}
+  fi
+}
+
+compdef _kitty kitty
+
 # vim: set fdm=marker fmr={{{,}}} fdl=0 :
