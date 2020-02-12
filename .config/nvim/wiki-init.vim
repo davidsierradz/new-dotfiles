@@ -1303,6 +1303,8 @@ augroup initvim
 
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
+
+  autocmd BufReadPost,BufNewFile ~/notes/index.md setlocal foldlevel=2
 augroup END
 "--------------------------------End Auto Commands-----------------------------"
 "}}}
