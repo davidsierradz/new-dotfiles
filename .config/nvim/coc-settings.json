@@ -12,19 +12,19 @@
   ],
   "coc.source.file.ignoreHidden": false,
   "coc.source.file.triggerCharacters": ["/", ".", ".."],
-  "diagnostic.virtualText": false,
-  "diagnostic.refreshOnInsertMode": true,
-  "javascript.validate.enable": false,
   "markdownlint.config": {
     "default": true,
     "line_length": false
   },
   "prettier.semi": false,
-  "highlight.colors.enable": false,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
-  "snippets.extends": {"vimwiki": ["markdown", "vimwiki"]},
+  "snippets.extends": { "vimwiki": ["markdown", "vimwiki"] },
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
   "smartf.wordJump": false,
-  "smartf.jumpOnTrigger": false
+  "smartf.jumpOnTrigger": false,
+  "diagnostic.refreshOnInsertMode": true,
+  "javascript.validate.enable": false,
+  "highlight.colors.enable": false,
+  "yank.priority": 70
 }

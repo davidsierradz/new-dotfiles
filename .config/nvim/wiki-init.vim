@@ -1,7 +1,6 @@
 "--------------------------------Plugins---------------------------------------" {{{
 " Specify a directory for plugins
 call plug#begin('~/.config/nvim/plugged')
-
 "----------------Basics----------------- {{{
 " Allows you to configure % to match more than just single characters.
 Plug 'andymass/vim-matchup'
@@ -287,6 +286,9 @@ nnoremap U <c-r>
 " Colon-related mappings.
 nnoremap ; :
 xnoremap ; :
+
+nnoremap ;; ;
+nnoremap ,, ,
 xnoremap ;; ;
 xnoremap ,, ,
 
@@ -376,10 +378,10 @@ nmap <silent> gr <Plug>(coc-references)
 
 " coc-smartf
 " press <esc> to cancel.
-nmap f <Plug>(coc-smartf-forward)
-nmap F <Plug>(coc-smartf-backward)
-nmap ;; <Plug>(coc-smartf-repeat)
-nmap ,, <Plug>(coc-smartf-repeat-opposite)
+nmap <C-Space> <Plug>(coc-smartf-forward)
+nmap <M-Space> <Plug>(coc-smartf-backward)
+" nmap ;; <Plug>(coc-smartf-repeat)
+" nmap ,, <Plug>(coc-smartf-repeat-opposite)
 "}}}
 ""/ vim-asterisk {{{
 "/
@@ -410,6 +412,7 @@ xmap P <plug>(SubversiveSubstitute)
 "}}}
 ""/ vim-which-key {{{
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
 nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
@@ -657,6 +660,8 @@ autocmd User Node
 "/
 nmap <leader><leader>w+ <Plug>VimwikiNormalizeLink
 vmap <leader><leader>w+ <Plug>VimwikiNormalizeLinkVisual
+nmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
+vmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
 "}}}
 ""/ coc.nvim (c) {{{
 "/
@@ -754,7 +759,7 @@ let g:coc_global_extensions = [
       \ ]
 
 augroup Smartf
-  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
+  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#cc241d gui=bold
   autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
 augroup end
 

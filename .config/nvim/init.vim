@@ -451,6 +451,7 @@ xmap P <plug>(SubversiveSubstitute)
 "}}}
 ""/ vim-which-key {{{
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
 nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
@@ -1071,7 +1072,7 @@ autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
       \| autocmd BufLeave <buffer> set laststatus=2
 
-let g:which_key_floating_opts = { 'row': '+1', 'width': '+2' }
+let g:which_key_floating_opts = { 'row': '+1', 'width': '+3' }
 
 call which_key#register('<Space>', "g:which_key_map")
 
