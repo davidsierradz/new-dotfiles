@@ -835,14 +835,12 @@ c.content.mute = True
 
 ## List of user stylesheet filenames to use.
 ## Type: List of File, or File
-c.content.user_stylesheets = []
+css_base = '~/.config/qutebrowser/base.css'
+css_dark = '~/.config/qutebrowser/dark.css'
+css_white = '~/.config/qutebrowser/white.css'
+c.content.user_stylesheets = [css_base]
 
-#css = '~/dotfiles/qutebrowser/solarized-dark-all-sites.css'
-css1 = '~/.config/qutebrowser/dark.css'
-css_white1 = '~/.config/qutebrowser/white.css'
-css2 = '~/.config/qutebrowser/dark2.css'
-css_white2 = '~/.config/qutebrowser/white2.css'
-config.bind('<Alt-Shift-D>', f'config-cycle -t content.user_stylesheets {css1} {css2} {css_white1} {css_white2} [] ;; config-cycle -t colors.webpage.bg "black" "black" "#fbf1c7" "#fbf1c7" "white"')
+config.bind('<Alt-Shift-D>', f'config-cycle -t content.user_stylesheets [{css_dark}] [{css_white}] [{css_base}] ;; config-cycle -t colors.webpage.bg "black" "#fbf1c7" "white"')
 
 ## Enable WebGL.
 ## Type: Bool
@@ -1062,7 +1060,7 @@ c.hints.auto_follow = 'always'
 ## Valid values:
 ##   - javascript: Better but slower
 ##   - python: Slightly worse but faster
-c.hints.find_implementation = 'javascript'
+# c.hints.find_implementation = 'javascript'
 
 ## Hide unmatched hints in rapid mode.
 ## Type: Bool
