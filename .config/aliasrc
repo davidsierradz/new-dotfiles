@@ -91,17 +91,17 @@ function terminal-scheme() {
   if test -z "$WORK"; then
     qute_config_file=~/.config/qutebrowser/config.py
     if [[ $1 == 'light' ]]; then
-      sed -i "s#^\(c\.content\.user_stylesheets = \).*#\1[]#" $qute_config_file
+      sed -i "s#^\(c\.content\.user_stylesheets = \).*#\1[css_base]#" $qute_config_file
       sed -i "s#^\(c\.colors\.webpage\.bg = \).*#\1'white'#" $qute_config_file
     else
-      sed -i "s#^\(c\.content\.user_stylesheets = \).*#\1'~/.config/qutebrowser/dark2.css'#" $qute_config_file
+      sed -i "s#^\(c\.content\.user_stylesheets = \).*#\1[css_base, css_dark]#" $qute_config_file
       sed -i "s#^\(c\.colors\.webpage\.bg = \).*#\1'black'#" $qute_config_file
     fi
     if xwininfo -tree -root | grep ' ("qutebrowser" ' > /dev/null 1>&1; then
       if [[ $1 == 'light' ]]; then
-        qutebrowser ':set --temp content.user_stylesheets [] ;; set --temp colors.webpage.bg "white"' > /dev/null 1>&1
+        qutebrowser ':set --temp content.user_stylesheets ["~/.config/qutebrowser/base.css"] ;; set --temp colors.webpage.bg "white"' > /dev/null 1>&1
       else
-        qutebrowser ':set --temp content.user_stylesheets "~/.config/qutebrowser/dark2.css" ;; set --temp colors.webpage.bg "black"' > /dev/null 2>&1
+        qutebrowser ':set --temp content.user_stylesheets ["~/.config/qutebrowser/dark.css"] ;; set --temp colors.webpage.bg "black"' > /dev/null 2>&1
       fi
     fi
   fi
