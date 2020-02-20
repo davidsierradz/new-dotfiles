@@ -296,7 +296,12 @@ augroup END
 function! MyHighlights() abort
     " Highlight trailing spaces
     match Error /\s\+$/
-    set termguicolors
+    " Enable true color support
+    if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux'
+        set notermguicolors
+    else
+        set termguicolors
+    endif
     highlight clear
 
     " The following colors are taken from vim-gruvbox8,

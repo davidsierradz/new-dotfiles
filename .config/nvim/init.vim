@@ -200,7 +200,7 @@ set scrolloff=0
 set sidescrolloff=0
 
 " Enable true color support
-if $TERM == 'linux' || $TERM == 'screen'
+if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux'
   set notermguicolors
 else
   set termguicolors
