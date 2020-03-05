@@ -26,5 +26,6 @@
   "diagnostic.refreshOnInsertMode": true,
   "javascript.validate.enable": false,
   "highlight.colors.enable": false,
-  "yank.priority": 70
+  "yank.priority": 70,
+  "explorer.position": "floating"
 }

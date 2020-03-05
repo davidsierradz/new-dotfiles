@@ -33,6 +33,10 @@ command! togglesort
   \ |    echo 'Sorted by size'
   \ |endif
 
+command! zip if [ -n "%a" ]; then
+  \     zip -r '%a.zip' %f;
+  \ fi
+
 nnoremap S :togglesort<cr>
 
 map <C-h> <C-w>h

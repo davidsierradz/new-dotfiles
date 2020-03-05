@@ -34,7 +34,9 @@
 #.cfg
 #.config/Code - OSS/
 #.config/chromium/
-#.emacs.d/elpa/
+#.emacs.d/
 #.config/libreoffice/
 #.config/mono.addins/
 #.config/BraveSoftware/
+#.config/Cypress/
+#.config/VirtualBox/

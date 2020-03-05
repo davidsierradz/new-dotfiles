@@ -983,6 +983,24 @@ iab <expr> dts strftime("%Y-%m-%d_%H:%M:%S")
 
 let g:vimwiki_listsyms = ' .oOx'
 
+" set to 1 to fold blank lines
+let g:vimwiki_fold_blank_lines = 0
+" set to '=' for wiki syntax
+let g:vimwiki_header_type = '#'
+
+function! Fold(lnum)
+  let fold_level = strlen(matchstr(getline(a:lnum), '^' . g:vimwiki_header_type . '\+'))
+  if (fold_level)
+    return '>' . fold_level  " start a fold level
+  endif
+  if getline(a:lnum) =~? '\v^\s*$'
+    if (strlen(matchstr(getline(a:lnum + 1), '^' . g:vimwiki_header_type . '\+')) > 0 && !g:vimwiki_fold_blank_lines)
+      return '-1' " don't fold last blank line before header
+    endif
+  endif
+  return '=' " return previous fold level
+endfunction
+
 function! VimwikiFoldLevelCustom(lnum) abort
   let line = getline(a:lnum)
 
@@ -997,7 +1015,7 @@ endfunction
 augroup VimrcAuGroup
   autocmd!
   autocmd FileType vimwiki setlocal foldmethod=expr |
-        \ setlocal foldenable | set foldexpr=VimwikiFoldLevelCustom(v:lnum)
+        \ setlocal foldenable | set foldexpr=Fold(v:lnum)
   " In kitty we are mapping shift+enter to <M-<> for this to work.
   autocmd FileType vimwiki inoremap <silent><buffer> <M-lt>
         \ <Esc>:VimwikiReturn 2 2<CR>
@@ -1006,7 +1024,7 @@ augroup VimrcAuGroup
   autocmd FileType vimwiki inoremap <silent><buffer><expr> <CR>
         \ vimwiki#u#is_codeblock(line(".")) ?
             \ pumvisible() ?
-                \ coc#_select_confirm()
+                \  "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
                 \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
             \: "<C-]><Esc>:VimwikiReturn 1 5<CR>"
 augroup END

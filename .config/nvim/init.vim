@@ -187,6 +187,9 @@ let g:loaded_node_provider = 0
 let g:loaded_ruby_provider = 0
 let g:loaded_python_provider = 0
 let g:python3_host_prog = '/usr/bin/python3'
+
+" Allow backspace and cursor keys to cross line boundaries.
+set whichwrap+=<,>
 "--------------------------------End General-----------------------------------"
 "}}}
 
@@ -452,7 +455,7 @@ xmap P <plug>(SubversiveSubstitute)
 ""/ vim-which-key {{{
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  '\'<CR>
 nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
 nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
 "}}}
@@ -733,7 +736,7 @@ nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> 
 set updatetime=300
 
 " don't give |ins-completion-menu| messages.
-set shortmess+=c
+set shortmess=atOIc
 
 " always show signcolumns
 set signcolumn=no
