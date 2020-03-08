@@ -24,7 +24,7 @@ ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(colored-man-pages common-aliases docker docker-compose git gitfast yarn zsh-autosuggestions zsh-completions zsh-system-clipboard zsh-syntax-highlighting)
+plugins=(colored-man-pages common-aliases docker docker-compose git gitfast nvm yarn zsh-autosuggestions zsh-completions zsh-system-clipboard zsh-syntax-highlighting)
 
 # User configuration
 DEFAULT_USER=neuromante
