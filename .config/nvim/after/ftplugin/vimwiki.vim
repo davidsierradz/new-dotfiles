@@ -1,1 +1,1 @@
-autocmd BufReadPost,BufNewFile *.md setlocal foldlevel=999
+autocmd BufReadPost,BufNewFile *.md setlocal foldlevel=1

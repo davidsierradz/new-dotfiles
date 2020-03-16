@@ -917,7 +917,8 @@ if has('nvim') && exists('&winblend') && &termguicolors
     call setwinvar(win, '&winhighlight', 'NormalFloat:Normal')
   endfunction
 
-  let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+  " let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+  let g:fzf_layout = { 'window': { 'width': 1, 'height': 1 } }
 else
   " FZF position.
   let g:fzf_layout = { 'window': '-tabnew' }

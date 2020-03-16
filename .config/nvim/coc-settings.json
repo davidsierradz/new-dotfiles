@@ -16,6 +16,7 @@
     "default": true,
     "line_length": false
   },
+  "prettier.onlyUseLocalVersion": true,
   "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
