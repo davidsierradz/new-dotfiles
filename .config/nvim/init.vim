@@ -1077,6 +1077,7 @@ autocmd  FileType which_key set laststatus=0 noshowmode noruler
       \| autocmd BufLeave <buffer> set laststatus=2
 
 let g:which_key_floating_opts = { 'row': '+1', 'width': '+3' }
+let g:which_key_disable_default_offset = 1
 
 call which_key#register('<Space>', "g:which_key_map")
 

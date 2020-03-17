@@ -57,7 +57,7 @@ export KEYTIMEOUT=40
 
 export FZF_DEFAULT_COMMAND='rg --smart-case --files-with-matches --color never --no-heading --no-ignore-vcs --hidden ""'
 export FZF_DEFAULT_OPTS='--no-height --no-reverse --bind "€:execute-silent(notify-send {}),alt-n:preview-down,alt-p:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up,ctrl-q:abort"'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_COMMAND='rg --smart-case --files-with-matches --color never --no-heading --no-ignore-vcs --no-ignore-dot --hidden ""'
 export FZF_CTRL_T_OPTS="--preview-window hidden:wrap --preview '(cat {} || tree -aC {}) 2> /dev/null | head -200' --bind '?:toggle-preview'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
