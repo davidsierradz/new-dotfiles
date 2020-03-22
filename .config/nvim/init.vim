@@ -1330,6 +1330,7 @@ augroup initvim
   autocmd filetype markdown setl iskeyword+=-
         \ | setl spell spl=es,en noru nu rnu nocul wrap spf=~/.config/nvim/spell/es.utf-8.add
         \ | setl dictionary+=/usr/share/dict/words complete+=kspell
+        \ | setlocal foldmethod=expr | setlocal foldenable | set foldexpr=Fold(v:lnum)
 
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
@@ -1383,6 +1384,30 @@ function! GetHighlight(group)
     endif
   endfor
   return dict
+endfunction
+
+" returns 1 if line is a markdown code block.
+function! Is_codeblock(lnum) abort
+  let syn_g = synIDattr(synID(a:lnum,1,1),'name')
+  if  syn_g ==? 'markdownCode'
+    return 1
+  else
+    return 0
+  endif
+endfunction
+
+" fold markdown filetype.
+function! Fold(lnum)
+  let fold_level = strlen(matchstr(getline(a:lnum), '^#\+'))
+  if (fold_level && !Is_codeblock(a:lnum))
+    return '>' . fold_level  " start a fold level
+  endif
+  if getline(a:lnum) =~? '\v^\s*$'
+    if (strlen(matchstr(getline(a:lnum + 1), '^#\+')) > 0)
+      return '-1' " don't fold last blank line before header
+    endif
+  endif
+  return '=' " return previous fold level
 endfunction
 "--------------------------------End Functions---------------------------------"
 "}}}

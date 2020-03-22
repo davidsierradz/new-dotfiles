@@ -990,7 +990,7 @@ let g:vimwiki_header_type = '#'
 
 function! Fold(lnum)
   let fold_level = strlen(matchstr(getline(a:lnum), '^' . g:vimwiki_header_type . '\+'))
-  if (fold_level)
+  if (fold_level && !vimwiki#u#is_codeblock(a:lnum))
     return '>' . fold_level  " start a fold level
   endif
   if getline(a:lnum) =~? '\v^\s*$'
