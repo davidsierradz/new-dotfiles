@@ -88,10 +88,10 @@ shift+XF86AudioPlay
 
 
 control+XF86AudioPrev
-	sudo ddcutil setvcp 10 - 10
+	sudo ddcutil setvcp 10 - 5
 
 control+XF86AudioPlay
-	sudo ddcutil setvcp 10 + 10
+	sudo ddcutil setvcp 10 + 5
 
 shift+control+XF86AudioPrev
 	sudo ddcutil setvcp 10 - 20
@@ -114,10 +114,10 @@ shift+XF86MonBrightnessUp
 
 
 control+XF86MonBrightnessDown
-	sudo ddcutil setvcp 10 - 10
+	sudo ddcutil setvcp 10 - 5
 
 control+XF86MonBrightnessUp
-	sudo ddcutil setvcp 10 + 10
+	sudo ddcutil setvcp 10 + 5
 
 shift+control+XF86MonBrightnessDown
 	sudo ddcutil setvcp 10 - 20

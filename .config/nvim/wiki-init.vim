@@ -150,6 +150,9 @@ let g:loaded_ruby_provider = 0
 let g:loaded_python_provider = 0
 let g:python3_host_prog = '/usr/bin/python3'
 
+" Allow backspace and cursor keys to cross line boundaries.
+set whichwrap+=<,>
+
 let &shadafile = stdpath('data') . '/shada/vimwiki.shada'
 "--------------------------------End General-----------------------------------"
 "}}}
@@ -164,7 +167,7 @@ set scrolloff=0
 set sidescrolloff=0
 
 " Enable true color support
-if $TERM == 'linux' || $TERM == 'screen'
+if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux'
   set notermguicolors
 else
   set termguicolors
@@ -320,6 +323,11 @@ inoremap <M-l> <C-\><C-N><C-w>l
 inoremap <M-`> <C-\><C-N>
 
 nnoremap <M-w> :w<CR>
+
+" Run xdg-open over a file path.
+" TODO: make function to open directories in vifm (:!$TERMINAL vifm /home/neuromante/).
+nnoremap gx :silent !xdg-open "<cfile>:p"<cr>
+nnoremap gX :silent !xdg-open "<cfile>:p" &<cr>
 "}}}
 ""/ plugins basics {{{
 "/
@@ -413,7 +421,7 @@ xmap P <plug>(SubversiveSubstitute)
 ""/ vim-which-key {{{
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  '\'<CR>
 nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
 nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
 "}}}
@@ -534,9 +542,6 @@ nnoremap <leader>zh :History<CR>
 nnoremap <leader>zx :Snippets<CR>
 nnoremap <leader>zz :Buffers<CR>
 nnoremap <leader>zp :Files ~/notes/<CR>
-"}}}
-""/ git (g) {{{
-"/
 "}}}
 ""/ lsp (l) {{{
 "/
@@ -701,7 +706,7 @@ nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> 
 set updatetime=300
 
 " don't give |ins-completion-menu| messages.
-set shortmess+=c
+set shortmess=atOIc
 
 " always show signcolumns
 set signcolumn=no
@@ -778,7 +783,7 @@ let g:EditorConfig_max_line_indicator = "none"
 "}}}
 ""/ fzf.vim {{{
 "/
-let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files-with-matches --color never --no-heading --no-ignore-vcs --hidden ""'
+let $FZF_DEFAULT_COMMAND = 'rg -uuu --smart-case --files-with-matches --color never --no-heading --no-ignore-vcs --no-ignore-dot --hidden ""'
 
 let $FZF_PREVIEW_COMMAND = 'cat {}'
 
@@ -884,7 +889,8 @@ if has('nvim') && exists('&winblend') && &termguicolors
     call setwinvar(win, '&winhighlight', 'NormalFloat:Normal')
   endfunction
 
-  let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+  " let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+  let g:fzf_layout = { 'window': { 'width': 1, 'height': 1 } }
 else
   " FZF position.
   let g:fzf_layout = { 'window': '-tabnew' }
@@ -926,6 +932,8 @@ autocmd! User GoyoLeave call <SID>goyo_leave()
 function! s:goyo_start(...)
   if v:vim_did_enter
     Goyo
+    " highlight VertSplit guifg=#cccccc
+    " set fillchars+=vert:\│
   endif
 endfunc
 
@@ -1031,11 +1039,11 @@ augroup END
 "}}}
 ""/ vim-boxdraw {{{
 " The cursor can go nuts.
-augroup setvirtualedit
-  autocmd!
-  autocmd BufLeave *.md setlocal virtualedit-=all
-  autocmd BufEnter *.md setlocal virtualedit+=all
-augroup end
+" augroup setvirtualedit
+"   autocmd!
+"   autocmd BufLeave *.md setlocal virtualedit-=all
+"   autocmd BufEnter *.md setlocal virtualedit+=all
+" augroup end
 "}}}
 ""/ vim-matchup {{{
 "/
@@ -1072,6 +1080,7 @@ autocmd  FileType which_key set laststatus=0 noshowmode noruler
       \| autocmd BufLeave <buffer> set laststatus=2
 
 let g:which_key_floating_opts = { 'row': '+1', 'width': '+3' }
+let g:which_key_disable_default_offset = 1
 
 call which_key#register('<Space>', "g:which_key_map")
 
@@ -1321,7 +1330,6 @@ augroup initvim
 
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
-
   autocmd BufReadPost,BufNewFile ~/notes/index.md setlocal foldlevel=2
 augroup END
 "--------------------------------End Auto Commands-----------------------------"
@@ -1387,6 +1395,7 @@ function! MyHighlights() abort
   highlight CursorLine ctermbg=NONE guibg=NONE
   highlight CursorLineNr ctermbg=NONE guibg=NONE
   highlight VimwikiPre ctermfg=8 ctermbg=229 guifg=#777777 gui=bold
+  highlight VertSplit guifg=#cccccc
   if &background is? 'light'
     nnoremap <silent> <Leader>ya :<C-R>=GetHighlight("Comment")["guifg"] is? "#cccccc" ? "hi Comment guifg=#777777" : "hi Comment guifg=#cccccc"<CR><CR><C-l>
   else

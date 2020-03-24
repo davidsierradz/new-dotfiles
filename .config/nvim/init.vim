@@ -42,6 +42,9 @@ Plug 'svermeulen/vim-cutlass'
 
 " Toggle comments.
 Plug 'tpope/vim-commentary'
+
+" Execute a :command and show the output in a temporary buffer.
+Plug 'AndrewRadev/bufferize.vim'
 "}}}
 
 "--------------Interface---------------- {{{
@@ -268,8 +271,9 @@ nnoremap <silent> <C-l> :syntax sync fromstart <bar> nohlsearch <bar> diffupdate
 nnoremap Y yg$
 xnoremap Y g$y
 
-" Disable Ex mode.
-nnoremap Q <nop>
+" execute the current line of text as a shell command.
+noremap  Q !!$SHELL<CR>
+vnoremap Q !$SHELL<CR>
 
 " Change à (Alt-`) to -> in insert mode.
 inoremap <M-1> ->
@@ -362,6 +366,11 @@ inoremap <M-l> <C-\><C-N><C-w>l
 inoremap <M-`> <C-\><C-N>
 
 nnoremap <M-w> :w<CR>
+
+" Run xdg-open over a file path.
+" TODO: make function to open directories in vifm (:!$TERMINAL vifm /home/neuromante/).
+nnoremap gx :silent !xdg-open "<cfile>:p"<cr>
+nnoremap gX :silent !xdg-open "<cfile>:p" &<cr>
 "}}}
 ""/ plugins basics {{{
 "/
@@ -643,6 +652,7 @@ nmap <silent> <Leader>yu you
 nmap <silent> <Leader>yv yov
 nmap <silent> <Leader>yw yow
 nmap <silent> <Leader>yx yox
+nnoremap <silent> <Leader>yz :<C-R>=&dictionary is# "/usr/share/dict/words" ? "set dictionary=/usr/share/dict/spanish" : "set dictionary=/usr/share/dict/words"<CR><CR>
 
 
 " Toggle pastemode
@@ -658,6 +668,8 @@ nnoremap <leader>sc :cd %:p:h<CR>:pwd<CR>
 nnoremap <silent> <leader>rz :let @z=@"<CR>
 " Copy the % register (current file path) to + register (clipboard).
 nnoremap <leader>r% :let @+=@%<CR>
+" Copy the current line number to + register.
+nnoremap <silent> <leader>r. :call setreg('+', line('.'))<CR>
 "}}}
 ""/ paste (p) {{{
 "/
@@ -811,7 +823,7 @@ let g:EditorConfig_max_line_indicator = "none"
 "}}}
 ""/ fzf.vim {{{
 "/
-let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files-with-matches --color never --no-heading --no-ignore-vcs --hidden ""'
+let $FZF_DEFAULT_COMMAND = 'rg -uuu --smart-case --files-with-matches --color never --no-heading --no-ignore-vcs --no-ignore-dot --hidden ""'
 
 let $FZF_PREVIEW_COMMAND = 'cat {}'
 
@@ -931,51 +943,52 @@ endif
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 let g:lightline = {
-      \ 'active': {
-      \   'left': [
-      \     ['mode', 'paste'],
-      \     ['readonly', 'relativefilepath', 'modified'],
-      \   ],
-      \   'right': [
-      \     ['trailing'],
-      \     ['coc_error', 'coc_warning', 'coc_hint', 'coc_info', 'coc_fix'],
-      \     ['virtuallineinfo', 'percentage'],
-      \     ['foldlevel', 'fileformat', 'fileencoding', 'filetype']
-      \   ]
-      \ },
-      \ 'inactive': {
-      \   'left': [
-      \     ['readonly', 'relativefilepath', 'modified'],
-      \   ],
-      \   'right': []
-      \ },
-      \ 'component': {
-      \   'mode': '%{lightline#mode()}',
-      \   'relativefilepath': '%f',
-      \   'percentage': '%p%%',
-      \   'virtuallineinfo': '%l-%c%V',
-      \ },
-      \ 'component_function': {
-      \   'foldlevel': 'FoldLevel',
-      \   'cocstatus': 'coc#status'
-      \ },
-      \ 'component_expand': {
-      \   'trailing': 'lightline#trailing_whitespace#component',
-      \   'coc_error'        : 'LightlineCocErrors',
-      \   'coc_warning'      : 'LightlineCocWarnings',
-      \   'coc_info'         : 'LightlineCocInfos',
-      \   'coc_hint'         : 'LightlineCocHints',
-      \   'coc_fix'          : 'LightlineCocFixes',
-      \ },
-      \ 'component_type': {
-      \   'coc_error' : 'error',
-      \   'coc_warning' : 'warning',
-      \   'coc_info' : 'tabsel',
-      \   'coc_hint' : 'tabsel',
-      \   'coc_fix' : 'tabsel',
-      \   'trailing': 'warning',
-      \ },
+      \   'active': {
+      \     'left': [
+      \       ['mode', 'paste'],
+      \       ['readonly', 'relativefilepath', 'modified'],
+      \     ],
+      \     'right': [
+      \       ['trailing'],
+      \       ['coc_error', 'coc_warning', 'coc_hint', 'coc_info', 'coc_fix'],
+      \       ['virtuallineinfo', 'percentage'],
+      \       ['foldlevel', 'fileformat', 'fileencoding', 'filetype']
+      \     ]
+      \   },
+      \   'inactive': {
+      \     'left': [
+      \       ['readonly', 'relativefilepath', 'modified'],
+      \     ],
+      \     'right': []
+      \   },
+      \   'component': {
+      \     'mode': '%{lightline#mode()}',
+      \     'relativefilepath': '%f',
+      \     'percentage': '%p%%',
+      \     'virtuallineinfo': '%l-%c%V',
+      \   },
+      \   'component_function': {
+      \     'foldlevel': 'FoldLevel',
+      \     'cocstatus': 'coc#status'
+      \   },
+      \   'component_expand': {
+      \     'trailing': 'lightline#trailing_whitespace#component',
+      \     'coc_error'        : 'LightlineCocErrors',
+      \     'coc_warning'      : 'LightlineCocWarnings',
+      \     'coc_info'         : 'LightlineCocInfos',
+      \     'coc_hint'         : 'LightlineCocHints',
+      \     'coc_fix'          : 'LightlineCocFixes',
+      \   },
+      \   'component_type': {
+      \     'coc_error' : 'error',
+      \     'coc_warning' : 'warning',
+      \     'coc_info' : 'tabsel',
+      \     'coc_hint' : 'tabsel',
+      \     'coc_fix' : 'tabsel',
+      \     'trailing': 'warning',
+      \   },
       \ }
+
 function! FoldLevel()
   return &foldlevel && strlen(&foldlevel) !=# '0' ? &foldlevel : ''
 endfunction
@@ -1008,7 +1021,7 @@ endfunction
 function! LightlineCocHints() abort
   return s:lightline_coc_diagnostic('hints', 'hint')
 endfunction
-      \ }
+
 let g:lightline#trailing_whitespace#indicator='•'
 "}}}
 ""/ markdown-preview.nvim {{{
@@ -1255,6 +1268,7 @@ let g:which_key_map.y = {
       \ 'v': 'virtualedit',
       \ 'w': 'wrap',
       \ 'x': 'cursorlin cursorcolor',
+      \ 'z': 'dictionary(en,es)',
       \ }
 
 let g:which_key_map.s = {
@@ -1266,6 +1280,7 @@ let g:which_key_map.r = {
       \ 'name' : '+registers',
       \ 'z': 'copy " to z',
       \ '%': 'copy % to +',
+      \ '.': 'copy . to +',
       \ }
 
 let g:which_key_map.p = {
@@ -1291,11 +1306,8 @@ let g:yoinkIncludeDeleteOperations=1
 
 
 "--------------------------------User Commands---------------------------------"{{{
-" :W sudo saves the file.
+" :W sudo saves the file (doesn't work in neovim).
 command! W w !sudo tee % > /dev/null
-
-" :TabMessage command
-command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
 "--------------------------------End User Commands-----------------------------"
 "}}}
 
@@ -1324,8 +1336,9 @@ augroup initvim
   autocmd FileType css setlocal formatprg=prettier\ --parser\ css
   autocmd FileType yaml setlocal formatprg=prettier\ --parser\ yaml
 
-  autocmd FilterWritePost * if &diff | syntax off | else | syntax on | endif
-  autocmd DiffUpdated * if &diff | syntax off | else | syntax on | endif
+  " Check if this is what is damaging the lightline statusbar.
+  " autocmd FilterWritePost * if &diff | syntax off | else | syntax on | endif
+  " autocmd DiffUpdated * if &diff | syntax off | else | syntax on | endif
 
   autocmd filetype markdown setl iskeyword+=-
         \ | setl spell spl=es,en noru nu rnu nocul wrap spf=~/.config/nvim/spell/es.utf-8.add
@@ -1340,22 +1353,6 @@ augroup END
 
 
 "--------------------------------Functions-------------------------------------"{{{
-" Function to pipe an Ex command to a buffer in a new tab.
-" Usage :TabMessage command
-function! TabMessage(cmd)
-  redir => message
-  silent execute a:cmd
-  redir END
-  if empty(message)
-    echoerr "no output"
-  else
-    " use 'new' instead of 'tabnew' below if you prefer split windows instead of tabs
-    tabnew
-    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
-    silent put=message
-  endif
-endfunction
-
 " Function to execute a recorded macro over a selected text.
 function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
@@ -1436,10 +1433,8 @@ augroup MyColors
 augroup END
 
 set background=light
-" colorscheme off
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_light='soft'
-" let g:gruvbox_sign_column='bg0'
 colorscheme gruvbox
 if $TERM == 'linux' || $TERM == 'screen'
   let g:lightline.colorscheme = '16color'
