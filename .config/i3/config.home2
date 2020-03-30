@@ -1,0 +1,11 @@
+
+bindsym Ctrl+XF86MonBrightnessDown       exec --no-startup-id sudo ddcutil setvcp 10 - 5
+bindsym Ctrl+XF86MonBrightnessUp         exec --no-startup-id sudo ddcutil setvcp 10 + 5
+bindsym Ctrl+Shift+XF86MonBrightnessDown exec --no-startup-id sudo ddcutil setvcp 10 - 20
+bindsym Ctrl+Shift+XF86MonBrightnessUp   exec --no-startup-id sudo ddcutil setvcp 10 + 20
+
+bar {
+  output HDMI1
+  mode hide
+}
+

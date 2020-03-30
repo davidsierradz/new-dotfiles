@@ -1,0 +1,5 @@
+
+exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/neuromante/.config/i3/workspace1.json'"
+exec --no-startup-id "/usr/bin/kitty -1"
+exec --no-startup-id "/usr/bin/kitty -1"
+exec --no-startup-id "/usr/bin/kitty -1"

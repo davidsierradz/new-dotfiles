@@ -44,12 +44,16 @@ sleep 2
 
 if test -n "$WORK"; then
   xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --mode 1920x1080 --pos 1366x0 --rotate normal --output HDMI2 --off --output VIRTUAL1 --off
+  CONFIGTOADDTOI3="$HOME/.config/i3/config.work"
 elif test -n "$HOME_BIG_MONITOR"; then
   xrandr --output eDP1 --off --output HDMI1 --rate 75 --primary --mode 2560x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
+  CONFIGTOADDTOI3="$HOME/.config/i3/config.home $HOME/.config/i3/config.home2"
 elif test -n "$HOME_TWO_MONITOR"; then
   xrandr --output eDP1 --primary --mode 1920x1080 --pos 2560x0 --rotate normal --output HDMI1 --rate 75 --mode 2560x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
+  CONFIGTOADDTOI3="$HOME/.config/i3/config.home $HOME/.config/i3/config.home2"
 else
   xrandr --output eDP1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI1 --off --output VIRTUAL1 --off
+  CONFIGTOADDTOI3="$HOME/.config/i3/config.home"
 fi
 
 setbg &		# Set the background
@@ -61,10 +65,11 @@ sleep 1
 # Your default LARBS WM is determined in your `~/.profile` on login.  Here we
 # run the proper command to run when the graphical environment starts.
 
+## Dinamically build i3 config
+
+cat ~/.config/i3/config.base $CONFIGTOADDTOI3 > ~/.config/i3/config
+
 case "$LARBSWM" in
-	dwm) while :; do
-		ssh-agent dwm || break
-		done ;;
 	i3) exec i3 ;;
 	*) echo "No valid LARBS window manager detected." ;;
 esac

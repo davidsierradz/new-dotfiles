@@ -1,14 +1,6 @@
-# vim: filetype=i3
-# File originally by Luke Smith <https://lukesmith.xyz>
+# vim: set filetype=i3 fdm=marker fmr={{{,}}} fdl=0 :
 
-# This config file will use environmental variables such as $BROWSER and $TERMINAL.
-# You can set these variables in ~/.profile or ~/.bash_profile if you have it as below:
-#
-# export FILE="ranger"
-# export TERMINAL="st"
-
-# #---Basic Definitions---# #
-
+# ---Basic Definitions--- # {{{
 default_border pixel 3
 default_floating_border pixel 3
 floating_modifier $mod
@@ -25,9 +17,6 @@ client.focused #4c7899 #285577 #ffffff #2e9ef4 #cc24id
 focus_on_window_activation focus
 floating_minimum_size 75 x 50
 floating_maximum_size -1 x -1
-
-
-
 
 set $mod Mod4
 set $mod1 Mod1
@@ -52,10 +41,9 @@ set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 set $mode_spotify p: play/pause j: next k: previous ; Caps to also quit
 set $mode_run Run a:htop s:vifm d:calc f:cal g:rss i:vw
+# }}}
 
-
-
-
+# ---Modes--- # {{{
 mode "$mode_freeze" {
   bindsym $mod+Shift+f  mode "default"
 }
@@ -136,10 +124,9 @@ mode "$mode_run" {
   bindsym Return        mode "default"
   bindsym Escape        mode "default"
 }
+# }}}
 
-
-
-
+# ---Rules--- # {{{
 # General dropdown window traits. The order can matter.
 for_window [instance="dropdown_*"] floating enable
 for_window [instance="dropdown_*"] move scratchpad
@@ -168,23 +155,18 @@ for_window [class="kitty" title="floating_kitty$"] move scratchpad, scratchpad s
 for_window [urgent=latest] focus
 for_window [instance="dropdown_*"] move position center
 no_focus   [title="mpvfloat"]
+# }}}
 
-
-
-
+# ---Bar--- # {{{
 bar {
   status_command i3blocks
   mode hide
   output primary
 }
+# }}}
 
-bar {
-  mode hide
-  output HDMI1
-}
-
-
-
+# ---Bindings--- # {{{
+bindsym $mod+Return                exec --no-startup-id /usr/bin/kitty -1
 bindsym $mod+shift+Return          exec --no-startup-id /usr/bin/kitty -1 --instance-group "light-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/light.conf
 bindsym $mod+mod1+Return           exec --no-startup-id /usr/bin/kitty -1 --instance-group "free-ones" -c ~/.config/kitty/kitty.conf
 bindsym $mod+Ctrl+Return           exec --no-startup-id /usr/bin/xterm
@@ -193,27 +175,16 @@ bindsym $mod+space                 focus mode_toggle
 bindsym $mod+Shift+space           floating toggle
 
 bindsym $mod+Escape                [urgent=latest] focus
-#bindsym $mod+Shift+Escape         exec --no-startup-id prompt "Exit i3?" "i3-msg exit"
 bindsym $mod+Shift+Escape          exec --no-startup-id xdotool mousemove 0 0
 
-#STOP/HIDE EVERYTHING:
 bindsym $mod+Shift+Delete          exec --no-startup-id lmc truemute ; exec --no-startup-id lmc pause ; exec --no-startup-id pauseallmpv; workspace 0; exec $term -e htop ; exec $term -e $FILE
 
 bindsym $mod+Home                  exec --no-startup-id i3lock --color=000000 --show-failed-attempts
-#bindsym $mod+Home                 workspace $ws1
-#bindsym $mod+Shift+Home           move container to workspace $ws1
 
 bindsym $mod+End                   mode "$mode_system"
-#bindsym $mod+End                  workspace $ws10
-#bindsym $mod+Shift+End            move container to workspace $ws10
-
-#bindsym $mod+Prior                workspace prev
-#bindsym $mod+Shift+Prior          move container to workspace prev
-
-#bindsym $mod+Next                 workspace next
-#bindsym $mod+Shift+Next           move container to workspace next
 
 bindsym $mod+Tab                   workspace back_and_forth
+bindsym $mod1+Tab                  exec --no-startup-id wmfocus --halign center --valign center --font 'Mono:150'
 
 bindsym $mod+minus                 scratchpad show
 bindsym $mod+Shift+minus           move scratchpad
@@ -221,35 +192,28 @@ bindsym $mod+Shift+minus           move scratchpad
 bindcode $mod+49                   workspace $ws10
 bindcode $mod+Ctrl+49              workspace $ws9
 
-#bindsym $mod+slash                split vertical ;; exec $term
-#bindsym $mod+Shift+slash          kill
-
-#bindsym $mod+semicolon            workspace next
-#bindsym $mod+apostrophe           split horizontal ;; exec $term
-#bindsym $mod+backslash            workspace back_and_forth
-
 
 
 
 bindsym $mod+a                     mode "$mode_run"
+bindsym $mod+Shift+a               exec --no-startup-id /usr/bin/kitty -1 pulsemixer; pkill -RTMIN+10 i3blocks
 bindsym $mod+Ctrl+a                focus parent
 
-#bindsym $mod+b                    bar mode toggle
-# bindsym $mod+Shift+b               floating toggle; sticky toggle; exec --no-startup-id "hover left &> /tmp/out"
 bindsym $mod+Shift+b               floating toggle; sticky toggle; exec --no-startup-id hover left
 
 bindsym $mod+c                     move position center
 bindsym $mod+Shift+c               reload
 bindsym $mod+Ctrl+c                exec --no-startup-id cabl
 
-#bindsym $mod+Shift+d              gaps inner current set 0; gaps outer current set 0
+bindsym $mod+d                     exec --no-startup-id rofi -m -1 -sidebar-mode -location 2 -show run
+bindsym $mod+Shift+d               exec --no-startup-id lastpass-rofi davidsierradz@gmail.com -t 9 -m password
+bindsym $mod+Ctrl+d                exec --no-startup-id lastpass-rofi davidsierradz@gmail.com -t 9 -m username
 
 bindsym $mod+Shift+e               exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 bindsym $mod+f                     fullscreen toggle
 bindsym $mod+Shift+f               mode "$mode_freeze" ;; exec --no-startup-id notify-send "Distraction-free mode activated." "Press Super+Shift+f to return."
 
-#bindsym $mod+g                    workspace prev
 bindsym $mod+Shift+g               mode "$mode_gaps"
 
 bindsym $mod+h                     focus left
@@ -263,12 +227,10 @@ bindsym $mod+Shift+i               exec --no-startup-id i3resize up
 
 bindsym $mod+j                     focus down
 bindsym $mod+Shift+j               move down 30
-#bindsym $mod+Ctrl+j               move workspace to output down
 bindsym $mod+Ctrl+j                workspace prev
 
 bindsym $mod+k                     focus up
 bindsym $mod+Shift+k               move up 30
-#bindsym $mod+Ctrl+k               move workspace to output up
 bindsym $mod+Ctrl+k                workspace next
 
 bindsym $mod+l                     focus right
@@ -277,11 +239,11 @@ bindsym $mod+Ctrl+l                move workspace to output right
 bindsym $mod+Shift+Ctrl+l          focus parent; focus right; focus child
 
 bindsym $mod+m                     bar mode toggle
+bindsym $mod+Shift+m               exec --no-startup-id rofi -m -1 -sidebar-mode -location 2 -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 bindsym $mod+n                     border toggle
 bindsym $mod+Shift+n               floating toggle; sticky toggle; exec --no-startup-id hover right
 
-#bindsym $mod+o                    sticky toggle
 bindsym $mod+Shift+o               exec --no-startup-id i3resize right
 
 bindsym $mod+p                     mode "$mode_spotify"
@@ -294,38 +256,52 @@ bindsym $mod+r                     mode "$mode_resize"
 bindsym $mod+Shift+r               exec --no-startup-id winresize
 bindsym $mod+$mod1+Shift+r         restart
 
-#bindsym $mod+s                    gaps inner current plus 5
-#bindsym $mod+Shift+s              gaps inner current minus 5
 bindsym $mod+Shift+s               sticky toggle
 
 bindsym $mod+t                     split toggle
-#bindsym $mod+Shift+t              gaps inner current set 15; gaps outer current set 15
 
-#bindsym $mod+u                    exec --no-startup-id ddspawn 'zsh' '-o font_size=18 -1 --instance-group "float-ones"'
 bindsym $mod+Shift+u               exec --no-startup-id i3resize down
 
-#bindsym $mod+v                    exec --no-startup-id $term -e $EDITOR -c "VimwikiIndex"
-#bindsym $mod+v                     exec --no-startup-id ddspawn 'nvim' '-o font_size=12 -1 -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
-
+bindsym $mod+x                     exec --no-startup-id mpc pause; pauseallmpv; i3lock -e -f -c 1d2021; xset dpms force off
 bindsym $mod+Ctrl+x --release      exec --no-startup-id xkill
 
 bindsym $mod+Shift+y               exec --no-startup-id i3resize left
 
-#bindsym $mod+z                    gaps outer current plus 5
-#bindsym $mod+Shift+z              gaps outer current minus 5
 
 
-
-
-#bindsym $mod+XF86Back             workspace prev
-#bindsym $mod+Shift+XF86Back       move container to workspace prev
-
-#bindsym $mod+XF86Forward          workspace next
-#bindsym $mod+Shift+XF86Forward    move container to workspace next
 
 bindsym XF86ScreenSaver            exec --no-startup-id i3lock --color=000000 --show-failed-attempts
 
 bindsym XF86TouchpadToggle         exec --no-startup-id toggletouchpad
+
+bindsym XF86Launch1                exec --no-startup-id xset dpms force off
+
+bindsym XF86AudioMute              exec --no-startup-id lmc mute
+bindsym XF86AudioLowerVolume       exec --no-startup-id lmc down 5
+bindsym Shift+XF86AudioLowerVolume exec --no-startup-id lmc down 10
+bindsym Ctrl+XF86AudioLowerVolume  exec --no-startup-id lmc down 1
+bindsym XF86AudioRaiseVolume       exec --no-startup-id lmc up 5
+bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id lmc up 10
+bindsym Ctrl+XF86AudioRaiseVolume  exec --no-startup-id lmc up 1
+
+bindsym XF86AudioNext              exec --no-startup-id lmc next
+bindsym XF86AudioPlay              exec --no-startup-id lmc toggle
+bindsym XF86AudioPrev              exec --no-startup-id lmc prev
+bindsym XF86AudioStop              exec --no-startup-id lmc toggle
+
+
+
+
+bindsym XF86MonBrightnessDown       exec --no-startup-id xbacklight -dec 1
+bindsym XF86MonBrightnessUp         exec --no-startup-id xbacklight -inc 1
+bindsym Shift+XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
+bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 10
+
+
+
+
+bindsym Print                      exec --no-startup-id maim pic-full-$(date '+%y%m%d-%H%M-%S').png
+bindsym Shift+Print                exec --no-startup-id maimpick
 
 
 
@@ -363,7 +339,9 @@ bindsym $mod+Shift+0               move container to workspace $ws10; workspace 
 
 
 
-#bindsym $mod+F2                   restart
+bindsym $mod+F3                    exec --no-startup-id displayselect
+bindsym $mod+F9                    exec --no-startup-id dmenumount
+bindsym $mod+F10                   exec --no-startup-id dmenuumount
 
 
 
@@ -383,8 +361,4 @@ bindsym $mod+Shift+Up              move up 1 px
 bindsym $mod+Right                 focus right
 bindsym $mod+Ctrl+Right            move workspace to output right
 bindsym $mod+Shift+Right           move right 1 px
-
-exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/neuromante/.config/i3/workspace1.json'"
-exec --no-startup-id "/usr/bin/kitty -1"
-exec --no-startup-id "/usr/bin/kitty -1"
-exec --no-startup-id "/usr/bin/kitty -1"
+# }}}
