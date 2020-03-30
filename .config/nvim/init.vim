@@ -433,6 +433,9 @@ nmap <C-Space> <Plug>(coc-smartf-forward)
 nmap <M-Space> <Plug>(coc-smartf-backward)
 " nmap ;; <Plug>(coc-smartf-repeat)
 " nmap ,, <Plug>(coc-smartf-repeat-opposite)
+
+nmap <silent> [[ <Plug>(coc-diagnostic-prev)
+nmap <silent> ]] <Plug>(coc-diagnostic-next)
 "}}}
 ""/ vim-asterisk {{{
 "/
@@ -823,7 +826,7 @@ let g:EditorConfig_max_line_indicator = "none"
 "}}}
 ""/ fzf.vim {{{
 "/
-let $FZF_DEFAULT_COMMAND = 'rg -uuu --smart-case --files-with-matches --color never --no-heading --no-ignore-vcs --no-ignore-dot --hidden ""'
+let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files-with-matches --color never --no-heading --no-ignore-vcs --hidden ""'
 
 let $FZF_PREVIEW_COMMAND = 'cat {}'
 
@@ -842,7 +845,8 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit',
   \ 'ctrl-g': function('s:goto_def'),
-  \ 'ctrl-f': function('s:goto_line')
+  \ 'ctrl-f': function('s:goto_line'),
+  \ 'ctrl-l': {l -> execute('args ' . join(map(l, {_, v -> fnameescape(v)}), ' '))},
   \  }
 
 " Show preview window with '?'.
