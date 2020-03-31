@@ -2010,10 +2010,12 @@ c.url.start_pages = ['about:blank']
 config.bind('zi', 'run-with-count 3 zoom-in')
 config.bind('zo', 'run-with-count 3 zoom-out')
 config.bind(',r', 'spawn --userscript readability-js')
-config.bind(',t', 'hint links spawn nohup mpv --ytdl-format="bestvideo[height<=480]+bestaudio/best[height<=480]" {hint-url}')
+config.bind(',t', 'hint links spawn nohup mpv --ytdl-format="[height <=? 480]" {hint-url}')
+config.bind(',T', 'hint links spawn nohup mpv {hint-url}')
 config.bind(',,', "hint all run jseval -q let q = document.querySelector('[src*=\"{hint-url}\"],[href*=\"{hint-url}\"]');q.setAttribute('tabIndex', '-1');q.focus()")
 # For YouTube
-config.bind(',m', 'spawn nohup mpv --ytdl-format="bestvideo[height<=480]+bestaudio/best[height<=480]" {url}')
+config.bind(',m', 'spawn nohup mpv --ytdl-format="[height <=? 480]" {url}')
+config.bind(',M', 'spawn nohup mpv {url}')
 config.bind(',w', 'spawn nohup i3 "exec --no-startup-id xterm -e w3m {url}"')
 config.bind(',W', 'hint links spawn nohup i3 "exec --no-startup-id xterm -e w3m {hint-url}"')
 
