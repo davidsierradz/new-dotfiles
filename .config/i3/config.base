@@ -285,18 +285,13 @@ bindsym XF86AudioRaiseVolume       exec --no-startup-id lmc up 5
 bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id lmc up 10
 bindsym Ctrl+XF86AudioRaiseVolume  exec --no-startup-id lmc up 1
 
-bindsym XF86AudioNext              exec --no-startup-id lmc next
-bindsym XF86AudioPlay              exec --no-startup-id lmc toggle
-bindsym XF86AudioPrev              exec --no-startup-id lmc prev
-bindsym XF86AudioStop              exec --no-startup-id lmc toggle
 
 
 
-
-bindsym XF86MonBrightnessDown       exec --no-startup-id xbacklight -dec 1
-bindsym XF86MonBrightnessUp         exec --no-startup-id xbacklight -inc 1
-bindsym Shift+XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
-bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 10
+bindsym XF86MonBrightnessDown       exec --no-startup-id xbacklight -dec 1; exec --no-startup-id pkill -RTMIN+13 i3blocks
+bindsym XF86MonBrightnessUp         exec --no-startup-id xbacklight -inc 1; exec --no-startup-id pkill -RTMIN+13 i3blocks
+bindsym Shift+XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10; exec --no-startup-id pkill -RTMIN+13 i3blocks
+bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 10; exec --no-startup-id pkill -RTMIN+13 i3blocks
 
 
 

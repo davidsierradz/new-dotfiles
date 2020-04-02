@@ -189,6 +189,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 let g:loaded_node_provider = 0
 let g:loaded_ruby_provider = 0
 let g:loaded_python_provider = 0
+let g:loaded_perl_provider = 0
 let g:python3_host_prog = '/usr/bin/python3'
 
 " Allow backspace and cursor keys to cross line boundaries.
@@ -232,6 +233,9 @@ set noshowmode
 
 " Disable text wrap.
 set nowrap
+
+" Terminal scrollback lines.
+set scrollback=50000
 "--------------------------------End Visuals-----------------------------------"
 "}}}
 
@@ -649,6 +653,7 @@ nmap <silent> <Leader>yi yoi
 nmap <silent> <Leader>yl yol
 nmap <silent> <Leader>yn yon
 nmap <silent> <Leader>yp yop
+nnoremap <silent> <Leader>yq :<C-R>=&scrollback is# 1 ? "setlocal scrollback=50000" : "setlocal scrollback=1"<CR><CR>
 nmap <silent> <Leader>yr yor
 nmap <silent> <Leader>ys yos
 nmap <silent> <Leader>yu you

@@ -2,6 +2,46 @@ command=~/.local/bin/statusbar/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
+[bandwidth]
+label=⬇
+instance=wlp2s0;in
+interval=5
+
+[bandwidth]
+label=⬆
+instance=wlp2s0;out
+interval=5
+
+[memory]
+label=💽 
+interval=30
+
+#[memory]
+#command=$SCRIPT_DIR/memory
+#label=SWAP
+#instance=swap
+#interval=30
+
+[cpu_usage]
+interval=10
+LABEL=⌛
+#min_width=CPU: 100.00%
+#T_WARN=50
+#T_CRIT=80
+#DECIMALS=2
+
+[extbrightness]
+label=🖥️
+command=sudo ddcutil getvcp 10 | awk '{gsub(/,/,"%",$9);print $9}'
+interval=once
+signal=14
+
+[displaybrightness]
+label=💻
+command=printf " %.0f%%\n" "$(xbacklight -get)"
+interval=once
+signal=13
+
 #[record]
 #command=cat /tmp/recordingicon
 #interval=once

@@ -487,7 +487,7 @@ c.completion.height = '30%'
 ## Shrink the completion to be smaller than the configured size if there
 ## are no scrollbars.
 ## Type: Bool
-# c.completion.shrink = False
+c.completion.shrink = True
 
 ## Format of timestamps (e.g. for the history completion). See
 ## https://sqlite.org/lang_datefunc.html for allowed substitutions.
@@ -677,7 +677,7 @@ c.content.default_encoding = 'utf-8'
 ## QtWebEngine, writing the clipboard as response to a user interaction
 ## is always allowed.
 ## Type: Bool
-# c.content.javascript.can_access_clipboard = False
+c.content.javascript.can_access_clipboard = True
 
 ## Allow JavaScript to close tabs.
 ## Type: Bool
@@ -775,7 +775,7 @@ c.content.mute = True
 ## still be downloaded by clicking the download button in the pdf.js
 ## viewer.
 ## Type: Bool
-# c.content.pdfjs = False
+c.content.pdfjs = True
 
 ## Allow websites to request persistent storage quota via
 ## `navigator.webkitPersistentStorage.requestQuota`.
@@ -943,7 +943,7 @@ c.fonts.debug_console = '10pt default_family'
 ## font setting, it's replaced with the fonts listed here. If set to an
 ## empty value, a system-specific monospace default is used.
 ## Type: List of Font, or Font
-c.fonts.default_family = ["Noto Sans Mono", "Monospace", "monospace", "Fixed", "Consolas", "Terminal"]
+c.fonts.default_family = ["Noto Sans Mono", "Noto Color Emoji", "Noto Emoji", "Monospace", "monospace", "Fixed", "Consolas", "Terminal"]
 
 ## Default font size to use. Whenever "default_size" is used in a font
 ## setting, it's replaced with the size listed here. Valid values are
@@ -1002,15 +1002,15 @@ c.fonts.web.family.fixed = 'default_family'
 
 ## Font family for sans-serif fonts.
 ## Type: FontFamily
-c.fonts.web.family.sans_serif = 'Noto Sans'
+c.fonts.web.family.sans_serif = 'Noto Sans default_family'
 
 ## Font family for serif fonts.
 ## Type: FontFamily
-c.fonts.web.family.serif = 'Noto Serif'
+c.fonts.web.family.serif = 'Noto Serif default_family'
 
 ## Font family for standard fonts.
 ## Type: FontFamily
-c.fonts.web.family.standard = 'Noto Sans'
+c.fonts.web.family.standard = 'Noto Sans default_family'
 
 ## Default font size (in pixels) for regular text.
 ## Type: Int
@@ -1397,7 +1397,7 @@ c.session.lazy_restore = True
 ##   - tr-TR: Turkish (Turkey)
 ##   - uk-UA: Ukrainian (Ukraine)
 ##   - vi-VN: Vietnamese (Viet Nam)
-# c.spellcheck.languages = []
+c.spellcheck.languages = ["en-US", "es-ES"]
 
 ## Hide the statusbar unless a message is shown.
 ## Type: Bool
