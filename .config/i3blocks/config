@@ -2,25 +2,37 @@ command=~/.local/bin/statusbar/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
-[bandwidth]
-label=⬇
-instance=wlp2s0;in
-interval=5
+[bandwidth2]
+interval=persist
+markup=pango
+LABEL=⬇⬆
+#INTERFACE=(checks all interfaces)
+#USE_BITS=0
+#USE_BYTES=1
+#WARN_RX=0
+#WARN_TX=0
+#CRIT_RX=0
+#CRIT_TX=0
+#USE_SI=0
 
-[bandwidth]
-label=⬆
-instance=wlp2s0;out
-interval=5
+#[bandwidth]
+#label=⬇
+#instance=wlan0;in
+#interval=1
+
+#[bandwidth]
+#label=⬆
+#instance=wlan0;out
+#interval=1
 
 [memory]
 label=💽 
 interval=30
 
-#[memory]
-#command=$SCRIPT_DIR/memory
-#label=SWAP
-#instance=swap
-#interval=30
+[memory]
+label=💾
+instance=swap
+interval=30
 
 [cpu_usage]
 interval=10

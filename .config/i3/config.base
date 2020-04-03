@@ -165,6 +165,10 @@ bar {
 }
 # }}}
 
+# ---Startup--- # {{{
+exec --no-startup-id /home/neuromante/.local/bin/i3cmds/windowfocus
+# }}}
+
 # ---Bindings--- # {{{
 bindsym $mod+Return                exec --no-startup-id /usr/bin/kitty -1
 bindsym $mod+shift+Return          exec --no-startup-id /usr/bin/kitty -1 --instance-group "light-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/light.conf
@@ -192,6 +196,9 @@ bindsym $mod+Shift+minus           move scratchpad
 
 bindcode $mod+49                   workspace $ws10
 bindcode $mod+Ctrl+49              workspace $ws9
+
+bindsym $mod+comma [con_mark=_prevFocus0] focus
+bindsym $mod+ctrl+comma [con_mark=_prevFocus2] focus
 
 
 

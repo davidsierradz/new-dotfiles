@@ -24,3 +24,4 @@ unclutter --ignore-scrolling --timeout 2 --jitter 15 --exclude-root --fork & 	# 
 libinput-gestures-setup start &
 greenclip daemon &
 xiccd &
+keynav &
