@@ -194,8 +194,10 @@ bindsym $mod1+Tab                  exec --no-startup-id wmfocus --font 'Mono:150
 bindsym $mod+minus                 scratchpad show
 bindsym $mod+Shift+minus           move scratchpad
 
-bindcode $mod+49                   workspace $ws10
-bindcode $mod+Ctrl+49              workspace $ws9
+# bindcode $mod+49                   workspace $ws10
+# bindcode $mod+Ctrl+49              workspace $ws9
+bindcode $mod+49                   [con_mark=_prevFocus0] focus
+bindcode $mod+Ctrl+49              [con_mark=_prevFocus2] focus
 
 bindsym $mod+comma [con_mark=_prevFocus0] focus
 bindsym $mod+ctrl+comma [con_mark=_prevFocus2] focus

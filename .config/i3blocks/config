@@ -106,6 +106,12 @@ signal=13
 #interval=60
 #command=disk /home 🏠
 
+[iface]
+#LABEL=wlan0:
+#IFACE=wlan0
+#ADDRESS_FAMILY=inet6?
+interval=600
+
 [battery]
 command=battery BAT0
 interval=5
