@@ -701,6 +701,7 @@ js_whitelist = [
         "*://localhost/*",
         "*://news.ycombinator.com/*",
         "*://translate.google.com/*",
+        "file:///home/neuromante/.config/qutebrowser/homepage.html",
         ]
 
 for site in js_whitelist:
@@ -1639,7 +1640,7 @@ c.tabs.title.format = '{index}:{current_title} {audio}'
 ## Page to open if :open -t/-b/-w is used without URL. Use `about:blank`
 ## for a blank page.
 ## Type: FuzzyUrl
-c.url.default_page = 'about:blank'
+c.url.default_page = '~/.config/qutebrowser/homepage.html'
 
 ## URL segments where `:navigate increment/decrement` will search for a
 ## number.
@@ -1683,7 +1684,7 @@ c.url.searchengines = {
 
 ## Page(s) to open at the start.
 ## Type: List of FuzzyUrl, or FuzzyUrl
-c.url.start_pages = ['about:blank']
+c.url.start_pages = ['file://~/.config/qutebrowser/homepage.html']
 
 ## URL parameters to strip with `:yank url`.
 ## Type: List of String

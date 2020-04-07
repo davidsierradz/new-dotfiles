@@ -14,7 +14,11 @@ esac
 
 vol=$(pulsemixer --get-volume | awk '{print $1}')
 
-if [ "$vol" -gt "70" ]; then
+pulsemixer --list-sinks | grep 'HDMI' 1>/dev/null
+
+if [ "$?" -eq 0 ]; then
+	icon="📢"
+elif [ "$vol" -gt "70" ]; then
 	icon="🔊"
 elif [ "$vol" -lt "30" ]; then
 	icon="🔈"

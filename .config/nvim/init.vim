@@ -402,7 +402,10 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+inoremap <silent><expr> <cr> pumvisible() && coc#rpc#request('hasSelected', []) ? "\<C-y>"
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Create mappings for function text object, requires document symbols feature of languageserver.
@@ -592,6 +595,7 @@ nnoremap <leader>zh :History<CR>
 nnoremap <leader>zx :Snippets<CR>
 nnoremap <leader>zz :Buffers<CR>
 nnoremap <leader>zp :Files<CR>
+nnoremap <leader>zP :AFiles<CR>
 "}}}
 ""/ git (g) {{{
 "/
@@ -831,7 +835,7 @@ let g:EditorConfig_max_line_indicator = "none"
 "}}}
 ""/ fzf.vim {{{
 "/
-let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files-with-matches --color never --no-heading --no-ignore-vcs --hidden ""'
+let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files --color never --no-heading --hidden "."'
 
 let $FZF_PREVIEW_COMMAND = 'cat {}'
 
@@ -855,10 +859,19 @@ let g:fzf_action = {
   \  }
 
 " Show preview window with '?'.
-command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>,
-    \ fzf#vim#with_preview('right:50%:hidden', '?'),
-    \ <bang>0)
+function! FilesFZF(query, fullscreen)
+  let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files --color never --no-heading --hidden "."'
+  call fzf#vim#files(a:query, fzf#vim#with_preview('right:50%:hidden', '?'), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang -complete=dir Files call FilesFZF(<q-args>, <bang>0)
+
+function! AllFilesFzf(query, fullscreen)
+  let $FZF_DEFAULT_COMMAND = 'rg -uu --smart-case --files --color never --no-heading --hidden "."'
+  call fzf#vim#files(a:query, fzf#vim#with_preview('right:50%:hidden', '?'), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang -complete=dir AFiles call AllFilesFzf(<q-args>, <bang>0)
 
 " Show preview window with '?'
 command! -bang -nargs=* Ag

@@ -30,3 +30,4 @@ code/third-party/
 mount/
 .nuget
 .local/share/NuGet
+apidoc

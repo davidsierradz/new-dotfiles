@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Home</title>
+  <link href="favicon.png" rel="shortcut icon" type="image/x-icon" />
+  <style type="text/css" media="screen">
+    @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+    @import url('https://fonts.googleapis.com/css?family=Roboto');
+    @import url('https://fonts.googleapis.com/css?family=Anton');
+
+    body {
+      background-color: #282a36;
+      margin: 0px;
+    }
+
+    .container {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #clock {
+      font-family: sans-serif;
+      font-size: 4.0rem;
+      font-weight: 600;
+      font-family: "Anton";
+      color: #fff;
+      margin-bottom: .25em;
+    }
+
+    #search {
+      width: 100%;
+      height: 100vh;
+      background-color: #000000;
+      display: none;
+      position: absolute;
+      box-sizing: border-box;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #search-field {
+      width: 90%;
+      padding: .75em 1em;
+      box-sizing: border-box;
+      background-color: #000000;
+      border: solid 0px #000000;
+      font-family: "Roboto Mono";
+      font-size: 4rem;
+      color: #f2f2f2;
+      outline: none;
+      border-radius: 3px;
+      margin-bottom: 1em;
+      text-align: center;
+    }
+
+    .weather-container {
+      width: 30%;
+      background-color: #000000;
+      padding: 1em;
+      border-radius: 3px;
+      font-family: "Roboto Mono";
+      font-size: 1.2rem;
+      color: #fff;
+      text-align: center;
+    }
+
+    .inline {
+      display: inline-block;
+    }
+
+    .bookmark-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      width: 60%;
+      margin: 1em 0em;
+    }
+
+    @media only screen and (max-width: 960px) {
+      .container {
+        height: auto;
+      }
+
+      #clock {
+        margin-top: 1em;
+      }
+
+      .container>.bookmark-container {
+        flex-direction: column;
+        width: 60%;
+      }
+
+      .bookmark-container>.bookmark-set {
+        width: auto;
+        margin: 1em 0em;
+      }
+    }
+
+    .bookmark-set {
+      padding: 1em;
+      background-color: #000000;
+      border-radius: 3px;
+      font-family: "Roboto Mono";
+      font-size: .85rem;
+      width: 25%;
+      height: 16em;
+      margin: 0em .5em;
+    }
+
+    .bookmark-inner-container {
+      overflow-y: scroll;
+      height: 80%;
+      vertical-align: top;
+    }
+
+    .bookmark-title {
+      font-family: "Roboto";
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ededed;
+      margin: 0em 0em .35em 0em;
+    }
+
+    .bookmark {
+      text-decoration: none;
+      color: #8c8c8b;
+      display: block;
+      margin: .4em 0em;
+    }
+
+    .bookmark:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="search">
+    <input id="search-field" type="text" name="search-field" />
+  </div>
+  <div class="container">
+    <div id="clock"></div>
+    <div class="weather-container">
+      <div class="row">
+        <div id="weather-description" class="inline"></div>
+        <div class="inline">-</div>
+        <div id="temp" class="inline"></div>
+      </div>
+    </div>
+    <div class="bookmark-container">
+      <div class="bookmark-set">
+        <div class="bookmark-title">Linux News</div>
+        <div class="bookmark-inner-container">
+          <a class="bookmark" href="https://distrotube.com/" target="_blank">DistroTube.com</a>
+          <a class="bookmark" href="https://www.linuxtoday.com/" target="_blank">LinuxToday</a>
+          <a class="bookmark" href="https://www.linuxinsider.com/" target="_blank">LinuxInsider</a>
+          <a class="bookmark" href="https://omgubuntu.co.uk/" target="_blank">OMG Ubuntu</a>
+          <a class="bookmark" href="https://itsfoss.com/" target="_blank">It's Foss</a>
+          <a class="bookmark" href="https://phoronix.com/" target="_blank">Phoronix</a>
+          <a class="bookmark" href="https://www.zdnet.com/topic/linux/" target="_blank">ZDNet</a>
+        </div>
+      </div>
+      <div class="bookmark-set">
+        <div class="bookmark-title">Arch Linux</div>
+        <div class="bookmark-inner-container">
+          <a class="bookmark" href="https://www.archlinux.org/" target="_blank">Arch Homepage</a>
+          <a class="bookmark" href="https://wiki.archlinux.org/" target="_blank">Arch Wiki</a>
+          <a class="bookmark" href="https://www.archlinux.org/packages/" target="_blank">Arch Packages</a>
+          <a class="bookmark" href="https://aur.archlinux.org/" target="_blank">AUR Home</a>
+          <a class="bookmark" href="https://bugs.archlinux.org/" target="_blank">Arch Bugs</a>
+          <a class="bookmark" href="https://bbs.archlinux.org/" target="_blank">Arch Forums</a>
+          <a class="bookmark" href="https://www.archlinux.org/planet/" target="_blank">Planet Arch</a>
+        </div>
+      </div>
+      <div class="bookmark-set">
+        <div class="bookmark-title">Suckless</div>
+        <div class="bookmark-inner-container">
+          <a class="bookmark" href="https://www.suckless.org/" target="_blank">Suckless Homepage</a>
+          <a class="bookmark" href="https://git.suckless.org/" target="_blank">Suckless Source Code</a>
+          <a class="bookmark" href="https://dwm.suckless.org/" target="_blank">dwm</a>
+          <a class="bookmark" href="https://st.suckless.org/" target="_blank">st</a>
+          <a class="bookmark" href="https://tools.suckless.org/dmenu/" target="_blank">dmenu</a>
+          <a class="bookmark" href="https://surf.suckless.org/" target="_blank">surf</a>
+          <a class="bookmark" href="https://tools.suckless.org/tabbed/" target="_blank">tabbed</a>
+        </div>
+      </div>
+      <div class="bookmark-set">
+        <div class="bookmark-title">Social & Video</div>
+        <div class="bookmark-inner-container">
+          <a class="bookmark" href="https://youtube.com/c/DistroTube" target="_blank">Youtube</a>
+          <a class="bookmark" href="https://lbry.tv/@DistroTube:2" target="_blank">LBRY</a>
+          <a class="bookmark" href="https://www.patreon.com/distrotube" target="_blank">Patreon</a>
+          <a class="bookmark" href="https://gitlab.com/dwt1" target="_blank">GitLab</a>
+          <a class="bookmark" href="https://github.com" target="_blank">GitHub</a>
+          <a class="bookmark" href="https://mastodon.technology/@distrotube" target="_blank">Mastodon</a>
+          <a class="bookmark" href="https://diasp.org/stream" target="_blank">Diaspora</a>
+          <a class="bookmark" href="https://netflix.com" target="_blank">Netflix</a>
+        </div>
+      </div>
+      <div class="bookmark-set">
+        <div class="bookmark-title">Reddit</div>
+        <div class="bookmark-inner-container">
+          <a class="bookmark" href="https://reddit.com/r/linux" target="_blank">/r/linux</a>
+          <a class="bookmark" href="https://reddit.com/r/archlinux" target="_blank">/r/archlinux</a>
+          <a class="bookmark" href="https://reddit.com/r/commandline" target="_blank">/r/commandline</a>
+          <a class="bookmark" href="https://reddit.com/r/linux4noobs" target="_blank">/r/linux4noobs</a>
+          <a class="bookmark" href="https://reddit.com/r/linuxquestions" target="_blank">/r/linuxquestions</a>
+          <a class="bookmark" href="https://reddit.com/r/linuxmemes" target="_blank">/r/linuxmemes</a>
+          <a class="bookmark" href="https://reddit.com/r/suckless" target="_blank">/r/suckless</a>
+          <a class="bookmark" href="https://reddit.com/r/unixporn" target="_blank">/r/unixporn</a>
+          <a class="bookmark" href="https://reddit.com/r/vim" target="_blank">/r/vim</a>
+          <a class="bookmark" href="https://reddit.com/r/emacs" target="_blank">/r/emacs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Search on enter key event
+    document.getElementById("search-field").addEventListener("keydown", event => {
+      if (event.keyCode === 13) {
+        var val = document.getElementById("search-field").value;
+        window.open("https://google.com/search?q=" + val);
+      }
+    });
+    // Get current time and format
+    getTime = () => {
+      let date = new Date(),
+        min = date.getMinutes(),
+        sec = date.getSeconds(),
+        hour = date.getHours();
+
+      return "" +
+        (hour < 10 ? ("0" + hour) : hour) + ":" +
+        (min < 10 ? ("0" + min) : min) + ":" +
+        (sec < 10 ? ("0" + sec) : sec);
+    }
+
+    window.onload = () => {
+      let xhr = new XMLHttpRequest();
+      // Request to open weather map
+      xhr.open('GET', 'http://api.openweathermap.org/data/2.5/weather?id=3674962&units=metric&appid=e5b292ae2f9dae5f29e11499c2d82ece');
+      xhr.onload = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            let json = JSON.parse(xhr.responseText);
+            console.log(json);
+            document.getElementById("temp").innerHTML = json.main.temp.toFixed(0) + " C";
+            document.getElementById("weather-description").innerHTML = json.weather[0].description;
+          } else {
+            console.log('error msg: ' + xhr.status);
+          }
+        }
+      }
+      xhr.send();
+      // Set up the clock
+      document.getElementById("clock").innerHTML = getTime();
+      // Set clock interval to tick clock
+      setInterval(() => {
+        document.getElementById("clock").innerHTML = getTime();
+      }, 100);
+    }
+
+    document.addEventListener("keydown", event => {
+      if (event.keyCode == 32) {          // Spacebar code to open search
+        document.getElementById('search').style.display = 'flex';
+        document.getElementById('search-field').focus();
+      } else if (event.keyCode == 27) {   // Esc to close search
+        document.getElementById('search-field').value = '';
+        document.getElementById('search-field').blur();
+        document.getElementById('search').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+
+</html>

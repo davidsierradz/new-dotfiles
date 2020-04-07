@@ -108,7 +108,7 @@ bindkey -M viins "^u" kill-whole-line
 #--------------------------------Functions-------------------------------------# {{{
 # Fuzzy find all files to send to git add.
 gafzf() {
-  git add $(git status --untracked-files=all --porcelain=v1 | grep --perl-regexp "^ M|MM|UU| D|\?{2}" | awk '{print $2}' | \
+  git add $(git status --untracked-files=all --porcelain=v1 | grep --perl-regexp "^ M|MM|UU| D|AM|\?{2}" | awk '{print $2}' | \
     fzf \
       --bind '?:toggle-preview' \
       --preview "git diff --exit-code {} && cat {}" \

@@ -42,3 +42,6 @@
 #.config/VirtualBox/
 #.config/Slack/
 #.nvm/versions/
+#.thunderbird/
+#.lnav/
+#.config/Popcorn-Time/

@@ -2,6 +2,9 @@ command=~/.local/bin/statusbar/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
+[pomodoro]
+interval=1
+
 [bandwidth2]
 interval=persist
 markup=pango
@@ -118,7 +121,7 @@ interval=5
 
 [clock]
 label=📅
-interval=60
+interval=30
 
 [internet]
 interval=10
