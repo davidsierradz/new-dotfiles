@@ -414,9 +414,6 @@ xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
-" Use <C-l> for trigger snippet expand.
-imap <C-u> <Plug>(coc-snippets-expand)
-
 " Use <C-j> for select text for visual placeholder of snippet.
 vmap <C-j> <Plug>(coc-snippets-select)
 
@@ -461,6 +458,15 @@ nnoremap x d
 xnoremap x d
 nnoremap xx dd
 nnoremap X D
+"}}}
+""/ vim-rsi {{{
+"/
+if empty(mapcheck('<C-k>', 'i'))
+  inoremap <C-k> <C-o>C
+endif
+if empty(mapcheck('<C-k>', 'c'))
+  cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1)<CR>
+endif
 "}}}
 ""/ vim-subversive {{{
 "/

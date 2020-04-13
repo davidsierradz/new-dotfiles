@@ -1684,7 +1684,7 @@ c.url.searchengines = {
 
 ## Page(s) to open at the start.
 ## Type: List of FuzzyUrl, or FuzzyUrl
-c.url.start_pages = ['file://~/.config/qutebrowser/homepage.html']
+c.url.start_pages = ['~/.config/qutebrowser/homepage.html']
 
 ## URL parameters to strip with `:yank url`.
 ## Type: List of String
