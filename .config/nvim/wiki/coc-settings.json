@@ -19,6 +19,7 @@
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
   "smartf.wordJump": false,
   "smartf.jumpOnTrigger": false,
+  "coc.preferences.bracketEnterImprove": true,
   "diagnostic-languageserver.enable": false,
   "diagnostic-languageserver.filetypes": {
     "markdown": ["languagetool"],

@@ -10,6 +10,8 @@
     "vimwiki",
     "yaml"
   ],
+  "coc.preferences.enableFloatHighlight": false,
+  "coc.preferences.colorSupport": false,
   "coc.source.file.ignoreHidden": false,
   "coc.source.file.triggerCharacters": ["/", ".", ".."],
   "markdownlint.config": {
@@ -27,6 +29,7 @@
   "diagnostic.refreshOnInsertMode": true,
   "javascript.validate.enable": false,
   "highlight.colors.enable": false,
+  "highlight.document.enable": false,
   "yank.priority": 70,
   "explorer.position": "floating"
 }
