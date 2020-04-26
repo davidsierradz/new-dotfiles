@@ -19,9 +19,6 @@
     "line_length": false
   },
   "prettier.onlyUseLocalVersion": true,
-  "prettier.semi": false,
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "all",
   "snippets.extends": { "vimwiki": ["markdown", "vimwiki"] },
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
   "smartf.wordJump": false,

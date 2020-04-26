@@ -205,7 +205,7 @@ gh() {
   originalFile=$1
   echo -e $myVar | fzf --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
     --header 'Press CTRL-S to toggle sort' \
-    --preview "grep -o \"[a-f0-9]\{7,\}\" <<< {} | xargs -I % sh -c \"git show % --color=always -- $originalFile\" | head -"$LINES |
+    --preview "grep -o \"[a-f0-9]\{7,\}\" <<< {} | xargs -I % sh -c \"git show % --color=always -- $originalFile\" | cat -" |
     grep -o "[a-f0-9]\{7,\}"
 }
 
@@ -249,6 +249,7 @@ function glofzf() {
 alias -g GHFZF='| gh'
 alias -g lastbranch='$(cat .git/lastbranch)'
 compdef config=git
+alias ystb='yarn start:backend'
 #--------------------------------End Aliases-----------------------------------#
 #}}}
 

@@ -24,3 +24,6 @@ bar {
   output eDP-1
   tray_output none
 }
+
+workspace 1 output HDMI-1 eDP-1
+workspace 10 output eDP-1 HDMI-1

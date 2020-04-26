@@ -213,10 +213,10 @@ autocmd TabEnter docs.google.com/* mode ignore
 " Mosquito nets won't make themselves
 "autocmd DocStart www.amazon.co.uk urlmodify -t www smile
 
-guiset_quiet tabs autohide
-guiset_quiet navbar autohide
-guiset_quiet hoverlink right
-guiset_quiet statuspanel left
+" guiset_quiet tabs autohide
+" guiset_quiet navbar autohide
+" guiset_quiet hoverlink right
+" guiset_quiet statuspanel left
 
 "------------------------------------------------------------------------------
 " Firefox settings.

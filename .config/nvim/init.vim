@@ -605,7 +605,12 @@ nnoremap <leader>zP :AFiles<CR>
 "}}}
 ""/ git (g) {{{
 "/
-nnoremap <leader>gg :Flog<CR>
+nnoremap <leader>gq :Flog<CR>
+nnoremap <leader>gg :Git<CR>
+nnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>gp :Git push<CR>
+nnoremap <leader>gf :Git fetch<CR>
+nnoremap <leader>gl :Gllog<CR>
 "}}}
 ""/ lsp (l) {{{
 "/
@@ -722,7 +727,7 @@ augroup END
 "/
 autocmd User Node
   \ if &filetype == "javascript" |
-  \   nmap <buffer> <localleader>f <Plug>NodeVSplitGotoFile
+  \   nmap <buffer> <localleader>f <Plug>NodeVSplitGotoFile|
   \ endif
 "}}}
 "}}}
@@ -1185,8 +1190,8 @@ let g:which_key_map.f = {
 
 let g:which_key_map.g = {
       \ 'name' : '+git',
-      \ 'g': 'Flog',
       \ }
+      " \ 'g': 'Flog',
 
 let g:which_key_map.b = {
       \ 'name' : '+buffers',
@@ -1290,6 +1295,7 @@ let g:which_key_map.y = {
       \ 'l': 'list',
       \ 'n': 'number',
       \ 'p': 'paste',
+      \ 'q': 'term scrollback',
       \ 'r': 'relativenumber',
       \ 's': 'spell',
       \ 'u': 'cursorcolumn',

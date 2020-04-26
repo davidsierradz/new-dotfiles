@@ -252,6 +252,8 @@ bindsym $mod+Shift+o               exec --no-startup-id i3resize right
 bindsym $mod+p                     mode "$mode_spotify"
 
 bindsym $mod+q                     layout toggle
+bindsym $mod+Ctrl+q                exec --no-startup-id xkill
+bindsym --release $mod+$mod1+q     exec --no-startup-id xkill
 bindsym $mod+Shift+q               [con_id="__focused__" instance="^(?!dropdown_).*$"] kill
 bindsym $mod+$mod1+Shift+q         [con_id="__focused__" instance="^(?!dropdown_).*$"] exec --no-startup-id kill -9 `xdotool getwindowfocus getwindowpid`
 
@@ -340,6 +342,7 @@ bindsym $mod+Shift+0               move container to workspace $ws10; workspace 
 bindsym $mod+F3                    exec --no-startup-id displayselect
 bindsym $mod+F9                    exec --no-startup-id dmenumount
 bindsym $mod+F10                   exec --no-startup-id dmenuumount
+bindsym $mod+F12                   exec --no-startup-id togglesoundoutput
 
 
 

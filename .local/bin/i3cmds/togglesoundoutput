@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# toggle sound output
+
+pulsemixer --list-sinks | grep 'HDMI' 1>/dev/null
+
+if [[ "$?" -eq 0 ]]; then
+  echo "Audio to internal"
+  pactl set-card-profile alsa_card.pci-0000_00_1f.3 output:analog-stereo+input:analog-stereo && pkill -RTMIN+10 i3blocks
+  notify-send -h string:x-canonical-private-synchronous:my-notification "Audio to internal"
+else
+  pactl set-card-profile alsa_card.pci-0000_00_1f.3 output:hdmi-stereo && pkill -RTMIN+10 i3blocks
+  echo "Audio to HDMI"
+  notify-send -h string:x-canonical-private-synchronous:my-notification "Audio to HDMI"
+fi
