@@ -18,16 +18,6 @@ LABEL=⬇⬆
 #CRIT_TX=0
 #USE_SI=0
 
-#[bandwidth]
-#label=⬇
-#instance=wlan0;in
-#interval=1
-
-#[bandwidth]
-#label=⬆
-#instance=wlan0;out
-#interval=1
-
 [memory]
 label=💽 
 interval=30
@@ -57,63 +47,18 @@ command=printf " %.0f%%\n" "$(xbacklight -get)"
 interval=once
 signal=13
 
-#[record]
-#command=cat /tmp/recordingicon
-#interval=once
-#signal=9
-
-#[music]
-#label=🎼
-#interval=once
-#signal=11
-
-#[news]
-#label=📰
-#interval=once
-#signal=6
-
-#[iplocate]
-#interval=30
-
-#[pacpackages]
-#label=📦
-#interval=once
-#signal=8
-
-#[torrent]
-#interval=20
-#signal=7
-
-#[weather]
-#interval=18000
-#signal=5
-
-#[mailbox]
-#label=📬
-#interval=180
-#signal=12
-
-#[memory]
-#interval=30
-#label=🧠
-
-#[cpu]
-#interval=15
-#label=💻
-
-#[disk]
-#interval=60
-#command=disk /
-
-#[disk]
-#interval=60
-#command=disk /home 🏠
+[disk]
+interval=60
+command=disk /
 
 [iface]
 #LABEL=wlan0:
 #IFACE=wlan0
 #ADDRESS_FAMILY=inet6?
 interval=600
+
+[internet]
+interval=10
 
 [battery]
 command=battery BAT0
@@ -123,12 +68,6 @@ interval=5
 label=📅
 interval=30
 
-[internet]
-interval=10
-
 [volume]
 interval=once
 signal=10
-
-#[help]
-#interval=once

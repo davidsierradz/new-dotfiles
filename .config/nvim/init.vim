@@ -982,7 +982,7 @@ let g:lightline = {
       \       ['readonly', 'relativefilepath', 'modified'],
       \     ],
       \     'right': [
-      \       ['trailing'],
+      \       ['mixed', 'trailing'],
       \       ['coc_error', 'coc_warning', 'coc_hint', 'coc_info', 'coc_fix'],
       \       ['virtuallineinfo', 'percentage'],
       \       ['foldlevel', 'fileformat', 'fileencoding', 'filetype']
@@ -1002,7 +1002,7 @@ let g:lightline = {
       \   },
       \   'component_function': {
       \     'foldlevel': 'FoldLevel',
-      \     'cocstatus': 'coc#status'
+      \     'cocstatus': 'coc#status',
       \   },
       \   'component_expand': {
       \     'trailing': 'lightline#trailing_whitespace#component',
@@ -1011,6 +1011,7 @@ let g:lightline = {
       \     'coc_info'         : 'LightlineCocInfos',
       \     'coc_hint'         : 'LightlineCocHints',
       \     'coc_fix'          : 'LightlineCocFixes',
+      \     'mixed'            : 'Check_mixed_indent_file',
       \   },
       \   'component_type': {
       \     'coc_error' : 'error',
@@ -1019,6 +1020,7 @@ let g:lightline = {
       \     'coc_hint' : 'tabsel',
       \     'coc_fix' : 'tabsel',
       \     'trailing': 'warning',
+      \     'mixed': 'warning',
       \   },
       \ }
 
@@ -1056,6 +1058,16 @@ function! LightlineCocHints() abort
 endfunction
 
 let g:lightline#trailing_whitespace#indicator='•'
+
+function! Check_mixed_indent_file()
+  let indent_tabs = search('\v(^\t+)', 'nw')
+  let indent_spc  = search('\v(^ +)', 'nw')
+  if indent_tabs > 0 && indent_spc > 0
+    return printf("")
+  else
+    return ''
+  endif
+endfunction
 "}}}
 ""/ markdown-preview.nvim {{{
 "/
