@@ -6,6 +6,8 @@
 
 config_version: 2
 settings:
+  colors.webpage.prefers_color_scheme_dark:
+    global: false
   content.javascript.enabled:
     '*://*.account.live.com/*': true
     '*://*.accounts.google.com/*': true
@@ -39,3 +41,5 @@ settings:
   content.notifications:
     https://www.reddit.com: false
     https://www.youtube.com: false
+  qt.args:
+    global: []

@@ -650,6 +650,7 @@ nnoremap <silent> <leader>lj  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent> <leader>lk  :<C-u>CocPrev<CR>
 " Resume latest coc list
+nnoremap <silent> <leader>lR  :<C-u>CocRestart<CR>
 nnoremap <silent> <leader>lp  :<C-u>CocListResume<CR>
 "}}}
 ""/ toggles (y) {{{

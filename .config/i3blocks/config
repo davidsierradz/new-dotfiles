@@ -2,10 +2,12 @@ command=~/.local/bin/statusbar/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
-[pomodoro]
-interval=1
+#[pomodoro]
+#full_text=...
+#interval=1
 
 [bandwidth2]
+full_text=...
 interval=persist
 markup=pango
 LABEL=⬇⬆
@@ -19,15 +21,18 @@ LABEL=⬇⬆
 #USE_SI=0
 
 [memory]
+full_text=...
 label=💽 
 interval=30
 
 [memory]
+full_text=...
 label=💾
 instance=swap
 interval=30
 
 [cpu_usage]
+full_text=...
 interval=10
 LABEL=⌛
 #min_width=CPU: 100.00%
@@ -36,38 +41,46 @@ LABEL=⌛
 #DECIMALS=2
 
 [extbrightness]
+full_text=...
 label=🖥️
 command=sudo ddcutil getvcp 10 | awk '{gsub(/,/,"%",$9);print $9}'
 interval=once
 signal=14
 
 [displaybrightness]
+full_text=...
 label=💻
 command=printf " %.0f%%\n" "$(xbacklight -get)"
 interval=once
 signal=13
 
 [disk]
+full_text=...
 interval=60
 command=disk /
 
 [iface]
+full_text=...
 #LABEL=wlan0:
 #IFACE=wlan0
 #ADDRESS_FAMILY=inet6?
 interval=600
 
 [internet]
+full_text=...
 interval=10
 
 [battery]
+full_text=...
 command=battery BAT0
 interval=5
 
 [clock]
+full_text=...
 label=📅
 interval=30
 
 [volume]
+full_text=...
 interval=once
 signal=10

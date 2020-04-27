@@ -1,5 +1,5 @@
 [core]
-  pager = "/usr/bin/bat --style=\"plain\" --color=\"never\""
+  pager = /usr/share/git/diff-highlight/diff-highlight | less --tabs=2 -RFX
   excludesFile = "$HOME/.config/git/ignore"
 [user]
 	email = davidsierradz@gmail.com
@@ -40,3 +40,7 @@
   reflog = %C(auto)%h %<|(20)%gd %C(blue)%ci%C(reset) %gs (%s)
 [pull]
   ff = only
+[color]
+  ui = auto
+[interactive]
+  diffFilter = /usr/share/git/diff-highlight/diff-highlight
