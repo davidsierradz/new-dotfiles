@@ -574,6 +574,7 @@ nnoremap <leader>w\| <c-w>\|
 nnoremap <leader>w_ <c-w>_
 nnoremap <leader>wo <c-w>o
 nnoremap <leader>w+ <c-w>\|<c-w>_
+nnoremap <leader>wz <c-w>\|<c-w>_
 
 for s:i in range(1, 9)
   " <Leader>w[1-9] move to window [1-9]

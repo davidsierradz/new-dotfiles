@@ -50,7 +50,8 @@ sudo -n loadkeys ~/.local/share/larbs/ttymaps.kmap 2>/dev/null
 export LPASS_DISABLE_PINENTRY=1
 export LPASS_ASKPASS=.local/bin/tools/dmenupass
 export BAT_PAGER="less -RFS"
-export MANPAGER="nvim -c 'set ft=man' -"
+export MANPAGER="nvim +Man!"
+export MANWIDTH=999
 
 # More responsive toggle from normal to insert mode in vi-mode.
 # We need a value not so low, to give surround commands time to fire.
