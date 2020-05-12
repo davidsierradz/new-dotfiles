@@ -56,6 +56,8 @@ alias b='bat' \
   y="yarn" \
   yl="yarn lint" \
   ytw="yarn test --watch" \
+  ysb="yarn serve:babel" \
+  ystb="yarn start:backend"
 
 if [ -n "$ZSH_VERSION" ]; then
   alias -g J='| python -m json.tool'
@@ -79,9 +81,11 @@ function terminal-scheme() {
   sed -i "s/\(^set background=\).*/\1$1/g" $wiki_config_file
   # bat_config_file=~/.config/bat/config
   # if [[ $1 == 'light' ]]; then
-  #   echo '--theme="OneHalfLight"' > $bat_config_file
+  #   echo '--theme="ansi-dark"' > $bat_config_file
+  #   echo '--plain' >> $bat_config_file
   # else
-  #   echo '--theme="OneHalfDark"' > $bat_config_file
+  #   echo '--theme="ansi-light"' > $bat_config_file
+  #   echo '--plain' >> $bat_config_file
   # fi
   kitty_config_file=~/.config/kitty/kitty.conf
   sed -i "s#^\(include\s\./kitty-themes/gruvbox_*\).*#\1$1.conf#g" $kitty_config_file

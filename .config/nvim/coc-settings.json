@@ -28,6 +28,7 @@
   "smartf.jumpOnTrigger": false,
   "diagnostic.refreshOnInsertMode": true,
   "javascript.validate.enable": false,
+  "javascript.format.enabled": false,
   "highlight.colors.enable": false,
   "highlight.document.enable": false,
   "yank.priority": 70,

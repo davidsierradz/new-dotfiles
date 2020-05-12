@@ -2059,6 +2059,7 @@ config.bind('<Ctrl-j>', 'scroll down')
 config.bind('<Ctrl-k>', 'scroll up')
 config.bind('j', 'scroll-px 0 40')
 config.bind('k', 'scroll-px 0 -40')
+config.bind('<Ctrl-Shift-h>', 'back -t ;; tab-move -')
 
 config.bind('€', 'config-cycle -t tabs.show always never ;; config-cycle -t statusbar.hide false true')
 

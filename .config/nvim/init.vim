@@ -337,10 +337,11 @@ nnoremap U <c-r>
 nnoremap ; :
 xnoremap ; :
 
-nnoremap ;; ;
-nnoremap ,, ,
-xnoremap ;; ;
-xnoremap ,, ,
+" make ; always "find" forward and , backward
+nnoremap <expr> ;; getcharsearch().forward ? ';' : ','
+nnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
+xnoremap <expr> ;; getcharsearch().forward ? ';' : ','
+xnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
 
 cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
@@ -601,7 +602,7 @@ nnoremap <leader>zE :RgggWithFileName<CR>
 nnoremap <leader>zh :History<CR>
 nnoremap <leader>zx :Snippets<CR>
 nnoremap <leader>zz :Buffers<CR>
-nnoremap <leader>zp :Files<CR>
+nnoremap <leader>zp :RG<CR>
 nnoremap <leader>zP :AFiles<CR>
 "}}}
 ""/ git (g) {{{
@@ -885,6 +886,25 @@ function! AllFilesFzf(query, fullscreen)
 endfunction
 
 command! -nargs=* -bang -complete=dir AFiles call AllFilesFzf(<q-args>, <bang>0)
+
+function! RipgrepFzf(query, fullscreen)
+  let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files --color never --no-heading --hidden "."'
+  let initial_command = 'rg --smart-case --files --color never --no-heading --hidden "."'
+  let reload_command = 'rg -uu --smart-case --files --color never --no-heading --hidden "." || true'
+  call fzf#vim#files(a:query, fzf#vim#with_preview({'options': [
+        \ '--bind',
+        \ 'ctrl-r:reload:'.reload_command,
+        \ '--bind',
+        \ 'ctrl-alt-r:reload:'.initial_command,
+        \ '--bind', '?:toggle-preview',
+        \ '--header',
+        \ 'Press CTRL-R/CTRL-ALT-R to toggle hide files',
+        \ '--preview-window',
+        \ 'right:50%:hidden',
+        \ ]}), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " Show preview window with '?'
 command! -bang -nargs=* Ag

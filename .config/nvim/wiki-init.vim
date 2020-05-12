@@ -747,7 +747,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-let g:coc_data_home = $HOME . '/.config/coc/extensions-wiki'
+let g:coc_data_home = $HOME . '/.config/coc-wiki'
 let g:coc_config_home = $HOME . '/.config/nvim/wiki'
 
 let g:coc_global_extensions = [

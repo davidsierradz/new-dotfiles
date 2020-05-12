@@ -249,7 +249,6 @@ function glofzf() {
 alias -g GHFZF='| gh'
 alias -g lastbranch='$(cat .git/lastbranch)'
 compdef config=git
-alias ystb='yarn start:backend'
 #--------------------------------End Aliases-----------------------------------#
 #}}}
 
@@ -357,6 +356,8 @@ ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(forward-char)
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(vi-forward-char)
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
 #--------------------------------End Variables---------------------------------#
 #}}}
 
