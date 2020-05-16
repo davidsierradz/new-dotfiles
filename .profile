@@ -29,7 +29,7 @@ export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
 export DICS="/usr/share/stardict/dic/"
 export SUDO_ASKPASS="$HOME/.local/bin/tools/dmenupass"
 # export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"
-export LESS=-iRFXSM
+export LESS=-iRFSM
 # export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
 # export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
 # export LESS_TERMCAP_me="$(printf '%b' '[0m')"
@@ -49,7 +49,7 @@ sudo -n loadkeys ~/.local/share/larbs/ttymaps.kmap 2>/dev/null
 
 export LPASS_DISABLE_PINENTRY=1
 export LPASS_ASKPASS=.local/bin/tools/dmenupass
-export BAT_PAGER="less -iRFXSM"
+export BAT_PAGER="less -iRFSM"
 export MANPAGER="nvim +Man!"
 export MANWIDTH=999
 

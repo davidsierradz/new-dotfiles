@@ -1,5 +1,5 @@
 [core]
-  pager = /usr/share/git/diff-highlight/diff-highlight | less --tabs=2 -iRFXSM
+  pager = /usr/share/git/diff-highlight/diff-highlight | less --tabs=2 -iRFSM
   excludesFile = "$HOME/.config/git/ignore"
 [user]
 	email = davidsierradz@gmail.com

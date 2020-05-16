@@ -67,6 +67,8 @@ Plug 'psliwka/vim-smoothie'
 
 " Vim plugin that shows keybindings in popup.
 Plug 'liuchengxu/vim-which-key'
+
+Plug 'machakann/vim-highlightedyank'
 "}}}
 
 "-------------Integrations-------------- {{{
