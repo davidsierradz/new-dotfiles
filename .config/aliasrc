@@ -7,7 +7,7 @@ command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d"
 alias \
 	cp="cp -iv" \
 	mv="mv -iv" \
-	rm="rm -v" \
+	rm="rm -Iv" \
 	mkd="mkdir -pv" \
 	ffmpeg="ffmpeg -hide_banner"
 

@@ -39,6 +39,7 @@ settings:
     '*://*.www.zonapagos.com/*': true
     '*://*.www13.epm.com.co/*': true
   content.notifications:
+    https://pijamasurf.com: false
     https://www.reddit.com: false
     https://www.youtube.com: false
   qt.args:

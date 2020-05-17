@@ -61,35 +61,6 @@
                           "type": "con"
                         }
                       ]
-                    },
-                    {
-                      "border": "pixel",
-                      "floating": "auto_off",
-                      "layout": "tabbed",
-                      "percent": 0.4,
-                      "type": "con",
-                      "nodes": [
-                        {
-                          "border": "pixel",
-                          "current_border_width": 3,
-                          "floating": "auto_off",
-                          "geometry": {
-                            "height": 568,
-                            "width": 1266,
-                            "x": 0,
-                            "y": 0
-                          },
-                          "name": "neuromante@neuromante-home-laptop: ~",
-                          "percent": 1,
-                          "swallows": [
-                            {
-                              "class": "^kitty$",
-                              "instance": "^kitty$"
-                            }
-                          ],
-                          "type": "con"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -120,8 +91,8 @@
           "percent": 1,
           "swallows": [
             {
-              "class": "^kitty$",
-              "instance": "^kitty$"
+              "class": "^qutebrowser$",
+              "instance": "^qutebrowser$"
             }
           ],
           "type": "con"
