@@ -41,7 +41,7 @@ set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 set $mode_spotify p: play/pause j: next k: previous ; Caps to also quit
-set $mode_run Run a:htop s:vifm d:calc f:cal g:rss i:vw
+set $mode_run Run a:htop s:vifm d:calc f:cal g:rss h:news i:vw
 # }}}
 
 # ---Modes--- # {{{
@@ -119,6 +119,8 @@ mode "$mode_run" {
   bindsym Shift+f       exec $term -1 calcurse -D ~/.config/calcurse, mode "default"
   bindsym g             exec --no-startup-id ddspawn 'newsboat' '-o font_size=18 -1 --instance-group "float-ones"', mode "default"
   bindsym Shift+g       exec $term -1 newsboat, mode "default"
+  bindsym h             exec --no-startup-id ddspawn 'newsboat' '-o font_size=18 -1 --instance-group "float-ones"', mode "default"
+  bindsym Shift+h       exec $term -1 newsboat, mode "default"
   bindsym i             exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -1 --instance-group "float-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex', mode "default"
   bindsym Shift+i       exec $term -1 --instance-group "writer-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex, mode "default"
 

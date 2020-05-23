@@ -1706,7 +1706,7 @@ c.url.start_pages = ['~/.config/qutebrowser/homepage.html']
 
 ## Available zoom levels.
 ## Type: List of Perc
-# c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '110%', '125%', '150%', '175%', '200%', '250%', '300%', '400%', '500%']
+c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '125%', '150%', '175%', '200%', '250%', '300%', '400%', '500%']
 
 ## Number of zoom increments to divide the mouse wheel movements to.
 ## Type: Int

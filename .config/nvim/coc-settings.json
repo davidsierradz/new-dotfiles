@@ -28,8 +28,6 @@
   "smartf.jumpOnTrigger": false,
   "diagnostic.refreshOnInsertMode": true,
   "javascript.validate.enable": false,
-  "highlight.colors.enable": false,
-  "highlight.document.enable": false,
   "yank.priority": 70,
   "yank.highlight.enable": false,
   "explorer.position": "floating"
