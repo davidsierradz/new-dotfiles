@@ -69,6 +69,8 @@ Plug 'psliwka/vim-smoothie'
 Plug 'liuchengxu/vim-which-key'
 
 Plug 'machakann/vim-highlightedyank'
+
+Plug 'norcalli/nvim-colorizer.lua'
 "}}}
 
 "-------------Integrations-------------- {{{
@@ -372,6 +374,12 @@ inoremap <M-k> <C-\><C-N><C-w>k
 inoremap <M-l> <C-\><C-N><C-w>l
 inoremap <M-`> <C-\><C-N>
 
+" make <a-J>, <a-K>, <a-L>, and <a-H> create windows.
+nnoremap <M-J> <c-w>s<c-w>k
+nnoremap <M-K> <c-w>s
+nnoremap <M-H> <c-w>v
+nnoremap <M-L> <c-w>v<c-w>h
+
 nnoremap <M-w> :w<CR>
 
 " Run xdg-open over a file path.
@@ -429,10 +437,10 @@ let g:coc_snippet_prev = '<c-k>'
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
 
 " coc-smartf
 " press <esc> to cancel.
@@ -656,6 +664,12 @@ nnoremap <silent> <leader>lk  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <leader>lR  :<C-u>CocRestart<CR>
 nnoremap <silent> <leader>lp  :<C-u>CocListResume<CR>
+
+command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
+nnoremap <silent> <leader>lta  :<C-u>Jest<CR>
+command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%'])
+nnoremap <silent> <leader>ltc :<C-u>JestCurrent<CR>
+nnoremap <silent> <leader>ltt :call CocAction('runCommand', 'jest.singleTest')<CR>
 "}}}
 ""/ toggles (y) {{{
 "/
@@ -823,11 +837,12 @@ let g:coc_global_extensions = [
       \ 'coc-emmet',
       \ 'coc-eslint',
       \ 'coc-explorer',
-      \ 'coc-highlight',
       \ 'coc-html',
+      \ 'coc-jest',
       \ 'coc-json',
       \ 'coc-lists',
       \ 'coc-markdownlint',
+      \ 'coc-post',
       \ 'coc-pairs',
       \ 'coc-prettier',
       \ 'coc-sh',
@@ -1315,6 +1330,12 @@ let g:which_key_map.z = {
 
 let g:which_key_map.l = {
       \ 'name' : '+lsp',
+      \ 't' : {
+      \   'name' : '+coc-jest',
+      \   'a' : 'current project',
+      \   'c' : 'current file',
+      \   't' : 'current test',
+      \   },
       \ '': '',
       \ }
 
@@ -1513,6 +1534,7 @@ else
 endif
 set nohlsearch
 lua require'terminal'.setup()
+lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; } }
 "--------------------------------End Colors------------------------------------"
 "}}}
 " vim: set fdm=marker fmr={{{,}}} fdl=4 :
