@@ -56,6 +56,9 @@ Plug 'psliwka/vim-smoothie'
 
 " Vim plugin that shows keybindings in popup.
 Plug 'liuchengxu/vim-which-key'
+
+" Put colors on hex values.
+Plug 'norcalli/nvim-colorizer.lua'
 "}}}
 
 "-------------Integrations-------------- {{{
@@ -148,11 +151,13 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 let g:loaded_node_provider = 0
 let g:loaded_ruby_provider = 0
 let g:loaded_python_provider = 0
+let g:loaded_perl_provider = 0
 let g:python3_host_prog = '/usr/bin/python3'
 
 " Allow backspace and cursor keys to cross line boundaries.
 set whichwrap+=<,>
 
+" Don't share history with main instance.
 let &shadafile = stdpath('data') . '/shada/vimwiki.shada'
 "--------------------------------End General-----------------------------------"
 "}}}
@@ -229,8 +234,9 @@ nnoremap <silent> <C-l> :syntax sync fromstart <bar> nohlsearch <bar> diffupdate
 nnoremap Y yg$
 xnoremap Y g$y
 
-" Disable Ex mode.
-nnoremap Q <nop>
+" execute the current line of text as a shell command.
+noremap  Q !!$SHELL<CR>
+vnoremap Q !$SHELL<CR>
 
 " Change à (Alt-`) to -> in insert mode.
 inoremap <M-1> ->
@@ -290,10 +296,11 @@ nnoremap U <c-r>
 nnoremap ; :
 xnoremap ; :
 
-nnoremap ;; ;
-nnoremap ,, ,
-xnoremap ;; ;
-xnoremap ,, ,
+" make ; always "find" forward and , backward
+nnoremap <expr> ;; getcharsearch().forward ? ';' : ','
+nnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
+xnoremap <expr> ;; getcharsearch().forward ? ';' : ','
+xnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
 
 cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
@@ -355,7 +362,9 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <silent><expr> <M-CR> pumvisible() ? coc#_select_confirm()
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <M-CR> pumvisible() && coc#rpc#request('hasSelected', []) ? "\<C-y>"
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Create mappings for function text object, requires document symbols feature of languageserver.
@@ -363,9 +372,6 @@ xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
-
-" Use <C-l> for trigger snippet expand.
-imap <C-u> <Plug>(coc-snippets-expand)
 
 " Use <C-j> for select text for visual placeholder of snippet.
 vmap <C-j> <Plug>(coc-snippets-select)
@@ -390,6 +396,9 @@ nmap <C-Space> <Plug>(coc-smartf-forward)
 nmap <M-Space> <Plug>(coc-smartf-backward)
 " nmap ;; <Plug>(coc-smartf-repeat)
 " nmap ,, <Plug>(coc-smartf-repeat-opposite)
+
+nmap <silent> [[ <Plug>(coc-diagnostic-prev)
+nmap <silent> ]] <Plug>(coc-diagnostic-next)
 "}}}
 ""/ vim-asterisk {{{
 "/
@@ -408,6 +417,15 @@ nnoremap x d
 xnoremap x d
 nnoremap xx dd
 nnoremap X D
+"}}}
+""/ vim-rsi {{{
+"/
+if empty(mapcheck('<C-k>', 'i'))
+  inoremap <C-k> <C-o>C
+endif
+if empty(mapcheck('<C-k>', 'c'))
+  cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1)<CR>
+endif
 "}}}
 ""/ vim-subversive {{{
 "/
@@ -515,6 +533,7 @@ unlet s:i
 " nnoremap <leader>w_ <c-w>_
 " nnoremap <leader>wo <c-w>o
 " nnoremap <leader>w+ <c-w>\|<c-w>_
+" nnoremap <leader>wz <c-w>\|<c-w>_
 
 " for s:i in range(1, 9)
 "   " <Leader>w[1-9] move to window [1-9]
@@ -541,7 +560,8 @@ nnoremap <leader>zE :RgggWithFileName<CR>
 nnoremap <leader>zh :History<CR>
 nnoremap <leader>zx :Snippets<CR>
 nnoremap <leader>zz :Buffers<CR>
-nnoremap <leader>zp :Files ~/notes/<CR>
+nnoremap <leader>zp :RG ~/notes/<CR>
+nnoremap <leader>zP :AFiles<CR>
 "}}}
 ""/ lsp (l) {{{
 "/
@@ -581,6 +601,7 @@ nnoremap <silent> <leader>lj  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent> <leader>lk  :<C-u>CocPrev<CR>
 " Resume latest coc list
+nnoremap <silent> <leader>lR  :<C-u>CocRestart<CR>
 nnoremap <silent> <leader>lp  :<C-u>CocListResume<CR>
 "}}}
 ""/ toggles (y) {{{
@@ -599,6 +620,7 @@ nmap <silent> <Leader>yi yoi
 nmap <silent> <Leader>yl yol
 nmap <silent> <Leader>yn yon
 nmap <silent> <Leader>yp yop
+nnoremap <silent> <Leader>yq :<C-R>=&scrollback is# 1 ? "setlocal scrollback=50000" : "setlocal scrollback=1"<CR><CR>
 nmap <silent> <Leader>yr yor
 nmap <silent> <Leader>ys yos
 nmap <silent> <Leader>yu you
@@ -621,6 +643,8 @@ nnoremap <leader>sc :cd %:p:h<CR>:pwd<CR>
 nnoremap <silent> <leader>rz :let @z=@"<CR>
 " Copy the % register (current file path) to + register (clipboard).
 nnoremap <leader>r% :let @+=@%<CR>
+" Copy the current line number to + register.
+nnoremap <silent> <leader>r. :call setreg('+', line('.'))<CR>
 "}}}
 ""/ paste (p) {{{
 "/
@@ -655,7 +679,7 @@ augroup END
 "/
 autocmd User Node
   \ if &filetype == "javascript" |
-  \   nmap <buffer> <localleader>f <Plug>NodeVSplitGotoFile
+  \   nmap <buffer> <localleader>f <Plug>NodeVSplitGotoFile|
   \ endif
 "}}}
 "}}}
@@ -725,7 +749,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 augroup mygroup
   autocmd!
@@ -783,7 +807,7 @@ let g:EditorConfig_max_line_indicator = "none"
 "}}}
 ""/ fzf.vim {{{
 "/
-let $FZF_DEFAULT_COMMAND = 'rg -uuu --smart-case --files-with-matches --color never --no-heading --no-ignore-vcs --no-ignore-dot --hidden ""'
+let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files --color never --no-heading --hidden "."'
 
 let $FZF_PREVIEW_COMMAND = 'cat {}'
 
@@ -802,14 +826,43 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit',
   \ 'ctrl-g': function('s:goto_def'),
-  \ 'ctrl-f': function('s:goto_line')
+  \ 'ctrl-f': function('s:goto_line'),
+  \ 'ctrl-l': {l -> execute('args ' . join(map(l, {_, v -> fnameescape(v)}), ' '))},
   \  }
 
 " Show preview window with '?'.
-command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>,
-    \ fzf#vim#with_preview('right:50%:hidden', '?'),
-    \ <bang>0)
+function! FilesFZF(query, fullscreen)
+  let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files --color never --no-heading --hidden "."'
+  call fzf#vim#files(a:query, fzf#vim#with_preview('right:50%:hidden', '?'), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang -complete=dir Files call FilesFZF(<q-args>, <bang>0)
+
+function! AllFilesFzf(query, fullscreen)
+  let $FZF_DEFAULT_COMMAND = 'rg -uu --smart-case --files --color never --no-heading --hidden "."'
+  call fzf#vim#files(a:query, fzf#vim#with_preview('right:50%:hidden', '?'), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang -complete=dir AFiles call AllFilesFzf(<q-args>, <bang>0)
+
+function! RipgrepFzf(query, fullscreen)
+  let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files --color never --no-heading --hidden "."'
+  let initial_command = 'rg --smart-case --files --color never --no-heading --hidden "."'
+  let reload_command = 'rg -uu --smart-case --files --color never --no-heading --hidden "." || true'
+  call fzf#vim#files(a:query, fzf#vim#with_preview({'options': [
+        \ '--bind',
+        \ 'ctrl-r:reload:'.reload_command,
+        \ '--bind',
+        \ 'ctrl-alt-r:reload:'.initial_command,
+        \ '--bind', '?:toggle-preview',
+        \ '--header',
+        \ 'Press CTRL-R/CTRL-ALT-R to toggle hide files',
+        \ '--preview-window',
+        \ 'right:50%:hidden',
+        \ ]}), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " Show preview window with '?'
 command! -bang -nargs=* Ag
@@ -1251,6 +1304,7 @@ let g:which_key_map.y = {
       \ 'l': 'list',
       \ 'n': 'number',
       \ 'p': 'paste',
+      \ 'q': 'term scrollback',
       \ 'r': 'relativenumber',
       \ 's': 'spell',
       \ 'u': 'cursorcolumn',
@@ -1269,6 +1323,7 @@ let g:which_key_map.r = {
       \ 'name' : '+registers',
       \ 'z': 'copy " to z',
       \ '%': 'copy % to +',
+      \ '.': 'copy . to +',
       \ }
 
 let g:which_key_map.p = {
@@ -1296,9 +1351,6 @@ let g:yoinkIncludeDeleteOperations=1
 "--------------------------------User Commands---------------------------------"{{{
 " :W sudo saves the file.
 command! W w !sudo tee % > /dev/null
-
-" :TabMessage command
-command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
 "--------------------------------End User Commands-----------------------------"
 "}}}
 
@@ -1330,6 +1382,7 @@ augroup initvim
 
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
+  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 500)
   autocmd BufReadPost,BufNewFile ~/notes/index.md setlocal foldlevel=2
 augroup END
 "--------------------------------End Auto Commands-----------------------------"
@@ -1337,22 +1390,6 @@ augroup END
 
 
 "--------------------------------Functions-------------------------------------"{{{
-" Function to pipe an Ex command to a buffer in a new tab.
-" Usage :TabMessage command
-function! TabMessage(cmd)
-  redir => message
-  silent execute a:cmd
-  redir END
-  if empty(message)
-    echoerr "no output"
-  else
-    " use 'new' instead of 'tabnew' below if you prefer split windows instead of tabs
-    tabnew
-    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
-    silent put=message
-  endif
-endfunction
-
 " Function to execute a recorded macro over a selected text.
 function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
@@ -1382,6 +1419,30 @@ function! GetHighlight(group)
   endfor
   return dict
 endfunction
+
+" returns 1 if line is a markdown code block.
+function! Is_codeblock(lnum) abort
+  let syn_g = synIDattr(synID(a:lnum,1,1),'name')
+  if  syn_g ==? 'markdownCode'
+    return 1
+  else
+    return 0
+  endif
+endfunction
+
+" fold markdown filetype.
+function! Fold(lnum)
+  let fold_level = strlen(matchstr(getline(a:lnum), '^#\+'))
+  if (fold_level && !Is_codeblock(a:lnum))
+    return '>' . fold_level  " start a fold level
+  endif
+  if getline(a:lnum) =~? '\v^\s*$'
+    if (strlen(matchstr(getline(a:lnum + 1), '^#\+')) > 0)
+      return '-1' " don't fold last blank line before header
+    endif
+  endif
+  return '=' " return previous fold level
+endfunction
 "--------------------------------End Functions---------------------------------"
 "}}}
 
@@ -1410,6 +1471,7 @@ augroup END
 
 set background=light
 colorscheme pencil
+lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; } }
 "--------------------------------End Colors------------------------------------"
 "}}}
 " vim: set fdm=marker fmr={{{,}}} fdl=4 :

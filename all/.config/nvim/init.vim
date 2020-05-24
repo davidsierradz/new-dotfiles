@@ -68,8 +68,7 @@ Plug 'psliwka/vim-smoothie'
 " Vim plugin that shows keybindings in popup.
 Plug 'liuchengxu/vim-which-key'
 
-Plug 'machakann/vim-highlightedyank'
-
+" Put colors on hex values.
 Plug 'norcalli/nvim-colorizer.lua'
 "}}}
 
@@ -415,8 +414,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 " inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 "       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-inoremap <silent><expr> <cr> pumvisible() && coc#rpc#request('hasSelected', []) ? "\<C-y>"
+inoremap <silent><expr> <CR> pumvisible() && coc#rpc#request('hasSelected', []) ? "\<C-y>"
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Create mappings for function text object, requires document symbols feature of languageserver.
@@ -857,6 +855,10 @@ let g:coc_global_extensions = [
 augroup Smartf
   autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#cc241d gui=bold
   autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
+augroup end
+
+augroup Pairs
+  autocmd FileType markdown let b:coc_pairs = [["```", "```"]]
 augroup end
 "}}}
 ""/ editorconfig/editorconfig-vim {{{
@@ -1438,6 +1440,7 @@ augroup initvim
 
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
+  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 500)
 augroup END
 "--------------------------------End Auto Commands-----------------------------"
 "}}}
