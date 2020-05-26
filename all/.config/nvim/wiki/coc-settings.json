@@ -1,9 +1,6 @@
 {
   "coc.preferences.extensionUpdateCheck": "never",
-  "coc.preferences.formatOnSaveFiletypes": [
-    "markdown",
-    "vimwiki"
-  ],
+  "coc.preferences.formatOnSaveFiletypes": ["markdown", "vimwiki"],
   "coc.source.file.ignoreHidden": false,
   "coc.source.file.triggerCharacters": ["/", ".", ".."],
   "markdownlint.config": {
@@ -11,7 +8,8 @@
     "line_length": false,
     "no-duplicate-heading": {
       "siblings_only": true
-    }
+    },
+    "no-trailing-punctuation": false
   },
   "prettier.semi": false,
   "prettier.singleQuote": true,
@@ -20,29 +18,29 @@
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
   "smartf.wordJump": false,
   "smartf.jumpOnTrigger": false,
-  "coc.preferences.bracketEnterImprove": true,
-  "diagnostic-languageserver.enable": false,
-  "diagnostic-languageserver.filetypes": {
-    "markdown": ["languagetool"],
-    "vimwiki": ["languagetool"]
-  },
-  "diagnostic-languageserver.linters": {
-    "languagetool": {
-      "command": "languagetool",
-      "debounce": 200,
-      "args": ["--language", "es", "-"],
-      "offsetLine": 0,
-      "offsetColumn": 0,
-      "sourceName": "languagetool",
-      "formatLines": 2,
-      "formatPattern": [
-        "^\\d+?\\.\\)\\s+Line\\s+(\\d+),\\s+column\\s+(\\d+),\\s+([^\\n]+)\nMessage:\\s+(.*)$",
-        {
-          "line": 1,
-          "column": 2,
-          "message": [4, 3]
-        }
-      ]
-    }
-  }
+  "coc.preferences.bracketEnterImprove": true
+  //  "diagnostic-languageserver.enable": false,
+  //  "diagnostic-languageserver.filetypes": {
+  //    "markdown": ["languagetool"],
+  //    "vimwiki": ["languagetool"]
+  //  },
+  //  "diagnostic-languageserver.linters": {
+  //    "languagetool": {
+  //      "command": "languagetool",
+  //      "debounce": 200,
+  //      "args": ["--language", "es", "-"],
+  //      "offsetLine": 0,
+  //      "offsetColumn": 0,
+  //      "sourceName": "languagetool",
+  //      "formatLines": 2,
+  //      "formatPattern": [
+  //        "^\\d+?\\.\\)\\s+Line\\s+(\\d+),\\s+column\\s+(\\d+),\\s+([^\\n]+)\nMessage:\\s+(.*)$",
+  //        {
+  //          "line": 1,
+  //          "column": 2,
+  //          "message": [4, 3]
+  //        }
+  //      ]
+  //    }
+  //  }
 }
