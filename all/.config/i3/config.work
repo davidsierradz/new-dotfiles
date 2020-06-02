@@ -1,30 +1,30 @@
 
-bindsym Ctrl+XF86MonBrightnessDown       exec --no-startup-id sudo ddcutil setvcp 10 - 5 && pkill -RTMIN+14 i3blocks
-bindsym Ctrl+XF86MonBrightnessUp         exec --no-startup-id sudo ddcutil setvcp 10 + 5 && pkill -RTMIN+14 i3blocks
-bindsym Ctrl+Shift+XF86MonBrightnessDown exec --no-startup-id sudo ddcutil setvcp 10 - 20 && pkill -RTMIN+14 i3blocks
-bindsym Ctrl+Shift+XF86MonBrightnessUp   exec --no-startup-id sudo ddcutil setvcp 10 + 20 && pkill -RTMIN+14 i3blocks
+bindsym Ctrl+XF86MonBrightnessDown       exec --no-startup-id backlight monitor down 5
+bindsym Ctrl+XF86MonBrightnessUp         exec --no-startup-id backlight monitor up 5
+bindsym Ctrl+Shift+XF86MonBrightnessDown exec --no-startup-id backlight monitor down 20
+bindsym Ctrl+Shift+XF86MonBrightnessUp   exec --no-startup-id backlight monitor up 20
 
-bindsym Ctrl+XF86AudioPrev               exec --no-startup-id sudo ddcutil setvcp 10 - 5 && pkill -RTMIN+14 i3blocks
-bindsym Ctrl+XF86AudioPlay               exec --no-startup-id sudo ddcutil setvcp 10 + 5 && pkill -RTMIN+14 i3blocks
-bindsym Ctrl+Shift+XF86AudioPrev         exec --no-startup-id sudo ddcutil setvcp 10 - 20 && pkill -RTMIN+14 i3blocks
-bindsym Ctrl+Shift+XF86AudioPlay         exec --no-startup-id sudo ddcutil setvcp 10 + 20 && pkill -RTMIN+14 i3blocks
+bindsym Ctrl+XF86AudioPrev               exec --no-startup-id backlight monitor down 5
+bindsym Ctrl+XF86AudioPlay               exec --no-startup-id backlight monitor up 5
+bindsym Ctrl+Shift+XF86AudioPrev         exec --no-startup-id backlight monitor down 20
+bindsym Ctrl+Shift+XF86AudioPlay         exec --no-startup-id backlight monitor up 20
 
-bindsym XF86AudioPrev                    exec --no-startup-id xbacklight -dec 1; exec --no-startup-id pkill -RTMIN+13 i3blocks
-bindsym XF86AudioPlay                    exec --no-startup-id xbacklight -inc 1; exec --no-startup-id pkill -RTMIN+13 i3blocks
-bindsym Shift+XF86AudioPrev              exec --no-startup-id xbacklight -dec 10; exec --no-startup-id pkill -RTMIN+13 i3blocks
-bindsym Shift+XF86AudioPlay              exec --no-startup-id xbacklight -inc 10; exec --no-startup-id pkill -RTMIN+13 i3blocks
+bindsym XF86AudioPrev                    exec --no-startup-id backlight panel down 1
+bindsym XF86AudioPlay                    exec --no-startup-id backlight panel up 1
+bindsym Shift+XF86AudioPrev              exec --no-startup-id backlight panel down 10
+bindsym Shift+XF86AudioPlay              exec --no-startup-id backlight panel up 10
 
 bar {
   #status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
   status_command i3blocks
-  tray_output HDMI-1
-  output HDMI-1
+  tray_output HDMI1
+  output HDMI1
 }
 
 bar {
-  output eDP-1
+  output eDP1
   tray_output none
 }
 
-workspace 1 output HDMI-1 eDP-1
-workspace 10 output eDP-1 HDMI-1
+workspace 1 output HDMI1
+workspace 10 output eDP1 HDMI1

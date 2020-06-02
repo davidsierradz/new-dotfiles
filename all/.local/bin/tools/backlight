@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+case "$1" in
+  monitor)
+    case "$2" in
+      up) sudo ddcutil setvcp 10 + $3 && pkill -RTMIN+14 i3blocks ;;
+      down) sudo ddcutil setvcp 10 - $3 && pkill -RTMIN+14 i3blocks ;;
+    esac ;;
+  panel)
+    case "$2" in
+      up) xbacklight -inc $3 && pkill -RTMIN+13 i3blocks ;;
+      down) xbacklight -dec $3 && pkill -RTMIN+13 i3blocks ;;
+    esac ;;
+esac
+
+
+

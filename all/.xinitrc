@@ -69,6 +69,8 @@ sleep 1
 
 cat ~/.config/i3/config.base $CONFIGTOADDTOI3 > ~/.config/i3/config
 
+systemctl --user import-environment DISPLAY
+
 case "$LARBSWM" in
 	i3) exec i3 ;;
 	*) echo "No valid LARBS window manager detected." ;;

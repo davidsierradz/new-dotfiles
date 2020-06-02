@@ -199,7 +199,7 @@ bindsym $mod+ctrl+comma [con_mark=_prevFocus2] focus
 
 
 bindsym $mod+a                     mode "$mode_run"
-bindsym $mod+Shift+a               exec --no-startup-id /usr/bin/kitty -1 pulsemixer; pkill -RTMIN+10 i3blocks
+bindsym $mod+Shift+a               exec --no-startup-id /usr/bin/kitty -1 pulsemixer ; exec --no-startup-id pkill -RTMIN+10 i3blocks
 bindsym $mod+Ctrl+a                focus parent
 
 bindsym $mod+Shift+b               floating toggle; sticky toggle; exec --no-startup-id hover left
@@ -292,10 +292,10 @@ bindsym Ctrl+XF86AudioRaiseVolume  exec --no-startup-id lmc up 1
 
 
 
-bindsym XF86MonBrightnessDown       exec --no-startup-id xbacklight -dec 1; exec --no-startup-id pkill -RTMIN+13 i3blocks
-bindsym XF86MonBrightnessUp         exec --no-startup-id xbacklight -inc 1; exec --no-startup-id pkill -RTMIN+13 i3blocks
-bindsym Shift+XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10; exec --no-startup-id pkill -RTMIN+13 i3blocks
-bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 10; exec --no-startup-id pkill -RTMIN+13 i3blocks
+bindsym XF86MonBrightnessDown       exec --no-startup-id backlight panel down 1
+bindsym XF86MonBrightnessUp         exec --no-startup-id backlight panel up 1
+bindsym Shift+XF86MonBrightnessDown exec --no-startup-id backlight panel down 10
+bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id backlight panel up 10
 
 
 

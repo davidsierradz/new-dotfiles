@@ -1,5 +1,5 @@
 #!/bin/bash
-REQUIRED_TOOLS="xclip rofi dmenu lpass"
+REQUIRED_TOOLS="xclip rofi lpass"
 
 usage() {
     echo "USAGE: "

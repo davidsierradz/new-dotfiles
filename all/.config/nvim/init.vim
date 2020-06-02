@@ -45,6 +45,10 @@ Plug 'tpope/vim-commentary'
 
 " Execute a :command and show the output in a temporary buffer.
 Plug 'AndrewRadev/bufferize.vim'
+
+Plug 'tommcdo/vim-exchange'
+
+Plug 'wellle/targets.vim'
 "}}}
 
 "--------------Interface---------------- {{{
@@ -385,6 +389,14 @@ nnoremap <M-w> :w<CR>
 " TODO: make function to open directories in vifm (:!$TERMINAL vifm /home/neuromante/).
 nnoremap gx :silent !xdg-open "<cfile>:p"<cr>
 nnoremap gX :silent !xdg-open "<cfile>:p" &<cr>
+
+" Run gq in all buffer and return to same place.
+nnoremap <F12> mzgggqG`z:delmarks z<cr>
+
+" Echo syntax group of word under cursor.
+nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+      \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 "}}}
 ""/ plugins basics {{{
 "/
@@ -644,30 +656,6 @@ nmap <leader>lqf  <Plug>(coc-fix-current)
 " Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 " nmap <silent> <C-d> <Plug>(coc-range-select)
 " xmap <silent> <C-d> <Plug>(coc-range-select)
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <leader>lda  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <leader>le  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <leader>lc  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <leader>lo  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <leader>ls  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <leader>lj  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <leader>lk  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <leader>lR  :<C-u>CocRestart<CR>
-nnoremap <silent> <leader>lp  :<C-u>CocListResume<CR>
-
-command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
-nnoremap <silent> <leader>lta  :<C-u>Jest<CR>
-command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%'])
-nnoremap <silent> <leader>ltc :<C-u>JestCurrent<CR>
-nnoremap <silent> <leader>ltt :call CocAction('runCommand', 'jest.singleTest')<CR>
 "}}}
 ""/ toggles (y) {{{
 "/
@@ -765,13 +753,33 @@ nnoremap <leader><leader>hh :MundoToggle<CR>
 "}}}
 ""/ others (o) {{{
 "/
-" Run gq in all buffer and return to same place.
-nnoremap <F12> mzgggqG`z:delmarks z<cr>
+"}}}
+""/ coc (c) {{{
+"/
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <leader>cda  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <leader>cj  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
+nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
 
-" Echo syntax group of word under cursor.
-nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-      \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
+nnoremap <silent> <leader>cta  :<C-u>Jest<CR>
+command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%'])
+nnoremap <silent> <leader>ctc :<C-u>JestCurrent<CR>
+nnoremap <silent> <leader>ctt :call CocAction('runCommand', 'jest.singleTest')<CR>
 "}}}
 "}}}
 "--------------------------------End General Mappings--------------------------"
@@ -830,6 +838,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 let g:coc_global_extensions = [
+      \ 'coc-conventional',
       \ 'coc-css',
       \ 'coc-dictionary',
       \ 'coc-emmet',
@@ -846,6 +855,7 @@ let g:coc_global_extensions = [
       \ 'coc-sh',
       \ 'coc-smartf',
       \ 'coc-snippets',
+      \ 'coc-todolist',
       \ 'coc-tslint-plugin',
       \ 'coc-tsserver',
       \ 'coc-vimlsp',
@@ -1332,12 +1342,6 @@ let g:which_key_map.z = {
 
 let g:which_key_map.l = {
       \ 'name' : '+lsp',
-      \ 't' : {
-      \   'name' : '+coc-jest',
-      \   'a' : 'current project',
-      \   'c' : 'current file',
-      \   't' : 'current test',
-      \   },
       \ '': '',
       \ }
 
@@ -1385,6 +1389,17 @@ let g:which_key_map.p = {
 
 let g:which_key_map.o = {
       \ 'name' : '+others',
+      \ '': '',
+      \ }
+
+let g:which_key_map.c = {
+      \ 'name' : '+coc',
+      \ 't' : {
+      \   'name' : '+coc-jest',
+      \   'a' : 'current project',
+      \   'c' : 'current file',
+      \   't' : 'current test',
+      \   },
       \ '': '',
       \ }
 "}}}
@@ -1537,7 +1552,7 @@ else
 endif
 set nohlsearch
 lua require'terminal'.setup()
-lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; } }
+lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; }; '!vim-plug'; '!git' }
 "--------------------------------End Colors------------------------------------"
 "}}}
 " vim: set fdm=marker fmr={{{,}}} fdl=4 :

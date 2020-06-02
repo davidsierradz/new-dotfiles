@@ -1,4 +1,5 @@
 {
+  "npm.binPath": "yarn",
   "coc.preferences.extensionUpdateCheck": "never",
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
@@ -14,15 +15,25 @@
   "coc.preferences.enableFloatHighlight": false,
   "coc.preferences.colorSupport": false,
   "coc.source.file.ignoreHidden": false,
-  "coc.source.file.triggerCharacters": ["/", ".", ".."],
+  "coc.source.file.triggerCharacters": [
+    "/",
+    ".",
+    ".."
+  ],
   "markdownlint.config": {
     "default": true,
     "line_length": false
   },
   "typescript.format.enabled": false,
   "javascript.format.enabled": false,
+  "json.format.enable": false,
   "prettier.onlyUseLocalVersion": true,
-  "snippets.extends": { "vimwiki": ["markdown", "vimwiki"] },
+  "snippets.extends": {
+    "vimwiki": [
+      "markdown",
+      "vimwiki"
+    ]
+  },
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
   "smartf.wordJump": false,
   "smartf.jumpOnTrigger": false,
@@ -30,5 +41,18 @@
   "javascript.validate.enable": false,
   "yank.priority": 70,
   "yank.highlight.enable": false,
-  "explorer.position": "floating"
+  "explorer.position": "floating",
+  // "tsserver.trace.server": "verbose",
+  "jest.customFlags": [
+    "runInBand",
+    "verbose",
+    "expand",
+    "no-cache"
+  ],
+  "coc-conventional.enableLernaScopes": true,
+  "post.root": "~/.config/coc/coc-post",
+  "todolist.promptForReminder": false,
+  "emmet.includeLanguages": {
+    "javascriptreact": "javascriptreact"
+  }
 }
