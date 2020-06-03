@@ -727,7 +727,7 @@ nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> 
 ""/ coc.nvim {{{
 "/
 " You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
+set updatetime=1000
 
 " don't give |ins-completion-menu| messages.
 set shortmess=atOIc
@@ -1365,7 +1365,7 @@ augroup initvim
   "       \ endif
 
   " Update the auto read of a file after 4 seconds.
-  autocmd CursorHold * silent! checktime
+  autocmd CursorHold * silent! checktime | syntax sync fromstart | redraw! | echo
 
   " Surround ** with € (Right Control).
   autocmd FileType vimwiki let b:surround_8364 = "**\r**"
