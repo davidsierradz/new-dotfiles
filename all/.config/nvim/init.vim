@@ -1035,8 +1035,8 @@ let g:lightline = {
       \     'right': [
       \       ['mixed', 'trailing'],
       \       ['coc_error', 'coc_warning', 'coc_hint', 'coc_info', 'coc_fix'],
-      \       ['virtuallineinfo', 'percentage'],
-      \       ['foldlevel', 'fileformat', 'fileencoding', 'filetype']
+      \       ['virtuallineinfo', 'percentage', 'cocstatus'],
+      \       ['foldlevel', 'gitbranch', 'fileformat', 'fileencoding', 'filetype']
       \     ]
       \   },
       \   'inactive': {
@@ -1047,13 +1047,14 @@ let g:lightline = {
       \   },
       \   'component': {
       \     'mode': '%{lightline#mode()}',
-      \     'relativefilepath': '%f',
+      \     'relativefilepath': '%<%{LightLineFilename()}',
       \     'percentage': '%p%%',
       \     'virtuallineinfo': '%l-%c%V',
       \   },
       \   'component_function': {
       \     'foldlevel': 'FoldLevel',
       \     'cocstatus': 'coc#status',
+      \     'gitbranch': 'TruncateGitBranch',
       \   },
       \   'component_expand': {
       \     'trailing': 'lightline#trailing_whitespace#component',
@@ -1077,6 +1078,20 @@ let g:lightline = {
 
 function! FoldLevel()
   return &foldlevel && strlen(&foldlevel) !=# '0' ? &foldlevel : ''
+endfunction
+
+function! Strcharpart(...)
+  return call('strcharpart',  a:000)
+endfunction
+
+function! TruncateGitBranch()
+  let l:branch = fugitive#head()
+  if strwidth(l:branch) > 10
+    let l:branch =
+          \ Strcharpart(l:branch, 0, 10)
+          \ . (&encoding ==? 'utf-8' ?  '…' : '.')
+  endif
+  return l:branch
 endfunction
 
 function! s:lightline_coc_diagnostic(kind, sign) abort
@@ -1118,6 +1133,16 @@ function! Check_mixed_indent_file()
   else
     return ''
   endif
+endfunction
+
+function! LightLineFilename()
+  let l:fname = expand('%:t')
+  let l:fpath = expand('%')
+  return &filetype ==# 'dirvish' ?
+        \   (l:fpath ==# getcwd() . '/' ? fnamemodify(l:fpath, ':~') :
+        \   fnamemodify(l:fpath, ':~:.')) :
+        \ &filetype ==# 'fzf' ? 'fzf' :
+        \ '' !=# l:fname ? fnamemodify(l:fpath, ':~:.') : '[No Name]'
 endfunction
 "}}}
 ""/ markdown-preview.nvim {{{
@@ -1515,6 +1540,15 @@ function! Fold(lnum)
   endif
   return '=' " return previous fold level
 endfunction
+
+function! CocPrettierFormatUseGlobal()
+  call coc#config('prettier.onlyUseLocalVersion', v:false)
+  call CocAction('reloadExtension', 'coc-prettier')
+  call CocAction('runCommand', 'prettier.formatFile')
+  call coc#config('prettier.onlyUseLocalVersion', v:true)
+  call CocAction('reloadExtension', 'coc-prettier')
+endfunction
+command! CocPrettierFormatUseGlobal call CocPrettierFormatUseGlobal()
 "--------------------------------End Functions---------------------------------"
 "}}}
 

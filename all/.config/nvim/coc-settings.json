@@ -52,6 +52,7 @@
   "coc-conventional.enableLernaScopes": true,
   "post.root": "~/.config/coc/coc-post",
   "todolist.promptForReminder": false,
+  "eslint.enable": false,
   "emmet.includeLanguages": {
     "javascriptreact": "javascriptreact"
   }
