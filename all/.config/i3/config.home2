@@ -12,13 +12,11 @@ bindsym Ctrl+XF86AudioPlay               exec --no-startup-id backlight panel up
 bar {
   output HDMI1
   tray_output none
-  mode hide
 }
 
 bar {
   output eDP1
   tray_output eDP1
   status_command i3blocks
-  mode hide
 }
 

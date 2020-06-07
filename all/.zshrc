@@ -281,6 +281,9 @@ bindkey '^y' fzf-history-widget-accept
 
 bindkey '^[d' fzf-dirr-widget
 
+bindkey '^[e' kill-word
+# bindkey '^[r' delete-word
+
 # Vim Surround see: https://github.com/zsh-users/zsh/blob/master/Functions/Zle/surround
 autoload -Uz surround
 zle -N delete-surround surround

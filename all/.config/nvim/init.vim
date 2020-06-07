@@ -94,6 +94,25 @@ Plug 'lambdalisue/suda.vim'
 
 " markdown preview plugin for (neo)vim.
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
+Plug 'mtikekar/nvim-send-to-term'
+let g:send_disable_mapping = 1
+nmap mm <Plug>SendLine
+nmap m <Plug>Send
+vmap m <Plug>Send
+nmap M m$
+
+Plug 'ChristianChiarulli/codi.vim'
+" Change the color
+highlight CodiVirtualText guifg=cyan
+
+let g:codi#virtual_text_prefix = "❯ "
+
+let g:codi#interpreters = {
+      \ 'javascript': {
+      \ 'bin': ['node', '-e', 'require("repl").start({ignoreUndefined: true, useGlobal: true, writer: function(o){return util.inspect(o,{depth:4,compact:true})}})'],
+      \ },
+      \ }
 "}}}
 
 "-------Completions and omnifuncs------- {{{
@@ -1557,8 +1576,7 @@ command! CocPrettierFormatUseGlobal call CocPrettierFormatUseGlobal()
 " Custom Highlight groups.
 function! MyHighlights() abort
   highlight MatchParen guibg=NONE gui=bold
-  " highlight ErrorMsg gui=reverse guifg=#dc322f guibg=#fdf6e3
-  " highlight CursorLine guibg=NONE
+  highlight CodiVirtualText guifg=#cc241d
   if exists('g:loaded_lightline')
     runtime plugin/lightline-gruvbox.vim
     call lightline#colorscheme()
