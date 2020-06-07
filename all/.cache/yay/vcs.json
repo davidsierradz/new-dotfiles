@@ -1,0 +1,65 @@
+{
+	"dive-git": {
+		"github.com/wagoodman/dive": {
+			"protocols": [
+				"https"
+			],
+			"branch": "HEAD",
+			"sha": "103b05f3c083c857f6fd4c3b3b3e22ace5577d53"
+		}
+	},
+	"kitty-git": {
+		"github.com/kovidgoyal/kitty.git": {
+			"protocols": [
+				"https"
+			],
+			"branch": "HEAD",
+			"sha": "f597481736bc674fd88c2e35a8f143555a8b59e8"
+		}
+	},
+	"neovim-git": {
+		"github.com/neovim/neovim.git": {
+			"protocols": [
+				"https"
+			],
+			"branch": "HEAD",
+			"sha": "dbc8ec94464049311e69274cad562585d7bb6749"
+		}
+	},
+	"oh-my-zsh-git": {
+		"github.com/ohmyzsh/ohmyzsh.git": {
+			"protocols": [
+				"https"
+			],
+			"branch": "HEAD",
+			"sha": "94e784360e2ad34faa6a4a648c67a5c6ed6c987f"
+		}
+	},
+	"qutebrowser-git": {
+		"github.com/qutebrowser/qutebrowser.git": {
+			"protocols": [
+				"https"
+			],
+			"branch": "HEAD",
+			"sha": "58019cf809f22963abb8f6613676e80513b7428e"
+		}
+	},
+	"reredirect-git": {
+		"github.com/jerome-pouiller/reredirect.git": {
+			"protocols": [
+				"http"
+			],
+			"branch": "HEAD",
+			"sha": "79ce3d3f7b6a83a5af8e3349bb2d0bfde3f60eb9"
+		}
+	},
+	"simple-mtpfs-git": {
+		"github.com/phatina/simple-mtpfs.git": {
+			"protocols": [
+				"https"
+			],
+			"branch": "HEAD",
+			"sha": "9c763c0d591ef6047826f5d9010b4d10ded435e8"
+		}
+	}
+}
