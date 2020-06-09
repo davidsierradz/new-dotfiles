@@ -1,13 +1,13 @@
 
 bindsym Ctrl+XF86MonBrightnessDown       exec --no-startup-id backlight monitor down 5
 bindsym Ctrl+XF86MonBrightnessUp         exec --no-startup-id backlight monitor up 5
-bindsym Ctrl+Shift+XF86MonBrightnessDown exec --no-startup-id backlight monitor down 20
-bindsym Ctrl+Shift+XF86MonBrightnessUp   exec --no-startup-id backlight monitor up 20
+bindsym Ctrl+Shift+XF86MonBrightnessDown exec --no-startup-id backlight monitor down 10
+bindsym Ctrl+Shift+XF86MonBrightnessUp   exec --no-startup-id backlight monitor up 10
 
 bindsym Ctrl+XF86AudioPrev               exec --no-startup-id backlight monitor down 5
 bindsym Ctrl+XF86AudioPlay               exec --no-startup-id backlight monitor up 5
-bindsym Ctrl+Shift+XF86AudioPrev         exec --no-startup-id backlight monitor down 20
-bindsym Ctrl+Shift+XF86AudioPlay         exec --no-startup-id backlight monitor up 20
+bindsym Ctrl+Shift+XF86AudioPrev         exec --no-startup-id backlight monitor down 10
+bindsym Ctrl+Shift+XF86AudioPlay         exec --no-startup-id backlight monitor up 10
 
 bindsym XF86AudioPrev                    exec --no-startup-id backlight panel down 1
 bindsym XF86AudioPlay                    exec --no-startup-id backlight panel up 1
