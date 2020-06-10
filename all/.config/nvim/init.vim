@@ -858,7 +858,9 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 let g:coc_global_extensions = [
       \ 'coc-conventional',
+      \ 'coc-lists',
       \ 'coc-css',
+      \ 'coc-diagnostic',
       \ 'coc-dictionary',
       \ 'coc-emmet',
       \ 'coc-eslint',
