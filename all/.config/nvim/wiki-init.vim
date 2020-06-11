@@ -2,6 +2,9 @@
 " Specify a directory for plugins
 call plug#begin('~/.config/nvim/plugged')
 "----------------Basics----------------- {{{
+" Using this until the unlisted netrw buffer bug is solved.
+Plug 'justinmk/vim-dirvish'
+
 " Allows you to configure % to match more than just single characters.
 Plug 'andymass/vim-matchup'
 let g:loaded_matchit = 1
@@ -33,6 +36,10 @@ Plug 'svermeulen/vim-cutlass'
 " Super-powered writing things.
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-lexical'
+
+Plug 'tommcdo/vim-exchange'
+
+Plug 'wellle/targets.vim'
 "}}}
 
 "--------------Interface---------------- {{{
@@ -45,11 +52,16 @@ Plug 'Asheq/close-buffers.vim'
 " Search your selection text with * or #.
 Plug 'haya14busa/vim-asterisk'
 
+" Lightline (statusbar) plugins.
+Plug 'itchyny/lightline.vim'
+Plug 'davidsierradz/lightline-gruvbox.vim'
+Plug 'maximbaz/lightline-trailing-whitespace'
+
 " Draw boxes and arrows in ascii.
 Plug 'gyim/vim-boxdraw', { 'for': 'markdown' }
 
 " Distraction-free writing in Vim.
-Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/goyo.vim'
 
 " Smooth scrolling for Vim done right.
 Plug 'psliwka/vim-smoothie'
@@ -78,6 +90,18 @@ Plug 'honza/vim-snippets'
 
 " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode.
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+"}}}
+
+"------Syntax files and Languages------- {{{
+" Yet Another JavaScript Syntax for Vim.
+Plug 'yuezk/vim-js'
+
+" Typescript syntax files for Vim.
+Plug 'leafgarland/typescript-vim'
+let g:typescript_indent_disable = 1
+
+" React JSX syntax highlighting and indenting for vim.
+Plug 'maxmellon/vim-jsx-pretty'
 "}}}
 
 " Initialize plugin system
@@ -228,7 +252,7 @@ noremap <expr> k v:count ? 'k' : 'gk'
 set pastetoggle=<F2>
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
-nnoremap <silent> <C-l> :syntax sync fromstart <bar> nohlsearch <bar> diffupdate <bar> echo<CR>
+nnoremap <silent> <C-l> :syntax sync fromstart <bar> nohlsearch <bar> diffupdate <bar> call lightline#enable() <bar> redraw! <bar> echo<CR>
 
 " Y yanks from current cursor position to end of (wrapped) line, more logical.
 nnoremap Y yg$
@@ -585,24 +609,6 @@ nmap <leader>lqf  <Plug>(coc-fix-current)
 " Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 " nmap <silent> <C-d> <Plug>(coc-range-select)
 " xmap <silent> <C-d> <Plug>(coc-range-select)
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <leader>lda  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <leader>le  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <leader>lc  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <leader>lo  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <leader>ls  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <leader>lj  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <leader>lk  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <leader>lR  :<C-u>CocRestart<CR>
-nnoremap <silent> <leader>lp  :<C-u>CocListResume<CR>
 "}}}
 ""/ toggles (y) {{{
 "/
@@ -691,6 +697,8 @@ nmap <leader><leader>w+ <Plug>VimwikiNormalizeLink
 vmap <leader><leader>w+ <Plug>VimwikiNormalizeLinkVisual
 nmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
 vmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
+nmap <leader><leader>w[ <Plug>VimwikiGoToPrevHeader
+nmap <leader><leader>w] <Plug>VimwikiGoToNextHeader
 "}}}
 ""/ coc.nvim (c) {{{
 "/
@@ -714,6 +722,33 @@ nnoremap <F12> mzgggqG`z:delmarks z<cr>
 nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
       \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+"}}}
+""/ coc (c) {{{
+"/
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <leader>cda  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <leader>cj  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
+nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
+" Remap for do codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+xmap <silent> <leader>ca :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> <leader>ca :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
 "}}}
 "}}}
 "--------------------------------End General Mappings--------------------------"
@@ -775,8 +810,12 @@ let g:coc_data_home = $HOME . '/.config/coc-wiki'
 let g:coc_config_home = $HOME . '/.config/nvim/wiki'
 
 let g:coc_global_extensions = [
+      \ 'coc-actions',
+      \ 'coc-cspell-dicts',
+      \ 'coc-lists',
       \ 'coc-dictionary',
       \ 'coc-emmet',
+      \ 'coc-explorer',
       \ 'coc-json',
       \ 'coc-lists',
       \ 'coc-markdownlint',
@@ -784,6 +823,7 @@ let g:coc_global_extensions = [
       \ 'coc-prettier',
       \ 'coc-smartf',
       \ 'coc-snippets',
+      \ 'coc-spell-checker',
       \ 'coc-yank',
       \ ]
 
@@ -952,45 +992,159 @@ endif
 ""/ Goyo {{{
 "/
 " Open Goyo.
-nnoremap <F5> :Goyo<CR>
+" nnoremap <F5> :Goyo<CR>
 
 " Mantains set number.
-let g:goyo_linenr=1
+" let g:goyo_linenr=1
 
 " Width.
-let g:goyo_width=100
-let g:goyo_height='100%'
+" let g:goyo_width=100
+" let g:goyo_height='100%'
 
-function! s:goyo_enter()
-  let b:quitting = 0
-  let b:quitting_bang = 0
-  autocmd QuitPre <buffer> let b:quitting = 1
-  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+" function! s:goyo_enter()
+"   let b:quitting = 0
+"   let b:quitting_bang = 0
+"   autocmd QuitPre <buffer> let b:quitting = 1
+"   cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+" endfunction
+
+" function! s:goyo_leave()
+"   " Quit Vim if this is the only remaining buffer
+"   if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) is# 1
+"     if b:quitting_bang
+"       qa!
+"     else
+"       qa
+"     endif
+"   endif
+" endfunction
+
+" autocmd! User GoyoEnter call <SID>goyo_enter()
+" autocmd! User GoyoLeave call <SID>goyo_leave()
+
+" function! s:goyo_start(...)
+"   if v:vim_did_enter
+"     Goyo
+"     " highlight VertSplit guifg=#cccccc
+"     " set fillchars+=vert:\│
+"   endif
+" endfunc
+
+" call timer_start(10, function('s:goyo_start'))
+"}}}
+""/ lightline.vim {{{
+"/
+
+" Use autocmd to force lightline update.
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
+let g:lightline = {
+      \   'active': {
+      \     'left': [
+      \       ['mode', 'paste'],
+      \       ['readonly', 'relativefilepath', 'modified'],
+      \     ],
+      \     'right': [
+      \       ['mixed', 'trailing'],
+      \       ['coc_error', 'coc_warning', 'coc_hint', 'coc_info', 'coc_fix'],
+      \       ['virtuallineinfo', 'percentage', 'cocstatus'],
+      \       ['foldlevel', 'gitbranch', 'fileformat', 'fileencoding', 'filetype']
+      \     ]
+      \   },
+      \   'inactive': {
+      \     'left': [
+      \       ['readonly', 'relativefilepath', 'modified'],
+      \     ],
+      \     'right': []
+      \   },
+      \   'component': {
+      \     'mode': '%{lightline#mode()}',
+      \     'relativefilepath': '%<%{LightLineFilename()}',
+      \     'percentage': '%p%%',
+      \     'virtuallineinfo': '%l-%c%V',
+      \   },
+      \   'component_function': {
+      \     'foldlevel': 'FoldLevel',
+      \     'cocstatus': 'coc#status',
+      \   },
+      \   'component_expand': {
+      \     'trailing': 'lightline#trailing_whitespace#component',
+      \     'coc_error'        : 'LightlineCocErrors',
+      \     'coc_warning'      : 'LightlineCocWarnings',
+      \     'coc_info'         : 'LightlineCocInfos',
+      \     'coc_hint'         : 'LightlineCocHints',
+      \     'coc_fix'          : 'LightlineCocFixes',
+      \     'mixed'            : 'Check_mixed_indent_file',
+      \   },
+      \   'component_type': {
+      \     'coc_error' : 'error',
+      \     'coc_warning' : 'warning',
+      \     'coc_info' : 'tabsel',
+      \     'coc_hint' : 'tabsel',
+      \     'coc_fix' : 'tabsel',
+      \     'trailing': 'warning',
+      \     'mixed': 'warning',
+      \   },
+      \ }
+
+function! FoldLevel()
+  return &foldlevel && strlen(&foldlevel) !=# '0' ? &foldlevel : ''
 endfunction
 
-function! s:goyo_leave()
-  " Quit Vim if this is the only remaining buffer
-  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) is# 1
-    if b:quitting_bang
-      qa!
-    else
-      qa
-    endif
+function! Strcharpart(...)
+  return call('strcharpart',  a:000)
+endfunction
+
+function! s:lightline_coc_diagnostic(kind, sign) abort
+  let info = get(b:, 'coc_diagnostic_info', 0)
+  if empty(info) || get(info, a:kind, 0) == 0
+    return ''
+  endif
+  try
+    let s = g:coc_user_config['diagnostic'][a:sign . 'Sign']
+  catch
+    let s = ''
+  endtry
+  return printf('%s %d', s, info[a:kind])
+endfunction
+
+function! LightlineCocErrors() abort
+  return s:lightline_coc_diagnostic('error', 'error')
+endfunction
+
+function! LightlineCocWarnings() abort
+  return s:lightline_coc_diagnostic('warning', 'warning')
+endfunction
+
+function! LightlineCocInfos() abort
+  return s:lightline_coc_diagnostic('information', 'info')
+endfunction
+
+function! LightlineCocHints() abort
+  return s:lightline_coc_diagnostic('hints', 'hint')
+endfunction
+
+let g:lightline#trailing_whitespace#indicator='•'
+
+function! Check_mixed_indent_file()
+  let indent_tabs = search('\v(^\t+)', 'nw')
+  let indent_spc  = search('\v(^ +)', 'nw')
+  if indent_tabs > 0 && indent_spc > 0
+    return printf("")
+  else
+    return ''
   endif
 endfunction
 
-autocmd! User GoyoEnter call <SID>goyo_enter()
-autocmd! User GoyoLeave call <SID>goyo_leave()
-
-function! s:goyo_start(...)
-  if v:vim_did_enter
-    Goyo
-    " highlight VertSplit guifg=#cccccc
-    " set fillchars+=vert:\│
-  endif
-endfunc
-
-call timer_start(10, function('s:goyo_start'))
+function! LightLineFilename()
+  let l:fname = expand('%:t')
+  let l:fpath = expand('%')
+  return &filetype ==# 'dirvish' ?
+        \   (l:fpath ==# getcwd() . '/' ? fnamemodify(l:fpath, ':~') :
+        \   fnamemodify(l:fpath, ':~:.')) :
+        \ &filetype ==# 'fzf' ? 'fzf' :
+        \ '' !=# l:fname ? fnamemodify(l:fpath, ':~:.') : '[No Name]'
+endfunction
 "}}}
 ""/ markdown-preview.nvim {{{
 "/
@@ -1006,21 +1160,20 @@ let g:asterisk#keeppos = 1
 " Start pencil on vimwiki buffers.
 augroup pencil
     autocmd!
-    autocmd filetype vimwiki call pencil#init()
-                \ | call lexical#init()
-                \ | setl iskeyword+=-
-                \ | setl spell spl=es,en noru nu rnu cul spf=~/.config/nvim/spell/es.utf-8.add
+    autocmd filetype vimwiki
+                \   setl iskeyword+=-
+                \ | setl noru nu rnu cul conceallevel=0 concealcursor=nc
                 \ | setl dictionary=/usr/share/dict/words,/usr/share/dict/spanish complete+=kspell
 augroup END
 
-let g:pencil#wrapModeDefault = 'soft'
-let g:pencil#textwidth = 74
-let g:pencil#joinspaces = 0
-let g:pencil#cursorwrap = 0
-let g:pencil#conceallevel = 3
-let g:pencil#concealcursor = 'nc'
-let g:pencil#softDetectSample = 20
-let g:pencil#softDetectThreshold = 130
+" let g:pencil#wrapModeDefault = 'soft'
+" let g:pencil#textwidth = 74
+" let g:pencil#joinspaces = 0
+" let g:pencil#cursorwrap = 0
+" let g:pencil#conceallevel = 3
+" let g:pencil#concealcursor = 'nc'
+" let g:pencil#softDetectSample = 20
+" let g:pencil#softDetectThreshold = 130
 "}}}
 ""/ vimwiki {{{
 "/
@@ -1089,6 +1242,8 @@ augroup VimrcAuGroup
                 \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
             \: "<C-]><Esc>:VimwikiReturn 1 5<CR>"
 augroup END
+
+let g:vimwiki_conceallevel = 0
 "}}}
 ""/ vim-boxdraw {{{
 " The cursor can go nuts.
@@ -1097,6 +1252,20 @@ augroup END
 "   autocmd BufLeave *.md setlocal virtualedit-=all
 "   autocmd BufEnter *.md setlocal virtualedit+=all
 " augroup end
+"}}}
+""/ vim-dirvish {{{
+"/
+" Put dirs first.
+let g:dirvish_mode = ':sort ,^\v(.*[\/])|\ze,'
+
+" Doesnt work with g:dirvish_mode dirs first.
+let g:dirvish_relative_paths = 1
+
+" Set <leader>cd to change directories in dirvish buffers.
+augroup dirvish_events
+  autocmd!
+  autocmd FileType dirvish setlocal cursorline
+augroup END
 "}}}
 ""/ vim-matchup {{{
 "/
@@ -1337,6 +1506,17 @@ let g:which_key_map.o = {
       \ 'name' : '+others',
       \ '': '',
       \ }
+
+let g:which_key_map.c = {
+      \ 'name' : '+coc',
+      \ 't' : {
+      \   'name' : '+coc-jest',
+      \   'a' : 'current project',
+      \   'c' : 'current file',
+      \   't' : 'current test',
+      \   },
+      \ '': '',
+      \ }
 "}}}
 ""/ vim-yoink {{{
 "/
@@ -1349,7 +1529,7 @@ let g:yoinkIncludeDeleteOperations=1
 
 
 "--------------------------------User Commands---------------------------------"{{{
-" :W sudo saves the file.
+" :W sudo saves the file (doesn't work in neovim).
 command! W w !sudo tee % > /dev/null
 "--------------------------------End User Commands-----------------------------"
 "}}}
@@ -1443,6 +1623,15 @@ function! Fold(lnum)
   endif
   return '=' " return previous fold level
 endfunction
+
+function! CocPrettierFormatUseGlobal()
+  call coc#config('prettier.onlyUseLocalVersion', v:false)
+  call CocAction('reloadExtension', 'coc-prettier')
+  call CocAction('runCommand', 'prettier.formatFile')
+  call coc#config('prettier.onlyUseLocalVersion', v:true)
+  call CocAction('reloadExtension', 'coc-prettier')
+endfunction
+command! CocPrettierFormatUseGlobal call CocPrettierFormatUseGlobal()
 "--------------------------------End Functions---------------------------------"
 "}}}
 
@@ -1452,6 +1641,10 @@ endfunction
 function! MyHighlights() abort
   highlight MatchParen guibg=NONE
   highlight SpellBad gui=undercurl guifg=NONE
+  if exists('g:loaded_lightline')
+    runtime plugin/lightline-gruvbox.vim
+    call lightline#colorscheme()
+  endif
   highlight VimwikiLink guifg=#cb4b16
   highlight CursorLine ctermbg=NONE guibg=NONE
   highlight CursorLineNr ctermbg=NONE guibg=NONE
@@ -1470,7 +1663,9 @@ augroup MyColors
 augroup END
 
 set background=light
+
 colorscheme pencil
+let g:lightline.colorscheme = 'gruvbox'
 lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; } }
 "--------------------------------End Colors------------------------------------"
 "}}}

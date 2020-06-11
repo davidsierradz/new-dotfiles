@@ -18,7 +18,13 @@
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
   "smartf.wordJump": false,
   "smartf.jumpOnTrigger": false,
-  "coc.preferences.bracketEnterImprove": true
+  "coc.preferences.bracketEnterImprove": true,
+  "cSpell.languageSettings": [
+    { "languageId": "*", "dictionaries": ["typescript", "node"] }
+  ],
+  "cSpellExt.enableDictionaries": ["spanish"],
+  "cSpell.language": "en,es",
+  "coc-actions.hideCursor": false
   //  "diagnostic-languageserver.enable": false,
   //  "diagnostic-languageserver.filetypes": {
   //    "markdown": ["languagetool"],

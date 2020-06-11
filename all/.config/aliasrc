@@ -1,43 +1,43 @@
 #!/bin/sh
 
 # Use neovim for vim if present.
-command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d"
+command -v nvim > /dev/null && alias vim="nvim" vimdiff="nvim -d"
 
 # Verbosity and settings that you pretty much just always are going to want.
 alias \
-	cp="cp -iv" \
-	mv="mv -iv" \
-	rm="rm -Iv" \
-	mkd="mkdir -pv" \
-	ffmpeg="ffmpeg -hide_banner"
+  cp="cp -iv" \
+  mv="mv -iv" \
+  rm="rm -Iv" \
+  mkd="mkdir -pv" \
+  ffmpeg="ffmpeg -hide_banner"
 
 # Colorize commands when possible.
 alias \
-	ls="ls -hN --color=auto --group-directories-first" \
-	grep="grep --color=auto" \
-	diff="diff --color=auto" \
-	ccat="highlight --out-format=ansi"
+  ls="ls -hN --color=auto --group-directories-first" \
+  grep="grep --color=auto" \
+  diff="diff --color=auto" \
+  ccat="highlight --out-format=ansi"
 
 # These common commands are just too long! Abbreviate them.
 alias \
-	ka="killall" \
-	g="git" \
-	trem="transmission-remote" \
-	YT="youtube-viewer" \
-	sdn="sudo shutdown -h now" \
-	f="$FILE" \
-	e="$EDITOR" \
-	v="$EDITOR" \
-	p="sudo pacman" \
+  ka="killall" \
+  g="git" \
+  trem="transmission-remote" \
+  YT="youtube-viewer" \
+  sdn="sudo shutdown -h now" \
+  f="$FILE" \
+  e="$EDITOR" \
+  v="$EDITOR" \
+  p="sudo pacman"
 
 # This alias is important. It enables the `pauseallmpv` command.
 alias mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)"
 
 # Some other stuff
 alias \
-	magit="nvim -c MagitOnly" \
-	ref="shortcuts >/dev/null; source ~/.config/shortcutrc" \
-	weath="less -S ~/.local/share/weatherreport" \
+  magit="nvim -c MagitOnly" \
+  ref="shortcuts >/dev/null; source ~/.config/shortcutrc" \
+  weath="less -S ~/.local/share/weatherreport"
 
 alias b='bat' \
   c='clear' \
@@ -57,6 +57,7 @@ alias b='bat' \
   yl="yarn lint" \
   ytw="yarn test --watch" \
   ysb="yarn serve:babel" \
+  ytb="yarn test:backend" \
   ystb="yarn start:backend"
 
 if [ -n "$ZSH_VERSION" ]; then
@@ -71,7 +72,7 @@ elif [ -n "$BASH_VERSION" ]; then
   complete -F _yarn y
 fi
 
-vf() { fzf | xargs -r -I % $EDITOR % ;}
+vf() { fzf | xargs -r -I % $EDITOR %; }
 
 # terminal-scheme dark|light
 function terminal-scheme() {
@@ -89,7 +90,7 @@ function terminal-scheme() {
   # fi
   kitty_config_file=~/.config/kitty/kitty.conf
   sed -i "s#^\(include\s\./kitty-themes/gruvbox_*\).*#\1$1.conf#g" $kitty_config_file
-  kitty @ set-colors --all --configured  ~/.config/kitty/kitty-themes/gruvbox_$1.conf
+  kitty @ set-colors --all --configured ~/.config/kitty/kitty-themes/gruvbox_$1.conf
   rofi_config_file=~/.config/rofi/config
   sed -i "s#^\(rofi.theme: /usr/share/rofi/themes/gruvbox-*\).*#\1$1-soft.rasi#g" $rofi_config_file
   if test -z "$WORK"; then
@@ -120,16 +121,16 @@ function terminal-scheme() {
   xresources_config_file=~/.Xresources
   sed -i "s#^\(\#include \".config/xterm/*\).*#\1$1\"#g" $xresources_config_file
   xrdb -merge ~/.Xresources
-  for i in $( nvr --serverlist ); do
+  for i in $(nvr --serverlist); do
     if [[ $1 == 'light' ]]; then
-      nvr --servername $i  --remote-send '<c-\><c-n>;set background=light<cr>'
+      nvr --servername $i --remote-send '<c-\><c-n>;set background=light<cr>'
     else
-      nvr --servername $i  --remote-send '<c-\><c-n>;set background=dark<cr>'
+      nvr --servername $i --remote-send '<c-\><c-n>;set background=dark<cr>'
     fi
   done
 }
 
 # Change background color of current (and child) kitty instance.
 function kbg() {
-  kitty @ set-colors --all --configured  ~/.config/kitty/kitty-themes/gruvbox_$1.conf
+  kitty @ set-colors --all --configured ~/.config/kitty/kitty-themes/gruvbox_$1.conf
 }

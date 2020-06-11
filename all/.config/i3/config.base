@@ -199,14 +199,14 @@ bindsym $mod+ctrl+comma [con_mark=_prevFocus2] focus
 
 
 bindsym $mod+a                     mode "$mode_run"
-bindsym $mod+Shift+a               exec --no-startup-id /usr/bin/kitty -1 pulsemixer ; exec --no-startup-id pkill -RTMIN+10 i3blocks
+# bindsym $mod+Shift+a               exec --no-startup-id /usr/bin/kitty -1 pulsemixer ; exec --no-startup-id pkill -RTMIN+10 i3blocks
 bindsym $mod+Ctrl+a                focus parent
 
 bindsym $mod+Shift+b               floating toggle; sticky toggle; exec --no-startup-id hover left
 
 bindsym $mod+c                     move position center
 bindsym $mod+Shift+c               reload
-bindsym $mod+Ctrl+c                exec --no-startup-id cabl
+# bindsym $mod+Ctrl+c                exec --no-startup-id cabl
 
 bindsym $mod+d                     exec --no-startup-id rofi -m -1 -sidebar-mode -location 2 -show run
 bindsym $mod+Shift+d               exec --no-startup-id lastpass-rofi davidsierradz@gmail.com -t 9 -m password

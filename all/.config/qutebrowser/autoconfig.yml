@@ -42,5 +42,3 @@ settings:
     https://pijamasurf.com: false
     https://www.reddit.com: false
     https://www.youtube.com: false
-  qt.args:
-    global: []

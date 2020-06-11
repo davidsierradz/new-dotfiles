@@ -41,7 +41,7 @@ Plug 'svermeulen/vim-yoink'
 Plug 'svermeulen/vim-cutlass'
 
 " Toggle comments.
-Plug 'tpope/vim-commentary'
+Plug 'tomtom/tcomment_vim'
 
 " Execute a :command and show the output in a temporary buffer.
 Plug 'AndrewRadev/bufferize.vim'
@@ -408,14 +408,6 @@ nnoremap <M-w> :w<CR>
 " TODO: make function to open directories in vifm (:!$TERMINAL vifm /home/neuromante/).
 nnoremap gx :silent !xdg-open "<cfile>:p"<cr>
 nnoremap gX :silent !xdg-open "<cfile>:p" &<cr>
-
-" Run gq in all buffer and return to same place.
-nnoremap <F12> mzgggqG`z:delmarks z<cr>
-
-" Echo syntax group of word under cursor.
-nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-      \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 "}}}
 ""/ plugins basics {{{
 "/
@@ -772,6 +764,13 @@ nnoremap <leader><leader>hh :MundoToggle<CR>
 "}}}
 ""/ others (o) {{{
 "/
+" Run gq in all buffer and return to same place.
+nnoremap <F12> mzgggqG`z:delmarks z<cr>
+
+" Echo syntax group of word under cursor.
+nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+      \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 "}}}
 ""/ coc (c) {{{
 "/
@@ -1596,14 +1595,18 @@ augroup MyColors
 augroup END
 
 set background=light
+
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_light='soft'
+
 colorscheme gruvbox
+
 if $TERM == 'linux' || $TERM == 'screen'
   let g:lightline.colorscheme = '16color'
 else
   let g:lightline.colorscheme = 'gruvbox'
 endif
+
 set nohlsearch
 lua require'terminal'.setup()
 lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; }; '!vim-plug'; '!git' }
