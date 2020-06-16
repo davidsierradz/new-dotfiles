@@ -64,7 +64,7 @@ Plug 'gyim/vim-boxdraw', { 'for': 'markdown' }
 " Plug 'junegunn/goyo.vim'
 
 " Smooth scrolling for Vim done right.
-Plug 'psliwka/vim-smoothie'
+" Plug 'psliwka/vim-smoothie'
 
 " Vim plugin that shows keybindings in popup.
 Plug 'liuchengxu/vim-which-key'
@@ -1666,7 +1666,7 @@ set background=light
 
 colorscheme pencil
 let g:lightline.colorscheme = 'gruvbox'
-lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; } }
+lua require 'colorizer'.setup({markdown = {names = false}})
 "--------------------------------End Colors------------------------------------"
 "}}}
 " vim: set fdm=marker fmr={{{,}}} fdl=4 :

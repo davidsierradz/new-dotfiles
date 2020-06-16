@@ -67,7 +67,7 @@ Plug 'davidsierradz/lightline-gruvbox.vim'
 Plug 'maximbaz/lightline-trailing-whitespace'
 
 " Smooth scrolling for Vim done right.
-Plug 'psliwka/vim-smoothie'
+" Plug 'psliwka/vim-smoothie'
 
 " Vim plugin that shows keybindings in popup.
 Plug 'liuchengxu/vim-which-key'
@@ -96,11 +96,6 @@ Plug 'lambdalisue/suda.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 Plug 'mtikekar/nvim-send-to-term'
-let g:send_disable_mapping = 1
-nmap mm <Plug>SendLine
-nmap m <Plug>Send
-vmap m <Plug>Send
-nmap M m$
 
 Plug 'ChristianChiarulli/codi.vim'
 " Change the color
@@ -193,7 +188,7 @@ set title
 
 " Set <Space> as leader key and \ as localleader.
 let mapleader = " "
-let localmapleader = "\\"
+let maplocalleader = "\\"
 
 " Wait time for pending mode.
 set timeoutlen=500
@@ -512,7 +507,8 @@ xmap P <plug>(SubversiveSubstitute)
 ""/ vim-which-key {{{
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey  '\'<CR>
+nnoremap <silent> <LocalLeader> :<c-u>WhichKey  '\'<CR>
+vnoremap <silent> <LocalLeader> :<c-u>WhichKeyVisual '\'<CR>
 nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
 nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
 "}}}
@@ -528,6 +524,14 @@ nmap P <plug>(YoinkPaste_P)
 "/
 nnoremap <silent> <Leader>`` :terminal<CR>
 nnoremap <silent> <Leader>`c :let $VIM_DIR=expand('%:p:h')<CR>:terminal<CR>Acd $VIM_DIR<CR>
+"}}}
+""/ SendToTerminal (a) {{{
+"/
+let g:send_disable_mapping = 1
+nmap <Leader>aa <Plug>SendLine
+nmap <Leader>am <Plug>Send
+vmap <Leader>am <Plug>Send
+nmap <Leader>aM m$
 "}}}
 ""/ quit (q) {{{
 "/
@@ -723,18 +727,31 @@ nnoremap <silent> <leader>ph  :<C-u>CocList -A --normal yank<cr>
 " Choose one block in a 3-way merge resolution.
 if &diff
   syntax off
-  nnoremap <buffer> <localleader>1 :diffget LOCAL<CR>
-  nnoremap <buffer> <localleader>2 :diffget BASE<CR>
-  nnoremap <buffer> <localleader>3 :diffget REMOTE<CR>
+  nnoremap <buffer> <LocalLeader>1 :diffget LOCAL<CR>
+  nnoremap <buffer> <LocalLeader>2 :diffget BASE<CR>
+  nnoremap <buffer> <LocalLeader>3 :diffget REMOTE<CR>
 endif
 "}}}
 ""/ vim-dirvish {{{
 "/
 " Set <leader>cd to change directories in dirvish buffers.
-augroup dirvish_events
+augroup dirvish_config
   autocmd!
+
+  " Map `t` to open in new tab.
   autocmd FileType dirvish
-        \ nnoremap <buffer> <localleader>cd :cd %<CR>:pwd<CR>
+        \  nnoremap <silent><buffer> <LocalLeader>t :call dirvish#open('tabedit', 0)<CR>
+        \ |xnoremap <silent><buffer> <LocalLeader>t :call dirvish#open('tabedit', 0)<CR>
+
+  " Map `gr` to reload.
+  autocmd FileType dirvish nnoremap <silent><buffer> <LocalLeader>gr :<C-U>:Dirvish %<CR>
+
+  " Map `gh` to hide dot-prefixed files.  Press `R` to "toggle" (reload).
+  autocmd FileType dirvish nnoremap <silent><buffer>
+        \ <LocalLeader>gh :silent keeppatterns g@\v/\.[^\/]+/?$@d _<cr>:setl cole=3<cr>
+
+  autocmd FileType dirvish
+        \ nnoremap <buffer> <LocalLeader>cd :cd %<CR>:pwd<CR>
   autocmd FileType dirvish
         \ nnoremap <nowait><buffer><silent> <M-n> <C-\><C-n>k:call feedkeys("p")<CR>
 augroup END
@@ -742,9 +759,9 @@ augroup END
 ""/ vim-node {{{
 "/
 autocmd User Node
-  \ if &filetype == "javascript" |
-  \   nmap <buffer> <localleader>f <Plug>NodeVSplitGotoFile|
-  \ endif
+      \ if &filetype == "javascript" |
+      \   nmap <buffer> <LocalLeader>f <Plug>NodeVSplitGotoFile |
+      \ endif
 "}}}
 "}}}
 ""/ plugins (SPC) {{{
@@ -1501,6 +1518,8 @@ augroup initvim
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
   autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 500)
+
+  autocmd FileType javascript nnoremap <buffer> <LocalLeader>\ :CodiUpdate<CR>
 augroup END
 "--------------------------------End Auto Commands-----------------------------"
 "}}}

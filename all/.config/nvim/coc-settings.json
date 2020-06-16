@@ -29,6 +29,8 @@
   "javascript.format.enabled": false,
   "json.format.enable": false,
   "prettier.onlyUseLocalVersion": true,
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
   "snippets.extends": {
     "vimwiki": [
       "markdown",
