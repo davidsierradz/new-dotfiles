@@ -109,18 +109,18 @@ mode "$mode_spotify" {
   bindsym Escape        mode "default"
 }
 mode "$mode_run" {
-  bindsym a             exec --no-startup-id ddspawn 'htop' '-o font_size=18 -1 --instance-group "float-ones"', mode "default"
-  bindsym Shift+a       exec $term -1 htop, mode "default"
-  bindsym s             exec --no-startup-id ddspawn "$FILE" '-o font_size=18 -1 --instance-group "float-ones"', mode "default"
-  bindsym Shift+s       exec $term -1 $FILE, mode "default"
-  bindsym d             exec --no-startup-id ddspawn 'dropdowncalc' '-o font_size=18 -1 --instance-group "float-ones"', mode "default"
-  bindsym Shift+d       exec $term -1 dropdowncalc, mode "default"
-  bindsym f             exec --no-startup-id ddspawn 'calcurse' '-o font_size=18 -1 --instance-group "float-ones"' '-D ~/.config/calcurse', mode "default"
-  bindsym Shift+f       exec $term -1 calcurse -D ~/.config/calcurse, mode "default"
-  bindsym g             exec --no-startup-id ddspawn 'newsboat' '-o font_size=18 -1 --instance-group "float-ones"', mode "default"
-  bindsym Shift+g       exec $term -1 newsboat, mode "default"
-  bindsym i             exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -1 --instance-group "float-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex', mode "default"
-  bindsym Shift+i       exec $term -1 --instance-group "writer-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex, mode "default"
+  bindsym a             exec --no-startup-id ddspawn 'htop' '-o font_size=18', mode "default"
+  bindsym Shift+a       exec $term htop, mode "default"
+  bindsym s             exec --no-startup-id ddspawn "$FILE" '-o font_size=18', mode "default"
+  bindsym Shift+s       exec $term $FILE, mode "default"
+  bindsym d             exec --no-startup-id ddspawn 'dropdowncalc' '-o font_size=18', mode "default"
+  bindsym Shift+d       exec $term dropdowncalc, mode "default"
+  bindsym f             exec --no-startup-id ddspawn 'calcurse' '-o font_size=18' '-D ~/.config/calcurse', mode "default"
+  bindsym Shift+f       exec $term calcurse -D ~/.config/calcurse, mode "default"
+  bindsym g             exec --no-startup-id ddspawn 'newsboat' '-o font_size=18', mode "default"
+  bindsym Shift+g       exec $term newsboat, mode "default"
+  bindsym i             exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex', mode "default"
+  bindsym Shift+i       exec $term -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex, mode "default"
 
   bindsym Return        mode "default"
   bindsym Escape        mode "default"
@@ -163,9 +163,9 @@ exec --no-startup-id /home/neuromante/.local/bin/i3cmds/windowfocus
 # }}}
 
 # ---Bindings--- # {{{
-bindsym $mod+Return                exec --no-startup-id /usr/bin/kitty -1
-bindsym $mod+shift+Return          exec --no-startup-id /usr/bin/kitty -1 --instance-group "light-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/light.conf
-bindsym $mod+mod1+Return           exec --no-startup-id /usr/bin/kitty -1 --instance-group "free-ones" -c ~/.config/kitty/kitty.conf
+bindsym $mod+Return                exec --no-startup-id /usr/bin/kitty
+bindsym $mod+shift+Return          exec --no-startup-id /usr/bin/kitty -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/light.conf
+bindsym $mod+mod1+Return           exec --no-startup-id /usr/bin/kitty -c ~/.config/kitty/kitty.conf
 bindsym $mod+Ctrl+Return           exec --no-startup-id /usr/bin/xterm
 
 bindsym $mod+space                 focus mode_toggle
@@ -199,7 +199,7 @@ bindsym $mod+ctrl+comma [con_mark=_prevFocus2] focus
 
 
 bindsym $mod+a                     mode "$mode_run"
-# bindsym $mod+Shift+a               exec --no-startup-id /usr/bin/kitty -1 pulsemixer ; exec --no-startup-id pkill -RTMIN+10 i3blocks
+# bindsym $mod+Shift+a               exec --no-startup-id /usr/bin/kitty pulsemixer ; exec --no-startup-id pkill -RTMIN+10 i3blocks
 bindsym $mod+Ctrl+a                focus parent
 
 bindsym $mod+Shift+b               floating toggle; sticky toggle; exec --no-startup-id hover left
@@ -224,8 +224,8 @@ bindsym $mod+Shift+h               move left 30
 bindsym $mod+Ctrl+h                move workspace to output left
 bindsym $mod+Shift+Ctrl+h          focus parent; focus left; focus child
 
-bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -1 --instance-group "float-ones" -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
-bindsym $mod+Ctrl+i                exec --no-startup-id ddspawn 'zsh' '-o font_size=18 -1 --instance-group "float-ones"'
+bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
+bindsym $mod+Ctrl+i                exec --no-startup-id ddspawn 'zsh' '-o font_size=18'
 bindsym $mod+Shift+i               exec --no-startup-id i3resize up
 
 bindsym $mod+j                     focus down
