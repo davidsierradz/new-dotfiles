@@ -97,7 +97,8 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 Plug 'mtikekar/nvim-send-to-term'
 
-Plug 'ChristianChiarulli/codi.vim'
+" Plug 'metakirby5/codi.vim'
+Plug 'davidsierradz/codi.vim'
 " Change the color
 highlight CodiVirtualText guifg=cyan
 

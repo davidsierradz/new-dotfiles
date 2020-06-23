@@ -33,8 +33,8 @@ if [ -f "$usermodmap" ]; then
   xmodmap "$usermodmap"
 fi
 
-if [ -d /etc/X11/xinit/xinitrc.d ] ; then
-  for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+  for f in /etc/X11/xinit/xinitrc.d/?*.sh; do
     [ -x "$f" ] && . "$f"
   done
   unset f
@@ -53,10 +53,10 @@ elif test -n "$HOME_TWO_MONITOR"; then
   CONFIGTOADDTOI3="$HOME/.config/i3/config.home $HOME/.config/i3/config.home2"
 else
   xrandr --output eDP1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI1 --off --output VIRTUAL1 --off
-  CONFIGTOADDTOI3="$HOME/.config/i3/config.home"
+  CONFIGTOADDTOI3="$HOME/.config/i3/config.home2"
 fi
 
-setbg &		# Set the background
+setbg & # Set the background
 
 rinit &
 
@@ -72,6 +72,6 @@ cat ~/.config/i3/config.base $CONFIGTOADDTOI3 > ~/.config/i3/config
 systemctl --user import-environment DISPLAY
 
 case "$LARBSWM" in
-	i3) exec i3 ;;
-	*) echo "No valid LARBS window manager detected." ;;
+  i3) exec i3 ;;
+  *) echo "No valid LARBS window manager detected." ;;
 esac
