@@ -109,6 +109,12 @@ let g:codi#interpreters = {
       \ 'bin': ['node', '-e', 'require("repl").start({ignoreUndefined: true, useGlobal: true, writer: function(o){return util.inspect(o,{depth:4,compact:true})}})'],
       \ },
       \ }
+
+Plug 'diepm/vim-rest-console'
+let g:vrc_response_default_content_type = 'application/json'
+" let g:vrc_show_command = 1
+let g:vrc_auto_format_uhex = 1
+let g:vrc_output_buffer_name = '__VRC_OUTPUT.json'
 "}}}
 
 "-------Completions and omnifuncs------- {{{
@@ -1030,7 +1036,7 @@ augroup fzf
 augroup END
 
 if has('nvim') && exists('&winblend') && &termguicolors
-  set winblend=10
+  set winblend=0
 
   if exists('g:fzf_colors.bg')
     call remove(g:fzf_colors, 'bg')
@@ -1600,12 +1606,13 @@ function! CustomFoldText(delim)
   if fs > v:foldend
     let line = getline(v:foldstart)
   else
-    let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+    let line = substitute(getline(fs), '\t', repeat('  ', &tabstop), 'g')
   endif
 
   " indent foldtext corresponding to foldlevel
-  let indent = repeat('  ',shiftwidth())
-  let foldLevelStr = repeat(indent, v:foldlevel-1)
+  let indent = repeat(' ',shiftwidth())
+  " let indentTwo = repeat('',shiftwidth())
+  let foldLevelStr = repeat(' ', match(getline(fs),'\S'))
   let foldLineHead = substitute(line, '^\s*', foldLevelStr, '')
 
   " size foldtext according to window width
