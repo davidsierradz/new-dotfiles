@@ -45,6 +45,7 @@
   "yank.priority": 70,
   "yank.highlight.enable": false,
   "explorer.position": "floating",
+  "explorer.file.showHiddenFiles": true,
   // "tsserver.trace.server": "verbose",
   "jest.customFlags": [
     "runInBand",

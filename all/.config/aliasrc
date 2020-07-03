@@ -55,6 +55,7 @@ alias b='bat' \
   vw="nvim -u ~/.config/nvim/wiki-init.vim -c VimwikiIndex" \
   y="yarn" \
   yl="yarn lint" \
+  ylb="yarn lint:backend" \
   ytw="yarn test --watch" \
   ysb="yarn serve:babel" \
   ytb="yarn test:backend" \

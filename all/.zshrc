@@ -326,6 +326,7 @@ bindkey -M vicmd "k" up-line
 bindkey -M vicmd "j" down-line
 bindkey -M vicmd "^P" up-line-or-beginning-search
 bindkey -M vicmd "^N" down-line-or-beginning-search
+bindkey -M vicmd "G" end-of-buffer-or-history
 
 # Shift-Tab to go back in menus.
 bindkey -M menuselect '^[[Z' reverse-menu-complete

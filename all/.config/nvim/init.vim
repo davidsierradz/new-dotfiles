@@ -551,7 +551,8 @@ nnoremap <silent> <Leader>qa  :qa<CR>
 "/
 " File save
 nnoremap <silent> <Leader>ff :write<CR>
-nnoremap <Leader>fa :CocCommand explorer<CR>
+nnoremap <Leader>fa :call CocExplorerDirvish()<CR>
+nnoremap <Leader>fA :CocCommand explorer<CR>
 nnoremap <silent> <Leader>f0 :set foldlevel=0<CR>
 nnoremap <silent> <Leader>f1 :set foldlevel=1<CR>
 nnoremap <silent> <Leader>f2 :set foldlevel=2<CR>
@@ -814,8 +815,9 @@ nnoremap <silent> <leader>cj  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
 " Resume latest coc list
-nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
 nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
+nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
+nnoremap <silent> <leader>cr :call CocAction('reloadExtension', 'coc-eslint')<CR>
 
 command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
 nnoremap <silent> <leader>cta  :<C-u>Jest<CR>
@@ -914,6 +916,22 @@ augroup end
 augroup Pairs
   autocmd FileType markdown let b:coc_pairs = [["```", "```"]]
 augroup end
+
+" let g:coc_node_args = ['--nolazy', '--inspect-brk=6045']
+" set runtimepath^=/home/neuromante/.nvm/versions/node/v12.17.0/lib/node_modules/coc-conventional/
+" let $NVIM_COC_LOG_LEVEL = 'debug'
+" let $NVIM_COC_LOG_FILE = '/tmp/coc.log'
+function CocExplorerDirvish() abort
+  if &filetype=='dirvish'
+    if isdirectory(expand("<cfile>"))
+      execute 'CocCommand explorer --reveal=' . expand('<cfile>:p:h')
+    else
+      execute 'CocCommand explorer --reveal=' . expand('<cfile>:p')
+    endif
+  else
+    execute 'CocCommand explorer'
+  endif
+endfunction
 "}}}
 ""/ editorconfig/editorconfig-vim {{{
 "/
@@ -1307,7 +1325,8 @@ let g:which_key_map.f = {
       \ 'name' : '+files/find/fold',
       \ '[0-9]': 'foldlevel [0-9]',
       \ 'f': 'write',
-      \ 'a': 'coc-explorer toggle',
+      \ 'a': 'CocExplorerDirvish',
+      \ 'A': 'coc-explorer toggle',
       \ '0': 'which_key_ignore',
       \ '1': 'which_key_ignore',
       \ '2': 'which_key_ignore',
