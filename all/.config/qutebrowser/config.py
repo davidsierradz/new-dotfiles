@@ -478,7 +478,7 @@ c.colors.webpage.bg = 'white'
 ## `colors.webpage.darkmode.threshold.background` to 205.  - "With
 ## selective inversion of everything": Combines the two variants   above.
 ## Type: Bool
-# c.colors.webpage.darkmode.enabled = False
+c.colors.webpage.darkmode.enabled = False
 
 ## Render all colors as grayscale. This only has an effect when
 ## `colors.webpage.darkmode.algorithm` is set to `lightness-hsl` or
@@ -524,7 +524,7 @@ c.colors.webpage.bg = 'white'
 
 ## Force `prefers-color-scheme: dark` colors for websites.
 ## Type: Bool
-# c.colors.webpage.prefers_color_scheme_dark = False
+c.colors.webpage.prefers_color_scheme_dark = False
 
 ## Number of commands to save in the command history. 0: no history / -1:
 ## unlimited
@@ -1404,7 +1404,7 @@ c.hints.uppercase = True
 ## https://peter.sh/experiments/chromium-command-line-switches/ for a
 ## list) will work.
 ## Type: List of String
-# c.qt.args = ["force-dark-mode"]
+c.qt.args = []
 
 ## Force a Qt platform to use. This sets the `QT_QPA_PLATFORM`
 ## environment variable and is useful to force using the XCB plugin when
