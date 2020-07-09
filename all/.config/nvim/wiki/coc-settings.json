@@ -1,6 +1,10 @@
 {
+  "npm.binPath": "yarn",
   "coc.preferences.extensionUpdateCheck": "never",
+  "coc.preferences.formatOnType": false,
   "coc.preferences.formatOnSaveFiletypes": ["markdown", "vimwiki"],
+  "coc.preferences.enableFloatHighlight": false,
+  "coc.preferences.colorSupport": false,
   "coc.source.file.ignoreHidden": false,
   "coc.source.file.triggerCharacters": ["/", ".", ".."],
   "markdownlint.config": {
@@ -11,14 +15,16 @@
     },
     "no-trailing-punctuation": false
   },
+  "prettier.requireConfig": false,
+  "prettier.onlyUseLocalVersion": false,
   "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
   "snippets.extends": { "vimwiki": ["markdown", "vimwiki"] },
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
-  "smartf.wordJump": false,
-  "smartf.jumpOnTrigger": false,
-  "coc.preferences.bracketEnterImprove": true,
+  // "smartf.wordJump": false,
+  // "smartf.jumpOnTrigger": false,
+  "coc.preferences.bracketEnterImprove": false,
   "cSpell.languageSettings": [
     { "languageId": "*", "dictionaries": ["typescript", "node"] }
   ],

@@ -1,6 +1,7 @@
 {
   "npm.binPath": "yarn",
   "coc.preferences.extensionUpdateCheck": "never",
+  "coc.preferences.formatOnType": false,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "html",
@@ -16,30 +17,28 @@
   "coc.preferences.enableFloatHighlight": false,
   "coc.preferences.colorSupport": false,
   "coc.source.file.ignoreHidden": false,
-  "coc.source.file.triggerCharacters": [
-    "/",
-    ".",
-    ".."
-  ],
+  "coc.source.file.triggerCharacters": ["/", ".", ".."],
   "markdownlint.config": {
     "default": true,
-    "line_length": false
+    "line_length": false,
+    "no-duplicate-heading": {
+      "siblings_only": true
+    },
+    "no-trailing-punctuation": false
   },
   "typescript.format.enabled": false,
   "javascript.format.enabled": false,
   "json.format.enable": false,
+  "prettier.disableLanguages": ["vue"],
+  "prettier.requireConfig": true,
   "prettier.onlyUseLocalVersion": true,
   "prettier.semi": false,
   "prettier.singleQuote": true,
-  "snippets.extends": {
-    "vimwiki": [
-      "markdown",
-      "vimwiki"
-    ]
-  },
+  "prettier.trailingComma": "all",
+  "snippets.extends": { "vimwiki": ["markdown", "vimwiki"] },
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
-  "smartf.wordJump": false,
-  "smartf.jumpOnTrigger": false,
+  // "smartf.wordJump": false,
+  // "smartf.jumpOnTrigger": false,
   "diagnostic.refreshOnInsertMode": true,
   "javascript.validate.enable": false,
   "yank.priority": 70,
@@ -47,14 +46,8 @@
   "explorer.position": "floating",
   "explorer.file.showHiddenFiles": true,
   // "tsserver.trace.server": "verbose",
-  "jest.customFlags": [
-    "runInBand",
-    "verbose",
-    "expand",
-    "no-cache"
-  ],
+  "jest.customFlags": ["runInBand", "verbose", "expand", "no-cache"],
   "coc-conventional.enableLernaScopes": true,
-  "post.root": "~/.config/coc/coc-post",
   "todolist.promptForReminder": false,
   "eslint.enable": true,
   "emmet.includeLanguages": {

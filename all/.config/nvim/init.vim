@@ -49,6 +49,34 @@ Plug 'AndrewRadev/bufferize.vim'
 Plug 'tommcdo/vim-exchange'
 
 Plug 'wellle/targets.vim'
+
+Plug 'easymotion/vim-easymotion'
+
+Plug 'tmsvg/pear-tree'
+imap <BS> <Plug>(PearTreeBackspace)
+imap <Esc> <Plug>(PearTreeFinishExpansion)
+imap <M-Space> <Plug>(PearTreeSpace)
+imap <C-g><C-g> <Plug>(PearTreeJump)
+let g:pear_tree_pairs = {
+      \ '(': {'closer': ')'},
+      \ '[': {'closer': ']'},
+      \ '{': {'closer': '}'},
+      \ "'": {'closer': "'"},
+      \ '"': {'closer': '"'},
+      \ '`': {'closer': '`'},
+      \ '```': {'closer': '```'},
+      \ '<!--': {'closer': '-->'},
+      \ }
+
+let g:pear_tree_repeatable_expand = 0
+let g:pear_tree_map_special_keys = 0
+let g:pear_tree_smart_openers = 0
+let g:pear_tree_smart_closers = 0
+let g:pear_tree_smart_backspace = 0
+
+Plug 'lfilho/cosco.vim'
+autocmd FileType javascript,json imap <buffer> <silent> <LocalLeader>\ <c-o><Plug>(cosco-commaOrSemiColon)
+let g:cosco_ignore_comment_lines = 1
 "}}}
 
 "--------------Interface---------------- {{{
@@ -140,6 +168,8 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'moll/vim-node'
 
 Plug 'norcalli/nvim-terminal.lua'
+
+" Plug 'nvim-treesitter/nvim-treesitter'
 "}}}
 
 " Initialize plugin system
@@ -154,6 +184,7 @@ set tabstop=2
 set shiftwidth=2
 let &softtabstop =&shiftwidth
 set expandtab
+set wildmode=longest:full,full
 
 " Leave hidden buffers open.
 set hidden
@@ -439,8 +470,10 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 " inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 "       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-inoremap <silent><expr> <CR> pumvisible() && coc#rpc#request('hasSelected', []) ? "\<C-y>"
-      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" inoremap <silent><expr> <CR> pumvisible() && coc#rpc#request('hasSelected', []) ? "\<C-y>"
+"       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+imap <silent><expr> <CR> complete_info()["selected"] != "-1" ? "\<C-y>"
+      \: "\<Plug>(PearTreeExpand)"
 
 " Create mappings for function text object, requires document symbols feature of languageserver.
 xmap if <Plug>(coc-funcobj-i)
@@ -467,8 +500,8 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " coc-smartf
 " press <esc> to cancel.
-nmap <C-Space> <Plug>(coc-smartf-forward)
-nmap <M-Space> <Plug>(coc-smartf-backward)
+" nmap <C-Space> <Plug>(coc-smartf-forward)
+" nmap <M-Space> <Plug>(coc-smartf-backward)
 " nmap ;; <Plug>(coc-smartf-repeat)
 " nmap ,, <Plug>(coc-smartf-repeat-opposite)
 
@@ -492,6 +525,15 @@ nnoremap x d
 xnoremap x d
 nnoremap xx dd
 nnoremap X D
+"}}}
+""/ vim-easymotion {{{
+"/
+nmap <C-Space> <Plug>(easymotion-f)
+xmap <C-Space> <Plug>(easymotion-f)
+omap <C-Space> <Plug>(easymotion-f)
+nmap <M-Space> <Plug>(easymotion-F)
+xmap <M-Space> <Plug>(easymotion-F)
+omap <M-Space> <Plug>(easymotion-F)
 "}}}
 ""/ vim-rsi {{{
 "/
@@ -777,6 +819,13 @@ autocmd User Node
 ""/ coc.nvim (c) {{{
 "/
 "}}}
+""/ vim-easymotion (e) {{{
+"/
+nmap <leader><leader>ef <Plug>(easymotion-f)
+nmap <leader><leader>eF <Plug>(easymotion-F)
+nmap <leader><leader>e, <Plug>(easymotion-prev)
+nmap <leader><leader>e; <Plug>(easymotion-next)
+"}}}
 ""/ matchup (m) {{{
 "/
 nmap <silent> <leader><leader>mm <plug>(matchup-hi-surround)
@@ -895,11 +944,8 @@ let g:coc_global_extensions = [
       \ 'coc-json',
       \ 'coc-lists',
       \ 'coc-markdownlint',
-      \ 'coc-post',
-      \ 'coc-pairs',
       \ 'coc-prettier',
       \ 'coc-sh',
-      \ 'coc-smartf',
       \ 'coc-snippets',
       \ 'coc-todolist',
       \ 'coc-tslint-plugin',
@@ -913,9 +959,9 @@ augroup Smartf
   autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
 augroup end
 
-augroup Pairs
-  autocmd FileType markdown let b:coc_pairs = [["```", "```"]]
-augroup end
+" augroup Pairs
+"   autocmd FileType markdown let b:coc_pairs = [["```", "```"]]
+" augroup end
 
 " let g:coc_node_args = ['--nolazy', '--inspect-brk=6045']
 " set runtimepath^=/home/neuromante/.nvm/versions/node/v12.17.0/lib/node_modules/coc-conventional/
@@ -1238,6 +1284,11 @@ augroup dirvish_events
   autocmd FileType dirvish setlocal cursorline
 augroup END
 "}}}
+""/ vim-easymotion {{{
+"/
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+"}}}
 ""/ vim-matchup {{{
 "/
 
@@ -1299,7 +1350,8 @@ let g:which_key_map[' '] = {
       \   },
       \ 'e' : {
       \   'name' : '+easymotion',
-      \   'a' : '<Plug>(easymotion-s)',
+      \   'f' : '<Plug>(easymotion-f)',
+      \   'F' : '<Plug>(easymotion-F)',
       \   ';' : '<Plug>(easymotion-next)',
       \   ',' : '<Plug>(easymotion-prev)',
       \   },
@@ -1536,16 +1588,20 @@ augroup initvim
   " autocmd FilterWritePost * if &diff | syntax off | else | syntax on | endif
   " autocmd DiffUpdated * if &diff | syntax off | else | syntax on | endif
 
-  autocmd filetype markdown setl iskeyword+=-
-        \ | setl spell spl=es,en noru nu rnu nocul wrap spf=~/.config/nvim/spell/es.utf-8.add
-        \ | setl dictionary+=/usr/share/dict/words complete+=kspell
-        \ | setlocal foldmethod=expr | setlocal foldenable | set foldexpr=Fold(v:lnum)
+  augroup markdownCode
+    autocmd!
+    autocmd filetype markdown setl iskeyword+=-
+          \ | setl noru nu rnu nocul wrap conceallevel=0 concealcursor=nc
+          \ | setl dictionary+=/usr/share/dict/words,/usr/share/dict/spanish complete+=kspell
+          \ | setl spell spl=es,en spf=~/.config/nvim/spell/es.utf-8.add
+          \ | setlocal foldmethod=expr | setlocal foldenable | set foldexpr=Fold(v:lnum)
+  augroup END
 
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
-  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 500)
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=500}
 
-  autocmd FileType javascript nnoremap <buffer> <LocalLeader>\ :CodiUpdate<CR>
+  autocmd FileType javascript nnoremap <buffer> <LocalLeader>' :CodiUpdate<CR>
 augroup END
 "--------------------------------End Auto Commands-----------------------------"
 "}}}
@@ -1608,9 +1664,11 @@ endfunction
 
 function! CocPrettierFormatUseGlobal()
   call coc#config('prettier.onlyUseLocalVersion', v:false)
+  call coc#config('prettier.requireConfig', v:false)
   call CocAction('reloadExtension', 'coc-prettier')
   call CocAction('runCommand', 'prettier.formatFile')
   call coc#config('prettier.onlyUseLocalVersion', v:true)
+  call coc#config('prettier.requireConfig', v:true)
   call CocAction('reloadExtension', 'coc-prettier')
 endfunction
 command! CocPrettierFormatUseGlobal call CocPrettierFormatUseGlobal()
@@ -1691,6 +1749,12 @@ fu! CustomFoldTextTwo()
 endf
 
 " set foldtext=CustomFoldTextTwo()
+
+" augroup setvirtualedit
+"   autocmd!
+"   autocmd BufLeave *.md setlocal virtualedit-=all
+"   autocmd BufEnter *.md setlocal virtualedit+=all
+" augroup end
 "--------------------------------End Functions---------------------------------"
 "}}}
 
@@ -1700,6 +1764,13 @@ endf
 function! MyHighlights() abort
   highlight MatchParen guibg=NONE gui=bold
   highlight CodiVirtualText guifg=#cc241d
+  highlight! link CocExplorerFileFullpath Operator
+  highlight! link CocExplorerFileLinkTarget Operator
+  highlight! link CocExplorerFileGitStage Operator
+  highlight! link CocExplorerBookmarkPosition Operator
+  highlight! link CocExplorerBookmarkAnnotation Operator
+  highlight! link CocExplorerHelpHint Operator
+  highlight! link CocExplorerHelpDescription Operator
   if exists('g:loaded_lightline')
     runtime plugin/lightline-gruvbox.vim
     call lightline#colorscheme()
@@ -1718,6 +1789,12 @@ augroup END
 
 set background=light
 
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
+let g:gruvbox_invert_selection='0'
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_light='soft'
 
@@ -1730,8 +1807,28 @@ else
 endif
 
 set nohlsearch
+lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; }; '!vim-plug'; '!git'; '!fzf' }
 lua require'terminal'.setup()
-lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; }; '!vim-plug'; '!git' }
+" lua require 'nvim-treesitter.configs'.setup { highlight = { enable = true, disable = {} } }
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"     highlight = {
+"         enable = true,                    -- false will disable the whole extension
+"         disable = {},                     -- list of language that will be disabled
+"     },
+"     incremental_selection = {
+"         enable = false,
+"         disable = { 'cpp', 'lua' },
+"         keymaps = {                       -- mappings for incremental selection (visual mappings)
+"           init_selection = 'gnn',         -- maps in normal mode to init the node/scope selection
+"           node_incremental = "grn",       -- increment to the upper named parent
+"           scope_incremental = "grc",      -- increment to the upper scope (as defined in locals.scm)
+"           node_decremental = "grm",      -- decrement to the previous node
+"         }
+"     },
+"     ensure_installed = { 'bash' }, -- one of 'all', 'language', or a list of languages
+" }
+" EOF
 "--------------------------------End Colors------------------------------------"
 "}}}
 " vim: set fdm=marker fmr={{{,}}} :
