@@ -334,6 +334,8 @@ bindkey -M menuselect '^[[Z' reverse-menu-complete
 # Ctr-P and Ctrl-N to move in complete menus.
 bindkey -M menuselect '^P' up-line-or-history
 bindkey -M menuselect '^N' down-line-or-history
+
+bindkey '' backward-kill-line
 #--------------------------------End KeyBindings-------------------------------#
 #}}}
 
@@ -418,5 +420,9 @@ _kitty() {
 }
 
 compdef _kitty kitty
+
+if test -z $DISPLAY; then
+  export IS_TTY=yes
+fi
 
 # vim: set fdm=marker fmr={{{,}}} fdl=0 :

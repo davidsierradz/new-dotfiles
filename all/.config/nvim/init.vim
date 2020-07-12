@@ -192,7 +192,7 @@ set hidden
 " Command-Line options.
 set wildignorecase
 set wildoptions=pum
-set pumblend=10
+set pumblend=0
 
 " Ignore case for completion in insert mode.
 set infercase
@@ -266,7 +266,7 @@ set scrolloff=0
 set sidescrolloff=0
 
 " Enable true color support
-if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux'
+if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes'
   set notermguicolors
 else
   set termguicolors
@@ -1800,8 +1800,8 @@ let g:gruvbox_contrast_light='soft'
 
 colorscheme gruvbox
 
-if $TERM == 'linux' || $TERM == 'screen'
-  let g:lightline.colorscheme = '16color'
+if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes'
+  let g:lightline.colorscheme = 'deus'
 else
   let g:lightline.colorscheme = 'gruvbox'
 endif

@@ -278,6 +278,10 @@ keymap yt       NEW_TAB
 keymap M-k      NEXT_TAB
 #Change focus to right tab
 keymap M-j      PREV_TAB
+#Change focus to left tab
+keymap M-m      NEXT_TAB
+#Change focus to right tab
+keymap M-n      PREV_TAB
 #Move tab to the left
 keymap gK       TAB_LEFT
 #Move tab to the right
@@ -401,7 +405,7 @@ keymap :e       EDIT
 #Show list of all links, anchors and images
 keymap M-u	LIST
 #Toggle activity of mouse
-keymap M-m	MOUSE_TOGGLE
+#keymap M-m	MOUSE_TOGGLE
 #pendant change SC.View image in extern viewer
 keymap M-i      VIEW_IMAGE
 keymap SPCi      VIEW_IMAGE
