@@ -24,7 +24,12 @@
 ## Type: Int
 # c.auto_save.interval = 15000
 
-## Always restore open sites when qutebrowser is reopened.
+## Always restore open sites when qutebrowser is reopened. Without this
+## option set, `:wq` (`:quit --save`) needs to be used to save open tabs
+## (and restore them), while quitting qutebrowser in any other way will
+## not save/restore the session. By default, this will save to the
+## session which was last loaded. This behavior can be customized via the
+## `session.default_name` setting.
 ## Type: Bool
 c.auto_save.session = True
 
@@ -460,7 +465,7 @@ c.colors.webpage.bg = 'white'
 ##   - lightness-cielab: Modify colors by converting them to CIELAB color space and inverting the L value.
 ##   - lightness-hsl: Modify colors by converting them to the HSL color space and inverting the lightness (i.e. the "L" in HSL).
 ##   - brightness-rgb: Modify colors by subtracting each of r, g, and b from their maximum value.
-# c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
+c.colors.webpage.darkmode.algorithm = 'lightness-hsl'
 
 ## Contrast for dark mode. This only has an effect when
 ## `colors.webpage.darkmode.algorithm` is set to `lightness-hsl` or
@@ -492,20 +497,23 @@ c.colors.webpage.darkmode.enabled = False
 ## Type: Float
 # c.colors.webpage.darkmode.grayscale.images = 0.0
 
-## Which images to apply dark mode to.
+## Which images to apply dark mode to. WARNING: On Qt 5.15.0, this
+## setting can cause frequent renderer process crashes due to a
+## https://codereview.qt-project.org/c/qt/qtwebengine-
+## chromium/+/304211[bug in Qt].
 ## Type: String
 ## Valid values:
 ##   - always: Apply dark mode filter to all images.
 ##   - never: Never apply dark mode filter to any images.
 ##   - smart: Apply dark mode based on image content.
-# c.colors.webpage.darkmode.policy.images = 'never'
+c.colors.webpage.darkmode.policy.images = 'smart'
 
 ## Which pages to apply dark mode to.
 ## Type: String
 ## Valid values:
 ##   - always: Apply dark mode filter to all frames, regardless of content.
 ##   - smart: Apply dark mode filter to frames based on background color.
-# c.colors.webpage.darkmode.policy.page = 'smart'
+c.colors.webpage.darkmode.policy.page = 'always'
 
 ## Threshold for inverting background elements with dark mode. Background
 ## elements with brightness above this threshold will be inverted, and
@@ -648,7 +656,9 @@ c.content.autoplay = False
 ## AppCache. Note that with QtWebKit, only `all` and `never` are
 ## supported as per-domain values. Setting `no-3rdparty` or `no-
 ## unknown-3rdparty` per-domain on QtWebKit will have the same effect as
-## `all`.
+## `all`. If this setting is used with URL patterns, the pattern gets
+## applied to the origin/first party URL of the page making the request,
+## not the request URL.
 ## Type: String
 ## Valid values:
 ##   - all: Accept all cookies.
@@ -678,7 +688,7 @@ c.content.default_encoding = 'utf-8'
 
 ## Try to pre-fetch DNS entries to speed up browsing.
 ## Type: Bool
-# c.content.dns_prefetch = False
+# c.content.dns_prefetch = True
 
 ## Expand each subframe to its contents. This will flatten all the frames
 ## to become one scrollable page.
@@ -738,7 +748,9 @@ c.content.default_encoding = 'utf-8'
 ## Safari/Chrome version. * `{qutebrowser_version}`: The currently
 ## running qutebrowser version.  The default value is equal to the
 ## unchanged user agent of QtWebKit/QtWebEngine.  Note that the value
-## read from JavaScript is always the global value.
+## read from JavaScript is always the global value. With QtWebEngine
+## between 5.12 and 5.14 (inclusive), changing the value exposed to
+## JavaScript requires a restart.
 ## Type: FormatString
 # c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}'
 
@@ -907,7 +919,9 @@ c.content.pdfjs = True
 # c.content.private_browsing = False
 
 ## Proxy to use. In addition to the listed values, you can use a
-## `socks://...` or `http://...` URL.
+## `socks://...` or `http://...` URL. Note that with QtWebEngine, it will
+## take a couple of seconds until the change is applied, if this value is
+## changed at runtime.
 ## Type: Proxy
 ## Valid values:
 ##   - system: Use the system wide proxy.
@@ -972,7 +986,7 @@ config.bind('<Alt-Shift-D>', f'config-cycle -t content.user_stylesheets [{css_da
 # c.content.webrtc_ip_handling_policy = 'all-interfaces'
 
 ## Monitor load requests for cross-site scripting attempts. Suspicious
-## scripts will be blocked and reported in the inspector's JavaScript
+## scripts will be blocked and reported in the devtools JavaScript
 ## console. Note that bypasses for the XSS auditor are widely known and
 ## it can be abused for cross-site info leaks in some scenarios, see:
 ## https://www.chromium.org/developers/design-documents/xss-auditor
@@ -1305,16 +1319,20 @@ c.hints.uppercase = True
 ## Type: Bool
 # c.input.links_included_in_focus_chain = True
 
+## Enable back and forward buttons on the mouse.
+## Type: Bool
+# c.input.mouse.back_forward_buttons = True
+
+## Enable Opera-like mouse rocker gestures. This disables the context
+## menu.
+## Type: Bool
+# c.input.mouse.rocker_gestures = False
+
 ## Timeout (in milliseconds) for partially typed key bindings. If the
 ## current input forms only partial matches, the keystring will be
 ## cleared after this time.
 ## Type: Int
 # c.input.partial_timeout = 5000
-
-## Enable Opera-like mouse rocker gestures. This disables the context
-## menu.
-## Type: Bool
-# c.input.rocker_gestures = False
 
 ## Enable spatial navigation. Spatial navigation consists in the ability
 ## to navigate between focusable elements in a Web page, such as
@@ -1459,13 +1477,14 @@ c.qt.args = []
 ##   - single-process: Run all tabs in a single process. This should be used for debugging purposes only, and it disables `:open --private`.
 # c.qt.process_model = 'process-per-site-instance'
 
-## When to show the scrollbar.
+## When/how to show the scrollbar.
 ## Type: String
 ## Valid values:
 ##   - always: Always show the scrollbar.
 ##   - never: Never show the scrollbar.
 ##   - when-searching: Show the scrollbar when searching for text in the webpage. With the QtWebKit backend, this is equal to `never`.
-# c.scrolling.bar = 'when-searching'
+##   - overlay: Show an overlay scrollbar. With Qt < 5.11 or on macOS, this is unavailable and equal to `when-searching`; with the QtWebKit backend, this is equal to `never`. Enabling/disabling overlay scrollbars requires a restart.
+# c.scrolling.bar = 'overlay'
 
 ## Enable smooth scrolling for web pages. Note smooth scrolling does not
 ## work with the `:scroll-px` command.
@@ -1748,13 +1767,14 @@ c.tabs.show = 'switching'
 ## defined:  * `{perc}`: Percentage as a string like `[10%]`. *
 ## `{perc_raw}`: Raw percentage, e.g. `10`. * `{current_title}`: Title of
 ## the current web page. * `{title_sep}`: The string ` - ` if a title is
-## set, empty otherwise. * `{index}`: Index of this tab. * `{id}`:
-## Internal tab ID of this tab. * `{scroll_pos}`: Page scroll position. *
-## `{host}`: Host of the current web page. * `{backend}`: Either
-## ''webkit'' or ''webengine'' * `{private}`: Indicates when private mode
-## is enabled. * `{current_url}`: URL of the current web page. *
-## `{protocol}`: Protocol (http/https/...) of the current web page. *
-## `{audio}`: Indicator for audio/mute status.
+## set, empty otherwise. * `{index}`: Index of this tab. *
+## `{aligned_index}`: Index of this tab padded with spaces to have the
+## same width. * `{id}`: Internal tab ID of this tab. * `{scroll_pos}`:
+## Page scroll position. * `{host}`: Host of the current web page. *
+## `{backend}`: Either ''webkit'' or ''webengine'' * `{private}`:
+## Indicates when private mode is enabled. * `{current_url}`: URL of the
+## current web page. * `{protocol}`: Protocol (http/https/...) of the
+## current web page. * `{audio}`: Indicator for audio/mute status.
 ## Type: FormatString
 c.tabs.title.format = '{current_title} - {audio}'
 
@@ -1788,6 +1808,7 @@ c.tabs.title.format = '{current_title} - {audio}'
 ##   - naive: Use simple/naive check.
 ##   - dns: Use DNS requests (might be slow!).
 ##   - never: Never search automatically.
+##   - schemeless: Always search automatically unless URL explicitly contains a scheme.
 # c.url.auto_search = 'naive'
 
 ## Page to open if :open -t/-b/-w is used without URL. Use `about:blank`
@@ -2038,12 +2059,18 @@ c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '125%', '150%
 # config.bind('u', 'undo')
 # config.bind('v', 'enter-mode caret')
 # config.bind('wB', 'set-cmd-text -s :bookmark-load -w')
+# config.bind('wIf', 'devtools-focus')
+# config.bind('wIh', 'devtools left')
+# config.bind('wIj', 'devtools bottom')
+# config.bind('wIk', 'devtools top')
+# config.bind('wIl', 'devtools right')
+# config.bind('wIw', 'devtools window')
 # config.bind('wO', 'set-cmd-text :open -w {url:pretty}')
 # config.bind('wP', 'open -w -- {primary}')
 # config.bind('wb', 'set-cmd-text -s :quickmark-load -w')
 # config.bind('wf', 'hint all window')
 # config.bind('wh', 'back -w')
-# config.bind('wi', 'inspector')
+# config.bind('wi', 'devtools')
 # config.bind('wl', 'forward -w')
 # config.bind('wo', 'set-cmd-text -s :open -w')
 # config.bind('wp', 'open -w -- {clipboard}')

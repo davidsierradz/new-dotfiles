@@ -1328,9 +1328,6 @@ function! FollowLink()
   VimwikiFollowLink
   normal zv
 endfunction
-
-nmap <F7> <Plug>VimwikiFollowLink
-nnoremap <silent> <CR> :call FollowLink()<CR>
 "}}}
 ""/ vim-boxdraw {{{
 " The cursor can go nuts.
@@ -1658,18 +1655,21 @@ augroup initvim
   " autocmd FilterWritePost * if &diff | syntax off | else | syntax on | endif
   " autocmd DiffUpdated * if &diff | syntax off | else | syntax on | endif
 
-  augroup markdownCode
-    autocmd!
-    autocmd filetype vimwiki setl iskeyword+=-
-          \ | setl noru nu rnu nocul wrap conceallevel=3 concealcursor=nc
-          \ | setl dictionary+=/usr/share/dict/words,/usr/share/dict/spanish complete+=kspell
-  augroup END
-
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=500}
 
   autocmd BufReadPost,BufNewFile ~/notes/index.md setlocal foldlevel=2
+
+  autocmd filetype vimwiki nmap <buffer> <F7> <Plug>VimwikiFollowLink
+  autocmd filetype vimwiki nnoremap <buffer> <silent> <CR> :call FollowLink()<CR>
+augroup END
+
+augroup markdownCode
+  autocmd!
+  autocmd filetype vimwiki setl iskeyword+=-
+        \ | setl noru nu rnu nocul wrap conceallevel=3 concealcursor=nc
+        \ | setl dictionary+=/usr/share/dict/words,/usr/share/dict/spanish complete+=kspell
 augroup END
 "--------------------------------End Auto Commands-----------------------------"
 "}}}

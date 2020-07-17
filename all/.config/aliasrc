@@ -100,7 +100,7 @@ function terminal-scheme() {
   rofi_config_file=~/.config/rofi/config
   sed --follow-symlinks -i "s#^\(rofi.theme: /usr/share/rofi/themes/gruvbox-*\).*#\1$1-soft.rasi#g" $rofi_config_file
 
-  if test -z "$WORK"; then
+  if [[ "$WORK" == 'true' || $3 == 'forcebrowser' ]]; then
     qute_config_file=~/.config/qutebrowser/config.py
     if [[ $1 == 'light' ]]; then
       # sed --follow-symlinks -i "s#^\(c\.content\.user_stylesheets = \).*#\1[css_base]#" $qute_config_file

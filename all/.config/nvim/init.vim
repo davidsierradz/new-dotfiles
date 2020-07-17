@@ -615,6 +615,8 @@ nnoremap <leader>br :e!<CR>
 " This replicates the idea of closing a tab.
 nnoremap <leader>bq :bp <BAR> bd #<CR>
 
+nnoremap <leader>bt :bd %<CR>
+
 " Close the current buffer and move to the previous one and close the window
 " This replicates the idea of closing a tab.
 nnoremap <leader>bw :call DeleteWindowIfNotLast()<CR>
@@ -867,6 +869,9 @@ nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
 nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
 nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
 nnoremap <silent> <leader>cr :call CocAction('reloadExtension', 'coc-eslint')<CR>
+" coc-todo
+nnoremap <silent> <leader>caa  :CocList todolist<CR>
+nnoremap <silent> <leader>cas  :CocList --input=todolist commands<CR>
 
 command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
 nnoremap <silent> <leader>cta  :<C-u>Jest<CR>
@@ -1411,6 +1416,7 @@ let g:which_key_map.b = {
       \ 'a': 'list',
       \ 'r': 'reload',
       \ 'q': 'close',
+      \ 't': 'close-with-tab',
       \ 'w': 'close-with-window',
       \ 'b': 'back',
       \ 'd': 'menu',
