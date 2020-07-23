@@ -287,8 +287,8 @@ nnoremap Y yg$
 xnoremap Y g$y
 
 " execute the current line of text as a shell command.
-noremap  Q !!$SHELL<CR>
-vnoremap Q !$SHELL<CR>
+" noremap  Q !!$SHELL<CR>
+" vnoremap Q !$SHELL<CR>
 
 " Change à (Alt-`) to -> in insert mode.
 inoremap <M-1> ->
@@ -474,12 +474,9 @@ nnoremap X D
 "}}}
 ""/ vim-easymotion {{{
 "/
-nmap <C-Space> <Plug>(easymotion-f)
-xmap <C-Space> <Plug>(easymotion-f)
-omap <C-Space> <Plug>(easymotion-f)
-nmap <M-Space> <Plug>(easymotion-F)
-xmap <M-Space> <Plug>(easymotion-F)
-omap <M-Space> <Plug>(easymotion-F)
+nmap Q <Plug>(easymotion-s)
+xmap Q <Plug>(easymotion-s)
+omap Q <Plug>(easymotion-s)
 "}}}
 ""/ vim-rsi {{{
 "/
@@ -1108,7 +1105,11 @@ endif
 "/
 
 " Use autocmd to force lightline update.
-autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+augroup lightline#coc
+  autocmd!
+  autocmd User CocDiagnosticChange call lightline#update()
+  autocmd User CocStatusChange call lightline#update()
+augroup END
 
 let g:lightline = {
       \   'active': {

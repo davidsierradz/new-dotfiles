@@ -2,6 +2,11 @@ command=~/.local/bin/statusbar/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
+[taskw]
+command=i3status-taskwarrior json
+interval=10
+format=json
+
 #[pomodoro]
 #full_text=...
 #interval=1
