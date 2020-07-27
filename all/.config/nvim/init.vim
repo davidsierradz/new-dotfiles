@@ -25,6 +25,9 @@ Plug 'tpope/vim-surround'
 " Enable repeating supported plugin maps with '.'
 Plug 'tpope/vim-repeat'
 
+" Repeat command extended to visual mode.
+Plug 'inkarkat/vim-visualrepeat'
+
 " Pairs of handy bracket mappings.
 Plug 'tpope/vim-unimpaired'
 
@@ -125,8 +128,9 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 Plug 'mtikekar/nvim-send-to-term'
 
-" Plug 'metakirby5/codi.vim'
-Plug 'davidsierradz/codi.vim'
+Plug 'metakirby5/codi.vim'
+" Plug 'davidsierradz/codi.vim'
+let g:codi#virtual_text = 1
 " Change the color
 highlight CodiVirtualText guifg=cyan
 
@@ -1200,9 +1204,9 @@ endfunction
 
 function! TruncateGitBranch()
   let l:branch = fugitive#head()
-  if strwidth(l:branch) > 10
+  if strwidth(l:branch) > 15
     let l:branch =
-          \ Strcharpart(l:branch, 0, 10)
+          \ Strcharpart(l:branch, 0, 15)
           \ . (&encoding ==? 'utf-8' ?  '…' : '.')
   endif
   return l:branch
@@ -1769,7 +1773,7 @@ endf
 "--------------------------------Colors----------------------------------------"{{{
 " Custom Highlight groups.
 function! MyHighlights() abort
-  highlight MatchParen guibg=NONE gui=bold
+  highlight MatchParen guibg=NONE gui=bold cterm=bold ctermfg=1 ctermbg=NONE
   highlight CodiVirtualText guifg=#cc241d
   highlight! link CocExplorerFileFullpath Operator
   highlight! link CocExplorerFileLinkTarget Operator
