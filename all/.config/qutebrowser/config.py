@@ -1585,7 +1585,7 @@ c.spellcheck.languages = ["en-US", "es-ES"]
 ##   - always: Always show the statusbar.
 ##   - never: Always hide the statusbar.
 ##   - in-mode: Show the statusbar when in modes other than normal mode.
-c.statusbar.show = 'in-mode'
+c.statusbar.show = 'always'
 
 ## List of widgets displayed in the statusbar.
 ## Type: List of String
@@ -1744,7 +1744,7 @@ c.tabs.select_on_remove = 'last-used'
 ##   - never: Always hide the tab bar.
 ##   - multiple: Hide the tab bar if only one tab is open.
 ##   - switching: Show the tab bar when switching tabs.
-c.tabs.show = 'switching'
+c.tabs.show = 'always'
 
 ## Duration (in milliseconds) to show the tab bar before hiding it when
 ## tabs.show is set to 'switching'.
@@ -2219,6 +2219,7 @@ config.bind(',W', 'hint links spawn nohup i3 "exec --no-startup-id xterm -e w3m 
 
 config.bind(';k', 'hint kill delete')
 config.bind(';;', 'hint all hover')
+config.bind(';m', 'hint links userscript yank-markdown-js')
 
 config.bind('<Ctrl-u>', 'run-with-count 11 scroll up')
 config.bind('d', 'scroll-page 0 0.6')

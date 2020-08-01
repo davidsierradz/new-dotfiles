@@ -31,3 +31,4 @@ mount/
 .nuget
 .local/share/NuGet
 apidoc
+.yarn/berry/

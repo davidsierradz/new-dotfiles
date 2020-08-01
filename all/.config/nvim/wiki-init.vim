@@ -87,9 +87,6 @@ Plug 'maximbaz/lightline-trailing-whitespace'
 " Draw boxes and arrows in ascii.
 Plug 'gyim/vim-boxdraw', { 'for': 'markdown' }
 
-" Distraction-free writing in Vim.
-" Plug 'junegunn/goyo.vim'
-
 " Smooth scrolling for Vim done right.
 " Plug 'psliwka/vim-smoothie'
 
@@ -151,7 +148,7 @@ set hidden
 " Command-Line options.
 set wildignorecase
 set wildoptions=pum
-set pumblend=10
+set pumblend=0
 
 " Ignore case for completion in insert mode.
 set infercase
@@ -224,7 +221,7 @@ set scrolloff=0
 set sidescrolloff=0
 
 " Enable true color support
-if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux'
+if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes'
   set notermguicolors
 else
   set termguicolors
@@ -549,6 +546,8 @@ nnoremap <leader>br :e!<CR>
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab.
 nnoremap <leader>bq :bp <BAR> bd #<CR>
+
+nnoremap <leader>bt :bd %<CR>
 
 " Close the current buffer and move to the previous one and close the window
 " This replicates the idea of closing a tab.
@@ -1058,49 +1057,6 @@ else
   let g:fzf_layout = { 'window': '-tabnew' }
 endif
 "}}}
-""/ Goyo {{{
-"/
-" Open Goyo.
-" nnoremap <F5> :Goyo<CR>
-
-" Mantains set number.
-" let g:goyo_linenr=1
-
-" Width.
-" let g:goyo_width=100
-" let g:goyo_height='100%'
-
-" function! s:goyo_enter()
-"   let b:quitting = 0
-"   let b:quitting_bang = 0
-"   autocmd QuitPre <buffer> let b:quitting = 1
-"   cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-" endfunction
-
-" function! s:goyo_leave()
-"   " Quit Vim if this is the only remaining buffer
-"   if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) is# 1
-"     if b:quitting_bang
-"       qa!
-"     else
-"       qa
-"     endif
-"   endif
-" endfunction
-
-" autocmd! User GoyoEnter call <SID>goyo_enter()
-" autocmd! User GoyoLeave call <SID>goyo_leave()
-
-" function! s:goyo_start(...)
-"   if v:vim_did_enter
-"     Goyo
-"     " highlight VertSplit guifg=#cccccc
-"     " set fillchars+=vert:\│
-"   endif
-" endfunc
-
-" call timer_start(10, function('s:goyo_start'))
-"}}}
 ""/ lightline.vim {{{
 "/
 
@@ -1227,26 +1183,6 @@ let g:mkdp_browser = '/usr/bin/qutebrowser'
 "/
 " Enable keepCursor feature.
 let g:asterisk#keeppos = 1
-"}}}
-""/ Pencil {{{
-"/
-" " Start pencil on vimwiki buffers.
-" augroup pencil
-"     autocmd!
-"     autocmd filetype vimwiki
-"                 \   setl iskeyword+=-
-"                 \ | setl noru nu rnu cul conceallevel=0 concealcursor=nc
-"                 \ | setl dictionary=/usr/share/dict/words,/usr/share/dict/spanish complete+=kspell
-" augroup END
-
-" let g:pencil#wrapModeDefault = 'soft'
-" let g:pencil#textwidth = 74
-" let g:pencil#joinspaces = 0
-" let g:pencil#cursorwrap = 0
-" let g:pencil#conceallevel = 3
-" let g:pencil#concealcursor = 'nc'
-" let g:pencil#softDetectSample = 20
-" let g:pencil#softDetectThreshold = 130
 "}}}
 ""/ vimwiki {{{
 "/
@@ -1478,6 +1414,7 @@ let g:which_key_map.b = {
       \ 'a': 'list',
       \ 'r': 'reload',
       \ 'q': 'close',
+      \ 't': 'close-with-tab',
       \ 'w': 'close-with-window',
       \ 'b': 'back',
       \ 'd': 'menu',
@@ -1818,6 +1755,12 @@ fu! CustomFoldTextTwo()
 endf
 
 " set foldtext=CustomFoldTextTwo()
+
+" augroup setvirtualedit
+"   autocmd!
+"   autocmd BufLeave *.md setlocal virtualedit-=all
+"   autocmd BufEnter *.md setlocal virtualedit+=all
+" augroup end
 "--------------------------------End Functions---------------------------------"
 "}}}
 
@@ -1827,6 +1770,13 @@ endf
 function! MyHighlights() abort
   highlight MatchParen guibg=NONE gui=bold
   highlight SpellBad gui=undercurl guifg=NONE
+  highlight! link CocExplorerFileFullpath Operator
+  highlight! link CocExplorerFileLinkTarget Operator
+  highlight! link CocExplorerFileGitStage Operator
+  highlight! link CocExplorerBookmarkPosition Operator
+  highlight! link CocExplorerBookmarkAnnotation Operator
+  highlight! link CocExplorerHelpHint Operator
+  highlight! link CocExplorerHelpDescription Operator
   if exists('g:loaded_lightline')
     runtime plugin/lightline-gruvbox.vim
     call lightline#colorscheme()

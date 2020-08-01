@@ -58,9 +58,9 @@ fi
 
 setbg & # Set the background
 
-rinit &
+# rinit &
 
-sleep 1
+# sleep 1
 
 # Your default LARBS WM is determined in your `~/.profile` on login.  Here we
 # run the proper command to run when the graphical environment starts.

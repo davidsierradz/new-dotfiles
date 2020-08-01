@@ -2,11 +2,11 @@
   "dependencies": {
     "coc-conventional": ">=1.0.0",
     "coc-css": ">=1.2.4",
-    "coc-diagnostic": ">=0.4.1",
+    "coc-diagnostic": ">=0.6.0",
     "coc-dictionary": ">=1.2.2",
     "coc-emmet": ">=1.1.6",
     "coc-eslint": ">=1.2.7",
-    "coc-explorer": ">=0.7.19",
+    "coc-explorer": ">=0.7.24",
     "coc-html": ">=1.2.4",
     "coc-jest": ">=1.0.3",
     "coc-json": ">=1.2.6",

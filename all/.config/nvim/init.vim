@@ -57,7 +57,7 @@ Plug 'easymotion/vim-easymotion'
 
 Plug 'tmsvg/pear-tree'
 imap <BS> <Plug>(PearTreeBackspace)
-imap <Esc> <Plug>(PearTreeFinishExpansion)
+" imap <Esc> <Plug>(PearTreeFinishExpansion)
 imap <M-Space> <Plug>(PearTreeSpace)
 imap <C-g><C-g> <Plug>(PearTreeJump)
 let g:pear_tree_pairs = {
@@ -871,8 +871,8 @@ nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
 nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
 nnoremap <silent> <leader>cr :call CocAction('reloadExtension', 'coc-eslint')<CR>
 " coc-todo
-nnoremap <silent> <leader>caa  :CocList todolist<CR>
-nnoremap <silent> <leader>cas  :CocList --input=todolist commands<CR>
+" nnoremap <silent> <leader>caa  :CocList todolist<CR>
+" nnoremap <silent> <leader>cas  :CocList --input=todolist commands<CR>
 
 command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
 nnoremap <silent> <leader>cta  :<C-u>Jest<CR>
@@ -953,7 +953,6 @@ let g:coc_global_extensions = [
       \ 'coc-prettier',
       \ 'coc-sh',
       \ 'coc-snippets',
-      \ 'coc-todolist',
       \ 'coc-tslint-plugin',
       \ 'coc-tsserver',
       \ 'coc-vimlsp',
@@ -1599,20 +1598,20 @@ augroup initvim
   " autocmd FilterWritePost * if &diff | syntax off | else | syntax on | endif
   " autocmd DiffUpdated * if &diff | syntax off | else | syntax on | endif
 
-  augroup markdownCode
-    autocmd!
-    autocmd filetype markdown setl iskeyword+=-
-          \ | setl noru nu rnu nocul wrap conceallevel=0 concealcursor=nc
-          \ | setl dictionary+=/usr/share/dict/words,/usr/share/dict/spanish complete+=kspell
-          \ | setl spell spl=es,en spf=~/.config/nvim/spell/es.utf-8.add
-          \ | setlocal foldmethod=expr | setlocal foldenable | set foldexpr=Fold(v:lnum)
-  augroup END
-
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=500}
 
   autocmd FileType javascript nnoremap <buffer> <LocalLeader>' :CodiUpdate<CR>
+augroup END
+
+augroup markdownCode
+  autocmd!
+  autocmd filetype markdown setl iskeyword+=-
+        \ | setl noru nu rnu nocul wrap conceallevel=0 concealcursor=nc
+        \ | setl dictionary+=/usr/share/dict/words,/usr/share/dict/spanish complete+=kspell
+        \ | setl spell spl=es,en spf=~/.config/nvim/spell/es.utf-8.add
+        \ | setlocal foldmethod=expr | setlocal foldenable | set foldexpr=Fold(v:lnum)
 augroup END
 "--------------------------------End Auto Commands-----------------------------"
 "}}}
