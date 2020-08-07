@@ -137,9 +137,9 @@ for_window [instance="dropdown_tmuxdd"] resize set 925 450
 for_window [instance="dropdown_dropdowncalc"] resize set 800 300
 for_window [instance="dropdown_tmuxdd"] border pixel 3
 for_window [instance="dropdown_dropdowncalc"] border pixel 2
-for_window [instance="dropdown_nvim"] resize set 90 ppt 70 ppt
+# for_window [instance="dropdown_nvim"] resize set 90 ppt 70 ppt
 for_window [instance="dropdown_nvim"] border pixel 3
-for_window [instance="dropdown_zsh"] resize set 90 ppt 70 ppt
+# for_window [instance="dropdown_zsh"] resize set 90 ppt 70 ppt
 for_window [instance="dropdown_zsh"] border pixel 3
 for_window [class="Pinentry"] sticky enable
 for_window [class="sent"] border pixel 0px
@@ -155,8 +155,8 @@ for_window [class="kitty" title="floating_kitty$"] floating enable, move absolut
 for_window [class="kitty" title="floating_kitty$"] move scratchpad, scratchpad show
 for_window [urgent=latest] focus
 for_window [instance="dropdown_*"] move position center
-no_focus   [title="mpvfloat"]
 for_window [floating] move position center
+no_focus   [title="mpvfloat"]
 # }}}
 
 # ---Startup--- # {{{

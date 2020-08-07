@@ -105,6 +105,22 @@ Plug 'liuchengxu/vim-which-key'
 
 " Put colors on hex values.
 Plug 'norcalli/nvim-colorizer.lua'
+
+Plug 'scr1pt0r/crease.vim'
+set fillchars=fold:‧
+let g:crease_foldtext = { 'default': '%{CreaseIndent()}%t%= %l lines %{CreasePercentage()}' }
+function CreasePercentage() abort
+  let foldSize = 1 + v:foldend - v:foldstart
+  let lineCount = line("$")
+  let foldPercentage = "[" . printf("%4s", printf("%.1f", (foldSize*1.0)/lineCount*100)) . "%] "
+  return foldPercentage
+endfunction
+function CreaseIndent() abort
+  let fs = nextnonblank(v:foldstart)
+  let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+  let foldLevelStr = repeat(' ', match(line,'\S'))
+  return foldLevelStr
+endfunction
 "}}}
 
 "-------------Integrations-------------- {{{
@@ -541,6 +557,10 @@ omap Q <Plug>(easymotion-s)
 if empty(mapcheck('<C-k>', 'i'))
   inoremap <C-k> <C-o>C
 endif
+
+if empty(mapcheck('<C-e>', 'i'))
+  inoremap <expr> <C-E> col('.')>strlen(getline('.'))<bar><bar>pumvisible()?"\<Lt>End>":"\<Lt>End>"
+endif
 if empty(mapcheck('<C-k>', 'c'))
   cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1)<CR>
 endif
@@ -595,7 +615,7 @@ nnoremap <silent> <Leader>qa  :qa<CR>
 " File save
 nnoremap <silent> <Leader>ff :write<CR>
 nnoremap <Leader>fa :call CocExplorerDirvish()<CR>
-nnoremap <Leader>fA :CocCommand explorer<CR>
+nnoremap <Leader>fA :CocCommand explorer --position tab<CR>
 nnoremap <silent> <Leader>f0 :set foldlevel=0<CR>
 nnoremap <silent> <Leader>f1 :set foldlevel=1<CR>
 nnoremap <silent> <Leader>f2 :set foldlevel=2<CR>
@@ -1686,77 +1706,77 @@ command! CocPrettierFormatUseGlobal call CocPrettierFormatUseGlobal()
 " Modification of https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
 " Always show some delimiters (the argument of CustomFoldText) and the tail of
 " the folded line, that is, the number of lines folded (absolute and relative)
-function! CustomFoldText(delim)
-  "get first non-blank line
-  let fs = nextnonblank(v:foldstart)
+" function! CustomFoldText(delim)
+"   "get first non-blank line
+"   let fs = nextnonblank(v:foldstart)
+"
+"   if fs > v:foldend
+"     let line = getline(v:foldstart)
+"   else
+"     let line = substitute(getline(fs), '\t', repeat('  ', &tabstop), 'g')
+"   endif
+"
+"   " indent foldtext corresponding to foldlevel
+"   let indent = repeat(' ',shiftwidth())
+"   " let indentTwo = repeat('',shiftwidth())
+"   let foldLevelStr = repeat(' ', match(getline(fs),'\S'))
+"   let foldLineHead = substitute(line, '^\s*', foldLevelStr, '')
+"
+"   " size foldtext according to window width
+"   let w = winwidth(0) - &foldcolumn - (&number ? &numberwidth : 0) - (&l:signcolumn is# 'yes' ? 2 : 0)
+"   let foldSize = 1 + v:foldend - v:foldstart
+"
+"   " estimate fold length
+"   let foldSizeStr = " " . foldSize . " lines "
+"   let lineCount = line("$")
+"   if has("float")
+"     try
+"       let foldPercentage = "[" . printf("%4s", printf("%.1f", (foldSize*1.0)/lineCount*100)) . "%] "
+"     catch /^Vim\%((\a\+)\)\=:E806/	" E806: Using Float as String
+"       let foldPercentage = printf("[of %d lines] ", lineCount)
+"     endtry
+"   endif
+"
+"   " build up foldtext
+"   let foldLineTail = foldSizeStr . foldPercentage
+"   let lengthTail = strwidth(foldLineTail)
+"   let lengthHead = w - (lengthTail + indent)
+"
+"   if strwidth(foldLineHead) > lengthHead
+"     let foldLineHead = strpart(foldLineHead, 0, lengthHead-2) . '..'
+"   endif
+"
+"   let lengthMiddle = w - strwidth(foldLineHead.foldLineTail)
+"
+"   " truncate foldtext according to window width
+"   let expansionString = repeat(a:delim, lengthMiddle)
+"
+"   let foldLine = foldLineHead . expansionString . foldLineTail
+"   return foldLine
+" endfunction
 
-  if fs > v:foldend
-    let line = getline(v:foldstart)
-  else
-    let line = substitute(getline(fs), '\t', repeat('  ', &tabstop), 'g')
-  endif
+" set foldtext=CustomFoldText('·')
 
-  " indent foldtext corresponding to foldlevel
-  let indent = repeat(' ',shiftwidth())
-  " let indentTwo = repeat('',shiftwidth())
-  let foldLevelStr = repeat(' ', match(getline(fs),'\S'))
-  let foldLineHead = substitute(line, '^\s*', foldLevelStr, '')
-
-  " size foldtext according to window width
-  let w = winwidth(0) - &foldcolumn - (&number ? &numberwidth : 0) - (&l:signcolumn is# 'yes' ? 2 : 0)
-  let foldSize = 1 + v:foldend - v:foldstart
-
-  " estimate fold length
-  let foldSizeStr = " " . foldSize . " lines "
-  let lineCount = line("$")
-  if has("float")
-    try
-      let foldPercentage = "[" . printf("%4s", printf("%.1f", (foldSize*1.0)/lineCount*100)) . "%] "
-    catch /^Vim\%((\a\+)\)\=:E806/	" E806: Using Float as String
-      let foldPercentage = printf("[of %d lines] ", lineCount)
-    endtry
-  endif
-
-  " build up foldtext
-  let foldLineTail = foldSizeStr . foldPercentage
-  let lengthTail = strwidth(foldLineTail)
-  let lengthHead = w - (lengthTail + indent)
-
-  if strwidth(foldLineHead) > lengthHead
-    let foldLineHead = strpart(foldLineHead, 0, lengthHead-2) . '..'
-  endif
-
-  let lengthMiddle = w - strwidth(foldLineHead.foldLineTail)
-
-  " truncate foldtext according to window width
-  let expansionString = repeat(a:delim, lengthMiddle)
-
-  let foldLine = foldLineHead . expansionString . foldLineTail
-  return foldLine
-endfunction
-
-set foldtext=CustomFoldText('\ ')
-
-fu! CustomFoldTextTwo()
-  "get first non-blank line
-  let fs = v:foldstart
-  while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
-  endwhile
-  if fs > v:foldend
-    let line = getline(v:foldstart)
-  else
-    let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
-  endif
-
-  let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
-  let foldSize = 1 + v:foldend - v:foldstart
-  let foldSizeStr = " " . foldSize . " lines "
-  let foldLevelStr = repeat("+--", v:foldlevel)
-  let lineCount = line("$")
-  let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
-  let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
-  return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
-endf
+" fu! CustomFoldTextTwo()
+"   "get first non-blank line
+"   let fs = v:foldstart
+"   while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
+"   endwhile
+"   if fs > v:foldend
+"     let line = getline(v:foldstart)
+"   else
+"     let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+"   endif
+"
+"   let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
+"   let foldSize = 1 + v:foldend - v:foldstart
+"   let foldSizeStr = " " . foldSize . " lines "
+"   let foldLevelStr = repeat("+--", v:foldlevel)
+"   let lineCount = line("$")
+"   let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
+"   let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
+"   return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
+" endf
 
 " set foldtext=CustomFoldTextTwo()
 

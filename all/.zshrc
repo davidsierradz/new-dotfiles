@@ -179,6 +179,30 @@ fzf-history-widget-accept() {
 }
 zle -N fzf-history-widget-accept
 
+# From https://github.com/junegunn/fzf/issues/477#issuecomment-230338992
+fzf-history-widget() {
+  local selected num
+  setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
+  selected=( $(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\s+(.*)/, $1)}++' |
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --expect=ctrl-x --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
+  local ret=$?
+  if [ -n "$selected" ]; then
+    local accept=0
+    if [[ $selected[1] = ctrl-x ]]; then
+      accept=1
+      shift selected
+    fi
+    num=$selected[1]
+    if [ -n "$num" ]; then
+      zle vi-fetch-history -n $num
+      [[ $accept = 1 ]] && zle accept-line
+    fi
+  fi
+  zle reset-prompt
+  return $ret
+}
+zle -N fzf-history-widget
+
 # ALT-D - Paste the selected directory path into the command line
 __fseldir() {
   local cmd="command find -L . -mindepth 1 \\( -path '*/\\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
@@ -336,6 +360,8 @@ bindkey -M menuselect '^P' up-line-or-history
 bindkey -M menuselect '^N' down-line-or-history
 
 bindkey '' backward-kill-line
+
+bindkey '^R' fzf-history-widget
 #--------------------------------End KeyBindings-------------------------------#
 #}}}
 
