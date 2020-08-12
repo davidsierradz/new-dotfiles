@@ -47,26 +47,6 @@ Plug 'wellle/targets.vim'
 Plug 'easymotion/vim-easymotion'
 
 Plug 'tmsvg/pear-tree'
-imap <BS> <Plug>(PearTreeBackspace)
-" imap <Esc> <Plug>(PearTreeFinishExpansion)
-imap <M-Space> <Plug>(PearTreeSpace)
-imap <C-g><C-g> <Plug>(PearTreeJump)
-let g:pear_tree_pairs = {
-      \ '(': {'closer': ')'},
-      \ '[': {'closer': ']'},
-      \ '{': {'closer': '}'},
-      \ "'": {'closer': "'"},
-      \ '"': {'closer': '"'},
-      \ '`': {'closer': '`'},
-      \ '```': {'closer': '```'},
-      \ '<!--': {'closer': '-->'},
-      \ }
-
-let g:pear_tree_repeatable_expand = 0
-let g:pear_tree_map_special_keys = 0
-let g:pear_tree_smart_openers = 0
-let g:pear_tree_smart_closers = 0
-let g:pear_tree_smart_backspace = 0
 "}}}
 
 "--------------Interface---------------- {{{
@@ -95,6 +75,8 @@ Plug 'liuchengxu/vim-which-key'
 
 " Put colors on hex values.
 Plug 'norcalli/nvim-colorizer.lua'
+
+Plug 'scr1pt0r/crease.vim'
 "}}}
 
 "-------------Integrations-------------- {{{
@@ -385,128 +367,6 @@ nnoremap <M-w> :w<CR>
 nnoremap gx :silent !xdg-open "<cfile>:p"<cr>
 nnoremap gX :silent !xdg-open "<cfile>:p" &<cr>
 "}}}
-""/ plugins basics {{{
-"/
-""/ coc.nvim {{{
-"/
-" Use tab for trigger completion with characters ahead and navigate.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" Or use `complete_info` if your vim support it, like:
-" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-"       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-" inoremap <silent><expr> <M-CR> pumvisible() && coc#rpc#request('hasSelected', []) ? "\<C-y>"
-"       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-imap <silent><expr> <M-CR> complete_info()["selected"] != "-1" ? "\<C-y>"
-      \: "\<Plug>(PearTreeExpand)"
-
-" Create mappings for function text object, requires document symbols feature of languageserver.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
-
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
-
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
-
-" Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
-
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-
-" coc-smartf
-" press <esc> to cancel.
-" nmap <C-Space> <Plug>(coc-smartf-forward)
-" nmap <M-Space> <Plug>(coc-smartf-backward)
-" nmap ;; <Plug>(coc-smartf-repeat)
-" nmap ,, <Plug>(coc-smartf-repeat-opposite)
-
-nmap <silent> [[ <Plug>(coc-diagnostic-prev)
-nmap <silent> ]] <Plug>(coc-diagnostic-next)
-"}}}
-""/ vim-asterisk {{{
-"/
-map *   <Plug>(asterisk-*)
-map #   <Plug>(asterisk-#)
-map g*  <Plug>(asterisk-g*)
-map g#  <Plug>(asterisk-g#)
-map z*  <Plug>(asterisk-z*)
-map gz* <Plug>(asterisk-gz*)
-map z#  <Plug>(asterisk-z#)
-map gz# <Plug>(asterisk-gz#)
-"}}}
-""/ vim-cutlass {{{
-"/
-nnoremap x d
-xnoremap x d
-nnoremap xx dd
-nnoremap X D
-"}}}
-""/ vim-easymotion {{{
-"/
-nmap Q <Plug>(easymotion-s)
-xmap Q <Plug>(easymotion-s)
-omap Q <Plug>(easymotion-s)
-"}}}
-""/ vim-rsi {{{
-"/
-if empty(mapcheck('<C-k>', 'i'))
-  inoremap <C-k> <C-o>C
-endif
-if empty(mapcheck('<C-k>', 'c'))
-  cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1)<CR>
-endif
-"}}}
-""/ vim-subversive {{{
-"/
-nmap s <plug>(SubversiveSubstitute)
-xmap s <plug>(SubversiveSubstitute)
-nmap ss <plug>(SubversiveSubstituteLine)
-nmap S <plug>(SubversiveSubstituteToEndOfLine)
-xmap p <plug>(SubversiveSubstitute)
-xmap P <plug>(SubversiveSubstitute)
-"}}}
-""/ vim-which-key {{{
-nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
-vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
-nnoremap <silent> <LocalLeader> :<c-u>WhichKey  '\'<CR>
-vnoremap <silent> <LocalLeader> :<c-u>WhichKeyVisual '\'<CR>
-nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
-nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
-"}}}
-""/ vim-yoink {{{
-"/
-nmap p <plug>(YoinkPaste_p)
-nmap P <plug>(YoinkPaste_P)
-"}}}
-"}}}
 ""/ leader (SPC) {{{
 "/
 ""/ terminal (`) {{{
@@ -525,18 +385,6 @@ nnoremap <silent> <Leader>qa  :qa<CR>
 "/
 " File save
 nnoremap <silent> <Leader>ff :write<CR>
-nnoremap <Leader>fa :call CocExplorerDirvish()<CR>
-nnoremap <Leader>fA :CocCommand explorer<CR>
-nnoremap <silent> <Leader>f0 :set foldlevel=0<CR>
-nnoremap <silent> <Leader>f1 :set foldlevel=1<CR>
-nnoremap <silent> <Leader>f2 :set foldlevel=2<CR>
-nnoremap <silent> <Leader>f3 :set foldlevel=3<CR>
-nnoremap <silent> <Leader>f4 :set foldlevel=4<CR>
-nnoremap <silent> <Leader>f5 :set foldlevel=5<CR>
-nnoremap <silent> <Leader>f6 :set foldlevel=6<CR>
-nnoremap <silent> <Leader>f7 :set foldlevel=7<CR>
-nnoremap <silent> <Leader>f8 :set foldlevel=8<CR>
-nnoremap <silent> <Leader>f9 :set foldlevel=9<CR>
 "}}}
 ""/ buffers (b) {{{
 "/
@@ -551,6 +399,15 @@ nnoremap <leader>bt :bd %<CR>
 
 " Close the current buffer and move to the previous one and close the window
 " This replicates the idea of closing a tab.
+function! DeleteWindowIfNotLast()
+  if (winnr('$') > 1 && len(getbufinfo({'buflisted':1})) > 1)
+    execute ":bp\<BAR>bd#\<BAR>q"
+    return 1
+  endif
+
+  echo "Only one window or buffer."
+  return 0
+endfunction
 nnoremap <leader>bw :call DeleteWindowIfNotLast()<CR>
 
 " Remap go to last file with backspace.
@@ -567,11 +424,11 @@ nnoremap <silent> <Leader>bj :bd<CR>
 nnoremap <silent> <Leader>bk :bw<CR>
 nnoremap <silent> <Leader>ba :ls<CR>
 
-for s:i in range(1, 9)
-  " <Leader>b[1-9] move to buffer [1-9]
-  execute 'nnoremap <Leader>b'.s:i ':b'.s:i.'<CR>'
-endfor
-unlet s:i
+" for s:i in range(1, 9)
+"   " <Leader>b[1-9] move to buffer [1-9]
+"   execute 'nnoremap <Leader>b'.s:i ':b'.s:i.'<CR>'
+" endfor
+" unlet s:i
 "}}}
 ""/ windows (w) {{{
 "/
@@ -604,76 +461,20 @@ unlet s:i
 "}}}
 ""/ tabs (t) {{{
 "/
-for s:i in range(1, 9)
-  " <Leader>t[1-9] move to tab [1-9]
-  execute 'nnoremap <Leader>t'.s:i s:i.'gt'
-endfor
-unlet s:i
-"}}}
-""/ fzf (z) {{{
-"/
-nnoremap <leader>zq :Rg<CR>
-nnoremap <leader>zw :Rgg<CR>
-nnoremap <leader>ze :Rggg<CR>
-nnoremap <leader>zQ :RgWithFileName<CR>
-nnoremap <leader>zW :RggWithFileName<CR>
-nnoremap <leader>zE :RgggWithFileName<CR>
-nnoremap <leader>zh :History<CR>
-nnoremap <leader>zx :Snippets<CR>
-nnoremap <leader>zz :Buffers<CR>
-nnoremap <leader>zp :RG ~/notes/<CR>
-nnoremap <leader>zP :AFiles<CR>
-"}}}
-""/ lsp (l) {{{
-"/
-nmap <silent> <leader>l[ <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>l] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>lgd <Plug>(coc-definition)
-nmap <silent> <leader>lgv :call CocAction('jumpDefinition', 'vsplit')<CR>
-nmap <silent> <leader>lgs :call CocAction('jumpDefinition', 'split')<CR>
-nmap <silent> <leader>lgt :call CocAction('jumpDefinition', 'tab drop')<CR>
-nmap <silent> <leader>lgy <Plug>(coc-type-definition)
-nmap <silent> <leader>lgi <Plug>(coc-implementation)
-nmap <silent> <leader>lgr <Plug>(coc-references)
-nnoremap <silent> <leader>lgk :call <SID>show_documentation()<CR>
-nmap <leader>lr <Plug>(coc-rename)
-xmap <leader>lf  <Plug>(coc-format-selected)
-nmap <leader>lf  <Plug>(coc-format-selected)
-xmap <leader>la  <Plug>(coc-codeaction-selected)
-nmap <leader>la  <Plug>(coc-codeaction-selected)
-nmap <leader>lac  <Plug>(coc-codeaction)
-nmap <leader>lqf  <Plug>(coc-fix-current)
-" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-" nmap <silent> <C-d> <Plug>(coc-range-select)
-" xmap <silent> <C-d> <Plug>(coc-range-select)
+" for s:i in range(1, 9)
+"   " <Leader>t[1-9] move to tab [1-9]
+"   execute 'nnoremap <Leader>t'.s:i s:i.'gt'
+" endfor
+" unlet s:i
 "}}}
 ""/ toggles (y) {{{
 "/
-
-" nnoremap <silent> <Leader>ya yo1
-nmap <silent> <Leader>yb yob
-nmap <silent> <Leader>yc yoc
-nmap <silent> <Leader>yd yod
 " Toggles conceallevel 0 to 3.
 nnoremap <silent> <Leader>ye :<C-R>=&conceallevel is# 0 ? "set conceallevel=3" : "set conceallevel=0"<CR><CR>
 " Toggles formatoptions to add comment after <CR> or o (and O).
 nnoremap <silent> <Leader>yf :<C-R>=&formatoptions !~# "cro" ? "setlocal formatoptions+=cro" : "setlocal formatoptions-=cro"<CR><CR>
-nmap <silent> <Leader>yh yoh
-nmap <silent> <Leader>yi yoi
-nmap <silent> <Leader>yl yol
-nmap <silent> <Leader>yn yon
-nmap <silent> <Leader>yp yop
 nnoremap <silent> <Leader>yq :<C-R>=&scrollback is# 1 ? "setlocal scrollback=50000" : "setlocal scrollback=1"<CR><CR>
-nmap <silent> <Leader>yr yor
-nmap <silent> <Leader>ys yos
-nmap <silent> <Leader>yu you
-nmap <silent> <Leader>yv yov
-nmap <silent> <Leader>yw yow
-nmap <silent> <Leader>yx yox
 nnoremap <silent> <Leader>yz :<C-R>=&dictionary is# "/usr/share/dict/words" ? "set dictionary=/usr/share/dict/spanish" : "set dictionary=/usr/share/dict/words"<CR><CR>
-
-
-" Toggle pastemode
 "}}}
 ""/ settings (s) {{{
 "/
@@ -689,85 +490,17 @@ nnoremap <leader>r% :let @+=@%<CR>
 " Copy the current line number to + register.
 nnoremap <silent> <leader>r. :call setreg('+', line('.'))<CR>
 "}}}
-""/ paste (p) {{{
-"/
-nmap <leader>pn <plug>(YoinkPostPasteSwapBack)
-nmap <leader>pp <plug>(YoinkPostPasteSwapForward)
-nnoremap <silent> <leader>ph  :<C-u>CocList -A --normal yank<cr>
-"}}}
 ""/ local filetype (,) {{{
 "/
 ""/ diff {{{
 "/
 " Choose one block in a 3-way merge resolution.
-if &diff
-  syntax off
-  nnoremap <buffer> <LocalLeader>1 :diffget LOCAL<CR>
-  nnoremap <buffer> <LocalLeader>2 :diffget BASE<CR>
-  nnoremap <buffer> <LocalLeader>3 :diffget REMOTE<CR>
-endif
-"}}}
-""/ vim-dirvish {{{
-"/
-" Set <leader>cd to change directories in dirvish buffers.
-augroup dirvish_config
-  autocmd!
-
-  " Map `t` to open in new tab.
-  autocmd FileType dirvish
-        \  nnoremap <silent><buffer> <LocalLeader>t :call dirvish#open('tabedit', 0)<CR>
-        \ |xnoremap <silent><buffer> <LocalLeader>t :call dirvish#open('tabedit', 0)<CR>
-
-  " Map `gr` to reload.
-  autocmd FileType dirvish nnoremap <silent><buffer> <LocalLeader>gr :<C-U>:Dirvish %<CR>
-
-  " Map `gh` to hide dot-prefixed files.  Press `R` to "toggle" (reload).
-  autocmd FileType dirvish nnoremap <silent><buffer>
-        \ <LocalLeader>gh :silent keeppatterns g@\v/\.[^\/]+/?$@d _<cr>:setl cole=3<cr>
-
-  autocmd FileType dirvish
-        \ nnoremap <buffer> <LocalLeader>cd :cd %<CR>:pwd<CR>
-  autocmd FileType dirvish
-        \ nnoremap <nowait><buffer><silent> <M-n> <C-\><C-n>k:call feedkeys("p")<CR>
-augroup END
-"}}}
-""/ vim-node {{{
-"/
-autocmd User Node
-      \ if &filetype == "javascript" |
-      \   nmap <buffer> <LocalLeader>f <Plug>NodeVSplitGotoFile |
-      \ endif
-"}}}
-"}}}
-""/ plugins (SPC) {{{
-"/
-""/ vimwiki (w) {{{
-"/
-nmap <leader><leader>w+ <Plug>VimwikiNormalizeLink
-vmap <leader><leader>w+ <Plug>VimwikiNormalizeLinkVisual
-nmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
-vmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
-nmap <leader><leader>w[ <Plug>VimwikiGoToPrevHeader
-nmap <leader><leader>w] <Plug>VimwikiGoToNextHeader
-"}}}
-""/ coc.nvim (c) {{{
-"/
-"}}}
-""/ vim-easymotion (e) {{{
-"/
-nmap <leader><leader>ef <Plug>(easymotion-f)
-nmap <leader><leader>eF <Plug>(easymotion-F)
-nmap <leader><leader>e, <Plug>(easymotion-prev)
-nmap <leader><leader>e; <Plug>(easymotion-next)
-"}}}
-""/ matchup (m) {{{
-"/
-nmap <silent> <leader><leader>mm <plug>(matchup-hi-surround)
-"}}}
-""/ vim-mundo (h) {{{
-"/
-" Start plugin.
-nnoremap <leader><leader>hh :MundoToggle<CR>
+" if &diff
+"   syntax off
+"   nnoremap <buffer> <LocalLeader>1 :diffget LOCAL<CR>
+"   nnoremap <buffer> <LocalLeader>2 :diffget BASE<CR>
+"   nnoremap <buffer> <LocalLeader>3 :diffget REMOTE<CR>
+" endif
 "}}}
 "}}}
 ""/ others (o) {{{
@@ -779,34 +512,6 @@ nnoremap <F12> mzgggqG`z:delmarks z<cr>
 nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
       \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-"}}}
-""/ coc (c) {{{
-"/
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <leader>cda  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <leader>cj  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
-nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
-nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
-" Remap for do codeAction of selected region
-function! s:cocActionsOpenFromSelected(type) abort
-  execute 'CocCommand actions.open ' . a:type
-endfunction
-xmap <silent> <leader>ca :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-nmap <silent> <leader>ca :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
 "}}}
 "}}}
 "--------------------------------End General Mappings--------------------------"
@@ -840,6 +545,17 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
+function! CocPrettierFormatUseGlobal()
+  call coc#config('prettier.onlyUseLocalVersion', v:false)
+  call coc#config('prettier.requireConfig', v:false)
+  call CocAction('reloadExtension', 'coc-prettier')
+  call CocAction('runCommand', 'prettier.formatFile')
+  call coc#config('prettier.onlyUseLocalVersion', v:true)
+  call coc#config('prettier.requireConfig', v:true)
+  call CocAction('reloadExtension', 'coc-prettier')
+endfunction
+command! CocPrettierFormatUseGlobal call CocPrettierFormatUseGlobal()
 
 " Highlight symbol under cursor on CursorHold
 " autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -906,6 +622,138 @@ function CocExplorerDirvish() abort
   else
     execute 'CocCommand explorer'
   endif
+endfunction
+
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" inoremap <silent><expr> <M-CR> pumvisible() && coc#rpc#request('hasSelected', []) ? "\<C-y>"
+"       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+imap <silent><expr> <M-CR> complete_info()["selected"] != "-1" ? "\<C-y>"
+      \: "\<Plug>(PearTreeExpand)"
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+" xmap if <Plug>(coc-funcobj-i)
+" xmap af <Plug>(coc-funcobj-a)
+" omap if <Plug>(coc-funcobj-i)
+" omap af <Plug>(coc-funcobj-a)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
+
+" coc-smartf
+" press <esc> to cancel.
+" nmap <C-Space> <Plug>(coc-smartf-forward)
+" nmap <M-Space> <Plug>(coc-smartf-backward)
+" nmap ;; <Plug>(coc-smartf-repeat)
+" nmap ,, <Plug>(coc-smartf-repeat-opposite)
+
+nmap <silent> [[ <Plug>(coc-diagnostic-prev)
+nmap <silent> ]] <Plug>(coc-diagnostic-next)
+
+nnoremap <Leader>fa :call CocExplorerDirvish()<CR>
+nnoremap <Leader>fA :CocCommand explorer --position tab<CR>
+
+nmap <silent> <leader>l[ <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>l] <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>lgd <Plug>(coc-definition)
+nmap <silent> <leader>lgv :call CocAction('jumpDefinition', 'vsplit')<CR>
+nmap <silent> <leader>lgs :call CocAction('jumpDefinition', 'split')<CR>
+nmap <silent> <leader>lgt :call CocAction('jumpDefinition', 'tab drop')<CR>
+nmap <silent> <leader>lgy <Plug>(coc-type-definition)
+nmap <silent> <leader>lgi <Plug>(coc-implementation)
+nmap <silent> <leader>lgr <Plug>(coc-references)
+nnoremap <silent> <leader>lgk :call <SID>show_documentation()<CR>
+nmap <leader>lr <Plug>(coc-rename)
+xmap <leader>lf  <Plug>(coc-format-selected)
+nmap <leader>lf  <Plug>(coc-format-selected)
+xmap <leader>la  <Plug>(coc-codeaction-selected)
+nmap <leader>la  <Plug>(coc-codeaction-selected)
+nmap <leader>lac  <Plug>(coc-codeaction)
+nmap <leader>lqf  <Plug>(coc-fix-current)
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+" nmap <silent> <C-d> <Plug>(coc-range-select)
+" xmap <silent> <C-d> <Plug>(coc-range-select)
+
+nnoremap <silent> <leader>ph  :<C-u>CocList -A --normal yank<cr>
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <leader>cda  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <leader>cj  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
+nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
+nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
+" Remap for do codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+
+xmap <silent> <leader>ca :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> <leader>ca :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+"}}}
+""/ crease.vim {{{
+"/
+set fillchars=fold:‧
+let g:crease_foldtext = { 'default': '%{CreaseIndent()}%t%= %l lines %{CreasePercentage()}' }
+function CreasePercentage() abort
+  let foldSize = 1 + v:foldend - v:foldstart
+  let lineCount = line("$")
+  let foldPercentage = "[" . printf("%4s", printf("%.1f", (foldSize*1.0)/lineCount*100)) . "%] "
+  return foldPercentage
+endfunction
+function CreaseIndent() abort
+  let fs = nextnonblank(v:foldstart)
+  let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+  let foldLevelStr = repeat(' ', match(line,'\S'))
+  return foldLevelStr
 endfunction
 "}}}
 ""/ editorconfig/editorconfig-vim {{{
@@ -1056,6 +904,18 @@ else
   " FZF position.
   let g:fzf_layout = { 'window': '-tabnew' }
 endif
+
+nnoremap <leader>zq :Rg<CR>
+nnoremap <leader>zw :Rgg<CR>
+nnoremap <leader>ze :Rggg<CR>
+nnoremap <leader>zQ :RgWithFileName<CR>
+nnoremap <leader>zW :RggWithFileName<CR>
+nnoremap <leader>zE :RgggWithFileName<CR>
+nnoremap <leader>zh :History<CR>
+nnoremap <leader>zx :Snippets<CR>
+nnoremap <leader>zz :Buffers<CR>
+nnoremap <leader>zp :RG ~/notes/<CR>
+nnoremap <leader>zP :AFiles<CR>
 "}}}
 ""/ lightline.vim {{{
 "/
@@ -1179,6 +1039,29 @@ endfunction
 "/
 let g:mkdp_browser = '/usr/bin/qutebrowser'
 "}}}
+""/ pear-tree {{{
+"/
+imap <BS> <Plug>(PearTreeBackspace)
+" imap <Esc> <Plug>(PearTreeFinishExpansion)
+imap <M-Space> <Plug>(PearTreeSpace)
+imap <C-g><C-g> <Plug>(PearTreeJump)
+let g:pear_tree_pairs = {
+      \ '(': {'closer': ')'},
+      \ '[': {'closer': ']'},
+      \ '{': {'closer': '}'},
+      \ "'": {'closer': "'"},
+      \ '"': {'closer': '"'},
+      \ '`': {'closer': '`'},
+      \ '```': {'closer': '```'},
+      \ '<!--': {'closer': '-->'},
+      \ }
+
+let g:pear_tree_repeatable_expand = 0
+let g:pear_tree_map_special_keys = 0
+let g:pear_tree_smart_openers = 0
+let g:pear_tree_smart_closers = 0
+let g:pear_tree_smart_backspace = 0
+"}}}
 ""/ vim-asterisk {{{
 "/
 " Enable keepCursor feature.
@@ -1265,14 +1148,47 @@ function! FollowLink()
   VimwikiFollowLink
   normal zv
 endfunction
+
+nmap <leader><leader>w+ <Plug>VimwikiNormalizeLink
+vmap <leader><leader>w+ <Plug>VimwikiNormalizeLinkVisual
+nmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
+vmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
+nmap <leader><leader>w[ <Plug>VimwikiGoToPrevHeader
+nmap <leader><leader>w] <Plug>VimwikiGoToNextHeader
+
+augroup initvim
+  au!
+  autocmd BufReadPost,BufNewFile ~/notes/index.md setlocal foldlevel=2
+  autocmd filetype vimwiki nmap <buffer> <F7> <Plug>VimwikiFollowLink
+  autocmd filetype vimwiki nnoremap <buffer> <silent> <CR> :call FollowLink()<CR>
+augroup END
+"}}}
+""/ vim-asterisk {{{
+"/
+map *   <Plug>(asterisk-*)
+map #   <Plug>(asterisk-#)
+map g*  <Plug>(asterisk-g*)
+map g#  <Plug>(asterisk-g#)
+map z*  <Plug>(asterisk-z*)
+map gz* <Plug>(asterisk-gz*)
+map z#  <Plug>(asterisk-z#)
+map gz# <Plug>(asterisk-gz#)
 "}}}
 ""/ vim-boxdraw {{{
+"/
 " The cursor can go nuts.
 " augroup setvirtualedit
 "   autocmd!
 "   autocmd BufLeave *.md setlocal virtualedit-=all
 "   autocmd BufEnter *.md setlocal virtualedit+=all
 " augroup end
+"}}}
+""/ vim-cutlass {{{
+"/
+nnoremap x d
+xnoremap x d
+nnoremap xx dd
+nnoremap X D
 "}}}
 ""/ vim-dirvish {{{
 "/
@@ -1287,15 +1203,43 @@ augroup dirvish_events
   autocmd!
   autocmd FileType dirvish setlocal cursorline
 augroup END
+
+" Set <leader>cd to change directories in dirvish buffers.
+augroup dirvish_config
+  autocmd!
+
+  " Map `t` to open in new tab.
+  autocmd FileType dirvish
+        \  nnoremap <silent><buffer> <LocalLeader>t :call dirvish#open('tabedit', 0)<CR>
+        \ |xnoremap <silent><buffer> <LocalLeader>t :call dirvish#open('tabedit', 0)<CR>
+
+  " Map `gr` to reload.
+  autocmd FileType dirvish nnoremap <silent><buffer> <LocalLeader>gr :<C-U>:Dirvish %<CR>
+
+  " Map `gh` to hide dot-prefixed files.  Press `R` to "toggle" (reload).
+  autocmd FileType dirvish nnoremap <silent><buffer>
+        \ <LocalLeader>gh :silent keeppatterns g@\v/\.[^\/]+/?$@d _<cr>:setl cole=3<cr>
+
+  autocmd FileType dirvish
+        \ nnoremap <buffer> <LocalLeader>cd :cd %<CR>:pwd<CR>
+  autocmd FileType dirvish
+        \ nnoremap <nowait><buffer><silent> <M-n> <C-\><C-n>k:call feedkeys("p")<CR>
+augroup END
 "}}}
 ""/ vim-easymotion {{{
 "/
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
+nmap Q <Plug>(easymotion-s)
+xmap Q <Plug>(easymotion-s)
+omap Q <Plug>(easymotion-s)
+nmap <leader><leader>ef <Plug>(easymotion-f)
+nmap <leader><leader>eF <Plug>(easymotion-F)
+nmap <leader><leader>e, <Plug>(easymotion-prev)
+nmap <leader><leader>e; <Plug>(easymotion-next)
 "}}}
 ""/ vim-matchup {{{
 "/
-
 " let g:matchup_matchparen_enabled = 0
 
 " To enable the delete surrounding (ds%) and change surrounding (cs%) maps.
@@ -1305,6 +1249,8 @@ let g:matchup_matchparen_status_offscreen = 0
 
 "let g:matchup_matchparen_deferred = 1
 "let g:matchup_matchparen_hi_surround_always = 1
+
+nmap <silent> <leader><leader>mm <plug>(matchup-hi-surround)
 "}}}
 ""/ vim-mundo {{{
 "/
@@ -1315,11 +1261,53 @@ let g:mundo_preview_bottom = 1
 let g:gundo_close_on_revert = 1
 
 " let g:mundo_auto_preview = 0
+
+nnoremap <leader><leader>hh :MundoToggle<CR>
+"}}}
+""/ vim-node {{{
+"/
+autocmd User Node
+      \ if &filetype == "javascript" |
+      \   nmap <buffer> <LocalLeader>f <Plug>NodeVSplitGotoFile |
+      \ endif
 "}}}
 ""/ vim-rsi {{{
 "/
 " Disable <M-*> mappings.
 let g:rsi_no_meta = 1
+if empty(mapcheck('<C-k>', 'i'))
+  inoremap <C-k> <C-o>C
+endif
+if empty(mapcheck('<C-k>', 'c'))
+  cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1)<CR>
+endif
+"}}}
+""/ vim-subversive {{{
+"/
+nmap s <plug>(SubversiveSubstitute)
+xmap s <plug>(SubversiveSubstitute)
+nmap ss <plug>(SubversiveSubstituteLine)
+nmap S <plug>(SubversiveSubstituteToEndOfLine)
+xmap p <plug>(SubversiveSubstitute)
+xmap P <plug>(SubversiveSubstitute)
+"}}}
+""/ vim-unimpaired {{{
+"/
+" nnoremap <silent> <Leader>ya yo1
+nmap <silent> <Leader>yb yob
+nmap <silent> <Leader>yc yoc
+nmap <silent> <Leader>yd yod
+nmap <silent> <Leader>yh yoh
+nmap <silent> <Leader>yi yoi
+nmap <silent> <Leader>yl yol
+nmap <silent> <Leader>yn yon
+nmap <silent> <Leader>yp yop
+nmap <silent> <Leader>yr yor
+nmap <silent> <Leader>ys yos
+nmap <silent> <Leader>yu you
+nmap <silent> <Leader>yv yov
+nmap <silent> <Leader>yw yow
+nmap <silent> <Leader>yx yox
 "}}}
 ""/ vim-which-key {{{
 "/
@@ -1546,12 +1534,23 @@ let g:which_key_map.c = {
       \   },
       \ '': '',
       \ }
+
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
+nnoremap <silent> <LocalLeader> :<c-u>WhichKey  '\'<CR>
+vnoremap <silent> <LocalLeader> :<c-u>WhichKeyVisual '\'<CR>
+nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
+nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
 "}}}
 ""/ vim-yoink {{{
 "/
 let g:yoinkMoveCursorToEndOfPaste=1
 let g:yoinkSavePersistently=1
 let g:yoinkIncludeDeleteOperations=1
+nmap p <plug>(YoinkPaste_p)
+nmap P <plug>(YoinkPaste_P)
+nmap <leader>pn <plug>(YoinkPostPasteSwapBack)
+nmap <leader>pp <plug>(YoinkPostPasteSwapForward)
 "}}}
 "--------------------------------End Plugins Configuration---------------------"
 "}}}
@@ -1580,14 +1579,14 @@ augroup initvim
   autocmd FileType vimwiki let b:surround_8364 = "**\r**"
 
   " Formatters.
-  autocmd FileType javascript setlocal formatprg=prettier\ --parser\ babel
-  autocmd FileType json setlocal formatprg=prettier\ --parser\ json
-  autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
-  autocmd FileType html setlocal formatprg=prettier\ --parser\ html
-  autocmd FileType scss setlocal formatprg=prettier\ --parser\ scss
-  autocmd FileType css setlocal formatprg=prettier\ --parser\ css
-  autocmd FileType yaml setlocal formatprg=prettier\ --parser\ yaml
-  autocmd FileType vimwiki setlocal formatprg=prettier\ --parser\ markdown
+  " autocmd FileType javascript setlocal formatprg=prettier\ --parser\ babel
+  " autocmd FileType json setlocal formatprg=prettier\ --parser\ json
+  " autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+  " autocmd FileType html setlocal formatprg=prettier\ --parser\ html
+  " autocmd FileType scss setlocal formatprg=prettier\ --parser\ scss
+  " autocmd FileType css setlocal formatprg=prettier\ --parser\ css
+  " autocmd FileType yaml setlocal formatprg=prettier\ --parser\ yaml
+  " autocmd FileType vimwiki setlocal formatprg=prettier\ --parser\ markdown
 
   " Check if this is what is damaging the lightline statusbar.
   " autocmd FilterWritePost * if &diff | syntax off | else | syntax on | endif
@@ -1596,11 +1595,6 @@ augroup initvim
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=500}
-
-  autocmd BufReadPost,BufNewFile ~/notes/index.md setlocal foldlevel=2
-
-  autocmd filetype vimwiki nmap <buffer> <F7> <Plug>VimwikiFollowLink
-  autocmd filetype vimwiki nnoremap <buffer> <silent> <CR> :call FollowLink()<CR>
 augroup END
 
 augroup markdownCode
@@ -1618,16 +1612,6 @@ augroup END
 function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
-endfunction
-
-function! DeleteWindowIfNotLast()
-  if (winnr('$') > 1 && len(getbufinfo({'buflisted':1})) > 1)
-    execute ":bp\<BAR>bd#\<BAR>q"
-    return 1
-  endif
-
-  echo "Only one window or buffer."
-  return 0
 endfunction
 
 " Return some highlight group as a dictionary.
@@ -1668,91 +1652,80 @@ function! Fold(lnum)
   return '=' " return previous fold level
 endfunction
 
-function! CocPrettierFormatUseGlobal()
-  call coc#config('prettier.onlyUseLocalVersion', v:false)
-  call coc#config('prettier.requireConfig', v:false)
-  call CocAction('reloadExtension', 'coc-prettier')
-  call CocAction('runCommand', 'prettier.formatFile')
-  call coc#config('prettier.onlyUseLocalVersion', v:true)
-  call coc#config('prettier.requireConfig', v:true)
-  call CocAction('reloadExtension', 'coc-prettier')
-endfunction
-command! CocPrettierFormatUseGlobal call CocPrettierFormatUseGlobal()
-
 " Modification of https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
 " Always show some delimiters (the argument of CustomFoldText) and the tail of
 " the folded line, that is, the number of lines folded (absolute and relative)
-function! CustomFoldText(delim)
-  "get first non-blank line
-  let fs = nextnonblank(v:foldstart)
+" function! CustomFoldText(delim)
+"   "get first non-blank line
+"   let fs = nextnonblank(v:foldstart)
+"
+"   if fs > v:foldend
+"     let line = getline(v:foldstart)
+"   else
+"     let line = substitute(getline(fs), '\t', repeat('  ', &tabstop), 'g')
+"   endif
+"
+"   " indent foldtext corresponding to foldlevel
+"   let indent = repeat(' ',shiftwidth())
+"   " let indentTwo = repeat('',shiftwidth())
+"   let foldLevelStr = repeat(' ', match(getline(fs),'\S'))
+"   let foldLineHead = substitute(line, '^\s*', foldLevelStr, '')
+"
+"   " size foldtext according to window width
+"   let w = winwidth(0) - &foldcolumn - (&number ? &numberwidth : 0) - (&l:signcolumn is# 'yes' ? 2 : 0)
+"   let foldSize = 1 + v:foldend - v:foldstart
+"
+"   " estimate fold length
+"   let foldSizeStr = " " . foldSize . " lines "
+"   let lineCount = line("$")
+"   if has("float")
+"     try
+"       let foldPercentage = "[" . printf("%4s", printf("%.1f", (foldSize*1.0)/lineCount*100)) . "%] "
+"     catch /^Vim\%((\a\+)\)\=:E806/	" E806: Using Float as String
+"       let foldPercentage = printf("[of %d lines] ", lineCount)
+"     endtry
+"   endif
+"
+"   " build up foldtext
+"   let foldLineTail = foldSizeStr . foldPercentage
+"   let lengthTail = strwidth(foldLineTail)
+"   let lengthHead = w - (lengthTail + indent)
+"
+"   if strwidth(foldLineHead) > lengthHead
+"     let foldLineHead = strpart(foldLineHead, 0, lengthHead-2) . '..'
+"   endif
+"
+"   let lengthMiddle = w - strwidth(foldLineHead.foldLineTail)
+"
+"   " truncate foldtext according to window width
+"   let expansionString = repeat(a:delim, lengthMiddle)
+"
+"   let foldLine = foldLineHead . expansionString . foldLineTail
+"   return foldLine
+" endfunction
 
-  if fs > v:foldend
-    let line = getline(v:foldstart)
-  else
-    let line = substitute(getline(fs), '\t', repeat('  ', &tabstop), 'g')
-  endif
+" set foldtext=CustomFoldText('\ ')
 
-  " indent foldtext corresponding to foldlevel
-  let indent = repeat(' ',shiftwidth())
-  " let indentTwo = repeat('',shiftwidth())
-  let foldLevelStr = repeat(' ', match(getline(fs),'\S'))
-  let foldLineHead = substitute(line, '^\s*', foldLevelStr, '')
-
-  " size foldtext according to window width
-  let w = winwidth(0) - &foldcolumn - (&number ? &numberwidth : 0) - (&l:signcolumn is# 'yes' ? 2 : 0)
-  let foldSize = 1 + v:foldend - v:foldstart
-
-  " estimate fold length
-  let foldSizeStr = " " . foldSize . " lines "
-  let lineCount = line("$")
-  if has("float")
-    try
-      let foldPercentage = "[" . printf("%4s", printf("%.1f", (foldSize*1.0)/lineCount*100)) . "%] "
-    catch /^Vim\%((\a\+)\)\=:E806/	" E806: Using Float as String
-      let foldPercentage = printf("[of %d lines] ", lineCount)
-    endtry
-  endif
-
-  " build up foldtext
-  let foldLineTail = foldSizeStr . foldPercentage
-  let lengthTail = strwidth(foldLineTail)
-  let lengthHead = w - (lengthTail + indent)
-
-  if strwidth(foldLineHead) > lengthHead
-    let foldLineHead = strpart(foldLineHead, 0, lengthHead-2) . '..'
-  endif
-
-  let lengthMiddle = w - strwidth(foldLineHead.foldLineTail)
-
-  " truncate foldtext according to window width
-  let expansionString = repeat(a:delim, lengthMiddle)
-
-  let foldLine = foldLineHead . expansionString . foldLineTail
-  return foldLine
-endfunction
-
-set foldtext=CustomFoldText('\ ')
-
-fu! CustomFoldTextTwo()
-  "get first non-blank line
-  let fs = v:foldstart
-  while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
-  endwhile
-  if fs > v:foldend
-    let line = getline(v:foldstart)
-  else
-    let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
-  endif
-
-  let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
-  let foldSize = 1 + v:foldend - v:foldstart
-  let foldSizeStr = " " . foldSize . " lines "
-  let foldLevelStr = repeat("+--", v:foldlevel)
-  let lineCount = line("$")
-  let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
-  let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
-  return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
-endf
+" fu! CustomFoldTextTwo()
+"   "get first non-blank line
+"   let fs = v:foldstart
+"   while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
+"   endwhile
+"   if fs > v:foldend
+"     let line = getline(v:foldstart)
+"   else
+"     let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+"   endif
+"
+"   let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
+"   let foldSize = 1 + v:foldend - v:foldstart
+"   let foldSizeStr = " " . foldSize . " lines "
+"   let foldLevelStr = repeat("+--", v:foldlevel)
+"   let lineCount = line("$")
+"   let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
+"   let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
+"   return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
+" endf
 
 " set foldtext=CustomFoldTextTwo()
 
