@@ -1804,6 +1804,7 @@ function! MyHighlights() abort
   highlight! link CocExplorerBookmarkAnnotation Operator
   highlight! link CocExplorerHelpHint Operator
   highlight! link CocExplorerHelpDescription Operator
+  highlight! link schemeParentheses Normal
   if exists('g:loaded_lightline')
     runtime plugin/lightline-gruvbox.vim
     call lightline#colorscheme()

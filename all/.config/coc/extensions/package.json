@@ -6,7 +6,7 @@
     "coc-dictionary": ">=1.2.2",
     "coc-emmet": ">=1.1.6",
     "coc-eslint": ">=1.2.7",
-    "coc-explorer": ">=0.7.26",
+    "coc-explorer": ">=0.7.27",
     "coc-html": ">=1.2.4",
     "coc-jest": ">=1.0.3",
     "coc-json": ">=1.2.6",

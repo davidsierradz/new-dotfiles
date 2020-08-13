@@ -1758,7 +1758,6 @@ function! MyHighlights() abort
   highlight CursorLine ctermbg=NONE guibg=NONE
   highlight CursorLineNr ctermbg=NONE guibg=NONE
   highlight VimwikiPre ctermfg=8 ctermbg=229 guifg=#777777 gui=bold
-  highlight VertSplit guifg=#cccccc
   if &background is? 'light'
     nnoremap <silent> <Leader>ya :<C-R>=GetHighlight("Comment")["guifg"] is? "#cccccc" ? "hi Comment guifg=#777777" : "hi Comment guifg=#cccccc"<CR><CR><C-l>
   else
