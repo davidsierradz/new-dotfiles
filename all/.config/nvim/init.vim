@@ -85,6 +85,8 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'norcalli/nvim-colorizer.lua'
 
 Plug 'scr1pt0r/crease.vim'
+
+Plug 'luochen1990/rainbow'
 "}}}
 
 "-------------Integrations-------------- {{{
@@ -143,11 +145,17 @@ Plug 'radenling/vim-dispatch-neovim'
 
 Plug 'Olical/conjure'
 
+Plug 'clojure-vim/vim-jack-in'
+
 Plug 'Olical/vim-scheme', { 'for': 'scheme', 'on': 'SchemeConnect' }
 
 Plug 'guns/vim-sexp'
 
 " Plug 'nvim-treesitter/nvim-treesitter'
+
+Plug 'HiPhish/guile.vim'
+
+Plug 'bakpakin/fennel.vim'
 "}}}
 
 " Initialize plugin system
@@ -635,7 +643,6 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 let g:coc_global_extensions = [
       \ 'coc-conventional',
-      \ 'coc-lists',
       \ 'coc-css',
       \ 'coc-diagnostic',
       \ 'coc-dictionary',
@@ -1168,6 +1175,13 @@ let g:pear_tree_map_special_keys = 0
 let g:pear_tree_smart_openers = 0
 let g:pear_tree_smart_closers = 0
 let g:pear_tree_smart_backspace = 0
+"}}}
+""/ rainbow {{{
+"/
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+      \ 'guifgs': ['#3c3836', '#af3a03', '#076678', '#79740e', '#8f3f71', '#b57614'],
+      \}
 "}}}
 ""/ vim-asterisk {{{
 "/

@@ -1704,7 +1704,7 @@ endfunction
 "   return foldLine
 " endfunction
 
-" set foldtext=CustomFoldText('\ ')
+" set foldtext=CustomFoldText('·')
 
 " fu! CustomFoldTextTwo()
 "   "get first non-blank line
@@ -1741,7 +1741,7 @@ endfunction
 "--------------------------------Colors----------------------------------------"{{{
 " Custom Highlight groups.
 function! MyHighlights() abort
-  highlight MatchParen guibg=NONE gui=bold
+  highlight MatchParen guibg=NONE gui=bold cterm=bold ctermfg=1 ctermbg=NONE
   highlight SpellBad gui=undercurl guifg=NONE
   highlight! link CocExplorerFileFullpath Operator
   highlight! link CocExplorerFileLinkTarget Operator
