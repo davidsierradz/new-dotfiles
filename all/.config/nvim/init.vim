@@ -828,6 +828,7 @@ augroup END
 "/
 let g:conjure#mapping#eval_root_form = '\'
 let g:conjure#mapping#eval_visual = '\'
+let g:conjure#log#botright = v:true
 "}}}
 ""/ cosco.vim {{{
 "/

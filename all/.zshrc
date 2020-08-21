@@ -427,6 +427,9 @@ CORRECT_IGNORE='_*'
 
 # Disable ctrl-s and ctrl-q (in tty?).
 [[ -n ${TTY:-} && $+commands[stty] == 1 ]] && stty -ixon <$TTY >$TTY
+
+# Disable . and .. completions.
+zstyle -e ':completion:*' special-dirs 'false'
 #--------------------------------End General-----------------------------------#
 #}}}
 
