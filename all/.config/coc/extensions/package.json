@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "coc-conjure": ">=3.0.0",
     "coc-conventional": ">=1.0.0",
     "coc-css": ">=1.2.4",
     "coc-diagnostic": ">=0.7.0",

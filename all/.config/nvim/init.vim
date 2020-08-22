@@ -145,6 +145,8 @@ Plug 'radenling/vim-dispatch-neovim'
 
 Plug 'Olical/conjure'
 
+Plug 'bfontaine/zprint.vim'
+
 Plug 'clojure-vim/vim-jack-in'
 
 Plug 'Olical/vim-scheme', { 'for': 'scheme', 'on': 'SchemeConnect' }
@@ -642,6 +644,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 let g:coc_global_extensions = [
+      \ 'coc-conjure',
       \ 'coc-conventional',
       \ 'coc-css',
       \ 'coc-diagnostic',
