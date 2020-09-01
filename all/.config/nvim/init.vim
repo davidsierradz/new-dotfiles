@@ -822,7 +822,7 @@ let g:codi#interpreters = {
       \ },
       \ }
 
-augroup initvim
+augroup initvimCodi
   au!
   autocmd FileType javascript nnoremap <buffer> <LocalLeader>' :CodiUpdate<CR>
 augroup END
@@ -1183,9 +1183,31 @@ let g:pear_tree_smart_backspace = 0
 ""/ rainbow {{{
 "/
 let g:rainbow_active = 1
-let g:rainbow_conf = {
-      \ 'guifgs': ['#3c3836', '#af3a03', '#076678', '#79740e', '#8f3f71', '#b57614'],
-      \}
+
+let g:rainbow_ctermfgs_lightcolors = [2, 1, 0, 4]
+let g:rainbow_ctermfgs_darkcolors = [9, 14, 11, 13, 10, 15]
+let g:rainbow_guifgs_lightcolors = ['#af3a03', '#076678', '#79740e', '#8f3f71', '#b57614']
+let g:rainbow_guifgs_darkcolors = ['#f2433d', '#0087d7', '#00d75f', '#d787ff', '#d7af00']
+
+if &background is? 'light'
+  let g:rainbow_conf = {
+        \   'guifgs': g:rainbow_guifgs_lightcolors,
+        \   'ctermfgs': g:rainbow_ctermfgs_lightcolors,
+        \   'separately': {
+        \       '*': 0,
+        \       'clojure': {}
+        \   }
+        \}
+else
+  let g:rainbow_conf = {
+        \   'guifgs': g:rainbow_guifgs_darkcolors,
+        \   'ctermfgs': g:rainbow_ctermfgs_darkcolors,
+        \   'separately': {
+        \       '*': 0,
+        \       'clojure': {}
+        \   }
+        \}
+endif
 "}}}
 ""/ vim-asterisk {{{
 "/
@@ -1664,6 +1686,8 @@ augroup initvim
 
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
+  autocmd CmdlineEnter : set nosmartcase noignorecase
+  autocmd CmdlineLeave : set smartcase ignorecase
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {timeout=500}
 augroup END
 
@@ -1831,6 +1855,25 @@ function! MyHighlights() abort
     nnoremap <silent> <Leader>ya :<C-R>=GetHighlight("Comment")["guifg"] is? "#cccccc" ? "hi Comment guifg=#777777" : "hi Comment guifg=#cccccc"<CR><CR><C-l>
   else
     nnoremap <silent> <Leader>ya :<C-R>=GetHighlight("Comment")["guifg"] is? "#777777" ? "hi Comment guifg=#333333" : "hi Comment guifg=#777777"<CR><CR><C-l>
+  endif
+  if &background is? 'light'
+    let g:rainbow_conf = {
+          \   'guifgs': g:rainbow_guifgs_lightcolors,
+          \   'ctermfgs': g:rainbow_ctermfgs_lightcolors,
+          \   'separately': {
+          \       '*': 0,
+          \       'clojure': {}
+          \   }
+          \}
+  else
+    let g:rainbow_conf = {
+          \   'guifgs': g:rainbow_guifgs_darkcolors,
+          \   'ctermfgs': g:rainbow_ctermfgs_darkcolors,
+          \   'separately': {
+          \       '*': 0,
+          \       'clojure': {}
+          \   }
+          \}
   endif
 endfunction
 

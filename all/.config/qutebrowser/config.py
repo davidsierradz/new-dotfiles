@@ -1240,7 +1240,7 @@ c.hints.selectors['hn'] = ['[class*="togg"]']
 c.hints.selectors['kill'] = ['div']
 
 # For Hacker News
-# config.bind('`', 'hint hn')
+config.bind('~', 'hint hn')
 config.bind('<Ctrl-1>', 'jseval javascript:[...document.querySelectorAll(\'tr.athing.comtr:not(.noshow):not(.coll)\')].filter(e => e.querySelector(\'td.ind img\').attributes.width.value === \'0\').forEach(e => setTimeout(() => {e.querySelector(\'.togg\').click()}, 1));')
 config.bind('<Ctrl-2>', 'jseval javascript:[...document.querySelectorAll(\'tr.athing.comtr:not(.noshow):not(.coll)\')].filter(e => e.querySelector(\'td.ind img\').attributes.width.value === \'40\').forEach(e => setTimeout(() => {e.querySelector(\'.togg\').click()}, 1));')
 config.bind('<Ctrl-3>', 'jseval javascript:document.getElementById("hnmain").width = "100%"; [...document.querySelectorAll(\'tr.athing.comtr:not(.noshow):not(.coll)\')].filter(e => e.querySelector(\'td.ind img\').attributes.width.value === \'80\').forEach(e => setTimeout(() => {e.querySelector(\'.togg\').click()}, 1));')
@@ -1248,7 +1248,7 @@ config.bind('<Ctrl-3>', 'jseval javascript:document.getElementById("hnmain").wid
 
 
 
-#with config.pattern('*://news.ycombinator.com/item') as p:
+# with config.pattern('*://news.ycombinator.com/item') as p:
 #    p.bindings.commands = {
 #            'normal': {
 #                '`': 'hint hn'

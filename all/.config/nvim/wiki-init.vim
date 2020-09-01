@@ -1156,11 +1156,11 @@ vmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
 nmap <leader><leader>w[ <Plug>VimwikiGoToPrevHeader
 nmap <leader><leader>w] <Plug>VimwikiGoToNextHeader
 
-augroup initvim
+augroup initvimwiki
   au!
   autocmd BufReadPost,BufNewFile ~/notes/index.md setlocal foldlevel=2
-  autocmd filetype vimwiki nmap <buffer> <F7> <Plug>VimwikiFollowLink
-  autocmd filetype vimwiki nnoremap <buffer> <silent> <CR> :call FollowLink()<CR>
+  autocmd FileType vimwiki nmap <buffer> <F7> <Plug>VimwikiFollowLink
+  autocmd FileType vimwiki nnoremap <buffer> <silent> <CR> :call FollowLink()<CR>
 augroup END
 "}}}
 ""/ vim-asterisk {{{
