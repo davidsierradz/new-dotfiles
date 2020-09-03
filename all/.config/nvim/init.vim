@@ -1338,6 +1338,22 @@ let g:vrc_response_default_content_type = 'application/json'
 " let g:vrc_show_command = 1
 let g:vrc_auto_format_uhex = 1
 let g:vrc_output_buffer_name = '__VRC_OUTPUT.json'
+let g:vrc_auto_format_response_patterns = {
+      \ 'json': 'jq --sort-keys "."',
+      \ 'xml': 'tidy -xml -i -'
+      \}
+
+function! FoldRest(lnum)
+  if getline(a:lnum) =~? '\v^--\s*$'
+    return '0'
+  endif
+  return '1'
+endfunction
+
+augroup rest_fold
+  " this one is which you're most likely to use?
+  autocmd FileType rest setlocal foldmethod=expr foldexpr=FoldRest(v:lnum)
+augroup end
 "}}}
 ""/ vim-rsi {{{
 "/

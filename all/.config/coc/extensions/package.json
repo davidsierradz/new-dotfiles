@@ -3,7 +3,7 @@
     "coc-conjure": ">=3.0.0",
     "coc-conventional": ">=1.0.0",
     "coc-css": ">=1.2.4",
-    "coc-diagnostic": ">=0.7.0",
+    "coc-diagnostic": ">=0.8.2",
     "coc-dictionary": ">=1.2.2",
     "coc-emmet": ">=1.1.6",
     "coc-eslint": ">=1.2.7",
