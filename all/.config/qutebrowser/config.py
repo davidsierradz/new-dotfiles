@@ -2261,8 +2261,8 @@ config.bind('<Ctrl-Shift-h>', 'back -t ;; tab-move -')
 
 config.bind('€', 'config-cycle -t tabs.show switching always ;; config-cycle -t statusbar.show in-mode always')
 
-config.bind('tt', 'config-cycle -p -t -u {url:domain}/* content.javascript.enabled ;; reload')
-config.bind('tT', 'config-cycle -p -u {url:domain}/* content.javascript.enabled ;; reload')
+config.bind('tt', 'config-cycle -p -t -u {url:host} content.javascript.enabled ;; reload')
+config.bind('tT', 'config-cycle -p -t -u {url:domain} content.javascript.enabled ;; reload')
 
 config.bind('tsH', 'config-cycle -p -u *://*.{url:host}/* content.javascript.enabled ;; reload')
 config.bind('`', 'config-cycle -t tabs.show switching always ;; config-cycle -t statusbar.show in-mode always')

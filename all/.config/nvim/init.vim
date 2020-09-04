@@ -1335,13 +1335,15 @@ autocmd User Node
 ""/ vim-rest-console {{{
 "/
 let g:vrc_response_default_content_type = 'application/json'
-" let g:vrc_show_command = 1
 let g:vrc_auto_format_uhex = 1
 let g:vrc_output_buffer_name = '__VRC_OUTPUT.json'
 let g:vrc_auto_format_response_patterns = {
       \ 'json': 'jq --sort-keys "."',
       \ 'xml': 'tidy -xml -i -'
       \}
+let g:vrc_show_command = 1
+let g:vrc_show_command_in_result_buffer = 1
+let g:vrc_show_command_in_quickfix = 0
 
 function! FoldRest(lnum)
   if getline(a:lnum) =~? '\v^--\s*$'
