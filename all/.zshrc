@@ -269,13 +269,6 @@ function glofzf() {
 #--------------------------------End Functions---------------------------------#
 #}}}
 
-#--------------------------------Aliases---------------------------------------# {{{
-alias -g GHFZF='| gh'
-alias -g lastbranch='$(cat .git/lastbranch)'
-compdef config=git
-#--------------------------------End Aliases-----------------------------------#
-#}}}
-
 #--------------------------------KeyBindings-----------------------------------# {{{
 # Use backwards search in vi-mode (arrows?).
 bindkey '^[[A' up-line-or-beginning-search

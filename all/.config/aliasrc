@@ -44,7 +44,6 @@ alias b='bat' \
   c='clear' \
   calcurse="calcurse -D ~/.config/calcurse" \
   ccat="highlight --out-format=ansi" \
-  config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME' \
   d='docker' \
   glg="git log --graph --date-order --date=format-local:'%F %R' --full-history --color --decorate --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'" \
   glga="git log --graph --date-order --date=format-local:'%F %R' --full-history --all --color --decorate --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'" \
@@ -61,6 +60,7 @@ alias b='bat' \
   ysb="yarn serve:babel" \
   ytb="yarn test:backend" \
   ystb="yarn start:backend"
+# config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME' \
 
 if [ -n "$ZSH_VERSION" ]; then
   alias -g J='| python -m json.tool'
@@ -154,3 +154,7 @@ function terminal-scheme() {
 function kbg() {
   kitty @ set-colors --all --configured "$HOME/.config/kitty/kitty-themes/gruvbox_$1.conf"
 }
+
+alias -g GHFZF='| gh'
+alias -g lastbranch='$(cat .git/lastbranch)'
+# compdef config=git

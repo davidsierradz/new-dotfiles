@@ -15,15 +15,17 @@ bindsym Shift+XF86AudioPrev              exec --no-startup-id backlight panel do
 bindsym Shift+XF86AudioPlay              exec --no-startup-id backlight panel up 10
 
 bar {
-  #status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
-  status_command i3blocks
-  tray_output HDMI1
   output HDMI1
+  tray_output HDMI1
+  status_command i3blocks
+  font pango:Iosevka Nerd Font Mono 8
 }
 
 bar {
   output eDP1
-  tray_output none
+  tray_output primary
+  status_command i3blocks
+  font pango:Iosevka Nerd Font Mono 6
 }
 
 workspace 1 output HDMI1

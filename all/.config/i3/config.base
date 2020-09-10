@@ -41,7 +41,10 @@ set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 set $mode_spotify p: play/pause j: next k: previous ; Caps to also quit
-set $mode_run Run a:htop s:vifm d:calc f:cal g:rss i:vw
+set $mode_run Run a:htop s:vifm d:calc f:cal g:rss i:vw h:light j:vit
+set $mode_backlight Light: (1) panel, (2) monitor
+set $mode_backlight_panel Panel light: (1)0% (2)0% (3)0% (4)0% (5)0% (6)0% (7)0% (8)0% (9)0% 1(0)0%
+set $mode_backlight_monitor Monitor light: (1)0% (2)0% (3)0% (4)0% (5)0% (6)0% (7)0% (8)0% (9)0% 1(0)0%
 # }}}
 
 # ---Modes--- # {{{
@@ -64,6 +67,10 @@ mode "$mode_resize" {
   bindsym j             resize grow height 5 px or 5 ppt
   bindsym k             resize shrink height 5 px or 5 ppt
   bindsym l             resize grow width 5 px or 5 ppt
+  bindsym Shift+h       resize shrink width 20 px or 20 ppt
+  bindsym Shift+j       resize grow height 20 px or 20 ppt
+  bindsym Shift+k       resize shrink height 20 px or 20 ppt
+  bindsym Shift+l       resize grow width 20 px or 20 ppt
   bindsym Left          resize shrink width 10 px or 10 ppt
   bindsym Down          resize grow height 10 px or 10 ppt
   bindsym Up            resize shrink height 10 px or 10 ppt
@@ -121,7 +128,44 @@ mode "$mode_run" {
   bindsym Shift+g       exec $term newsboat, mode "default"
   bindsym i             exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex', mode "default"
   bindsym Shift+i       exec $term -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex, mode "default"
+  bindsym h             mode "$mode_backlight"
+  bindsym j             exec --no-startup-id ddspawn 'vit' '-o font_size=18', mode "default"
+  bindsym Shift+j       exec $term vit, mode "default"
 
+  bindsym Return        mode "default"
+  bindsym Escape        mode "default"
+}
+mode "$mode_backlight" {
+  bindsym 1             mode "$mode_backlight_panel"
+  bindsym 2             mode "$mode_backlight_monitor"
+  bindsym Return        mode "default"
+  bindsym Escape        mode "default"
+}
+mode "$mode_backlight_monitor" {
+  bindsym 1             exec --no-startup-id backlight-abs monitor 10, mode "default"
+  bindsym 2             exec --no-startup-id backlight-abs monitor 20, mode "default"
+  bindsym 3             exec --no-startup-id backlight-abs monitor 30, mode "default"
+  bindsym 4             exec --no-startup-id backlight-abs monitor 40, mode "default"
+  bindsym 5             exec --no-startup-id backlight-abs monitor 50, mode "default"
+  bindsym 6             exec --no-startup-id backlight-abs monitor 60, mode "default"
+  bindsym 7             exec --no-startup-id backlight-abs monitor 70, mode "default"
+  bindsym 8             exec --no-startup-id backlight-abs monitor 80, mode "default"
+  bindsym 9             exec --no-startup-id backlight-abs monitor 90, mode "default"
+  bindsym 0             exec --no-startup-id backlight-abs monitor 100, mode "default"
+  bindsym Return        mode "default"
+  bindsym Escape        mode "default"
+}
+mode "$mode_backlight_panel" {
+  bindsym 1             exec --no-startup-id backlight-abs panel 10, mode "default"
+  bindsym 2             exec --no-startup-id backlight-abs panel 20, mode "default"
+  bindsym 3             exec --no-startup-id backlight-abs panel 30, mode "default"
+  bindsym 4             exec --no-startup-id backlight-abs panel 40, mode "default"
+  bindsym 5             exec --no-startup-id backlight-abs panel 50, mode "default"
+  bindsym 6             exec --no-startup-id backlight-abs panel 60, mode "default"
+  bindsym 7             exec --no-startup-id backlight-abs panel 70, mode "default"
+  bindsym 8             exec --no-startup-id backlight-abs panel 80, mode "default"
+  bindsym 9             exec --no-startup-id backlight-abs panel 90, mode "default"
+  bindsym 0             exec --no-startup-id backlight-abs panel 100, mode "default"
   bindsym Return        mode "default"
   bindsym Escape        mode "default"
 }

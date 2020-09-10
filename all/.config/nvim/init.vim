@@ -1036,7 +1036,7 @@ let g:lightline = {
       \       ['mixed', 'trailing'],
       \       ['coc_error', 'coc_warning', 'coc_hint', 'coc_info', 'coc_fix'],
       \       ['virtuallineinfo', 'percentage', 'cocstatus'],
-      \       ['foldlevel', 'gitbranch', 'fileformat', 'fileencoding', 'filetype']
+      \       ['foldlevel', 'gitbranch', 'fileformat', 'fileencoding', 'filetype', 'noeol']
       \     ]
       \   },
       \   'inactive': {
@@ -1052,6 +1052,7 @@ let g:lightline = {
       \     'virtuallineinfo': '%l-%c%V',
       \   },
       \   'component_function': {
+      \     'noeol': 'NoEOL',
       \     'foldlevel': 'FoldLevel',
       \     'cocstatus': 'coc#status',
       \     'gitbranch': 'TruncateGitBranch',
@@ -1078,6 +1079,10 @@ let g:lightline = {
 
 function! FoldLevel()
   return &foldlevel && strlen(&foldlevel) !=# '0' ? &foldlevel : ''
+endfunction
+
+function! NoEOL()
+  return  &endofline ? '' : 'noeol'
 endfunction
 
 function! Strcharpart(...)
@@ -1193,6 +1198,7 @@ if &background is? 'light'
   let g:rainbow_conf = {
         \   'guifgs': g:rainbow_guifgs_lightcolors,
         \   'ctermfgs': g:rainbow_ctermfgs_lightcolors,
+        \   'operators': '',
         \   'separately': {
         \       '*': 0,
         \       'clojure': {}
@@ -1202,6 +1208,7 @@ else
   let g:rainbow_conf = {
         \   'guifgs': g:rainbow_guifgs_darkcolors,
         \   'ctermfgs': g:rainbow_ctermfgs_darkcolors,
+        \   'operators': '',
         \   'separately': {
         \       '*': 0,
         \       'clojure': {}
@@ -1339,7 +1346,7 @@ let g:vrc_auto_format_uhex = 1
 let g:vrc_output_buffer_name = '__VRC_OUTPUT.json'
 let g:vrc_auto_format_response_patterns = {
       \ 'json': 'jq --sort-keys "."',
-      \ 'xml': 'tidy -xml -i -'
+      \ 'xml': 'tidy -q -xml -i -'
       \}
 let g:vrc_show_command = 1
 let g:vrc_show_command_in_result_buffer = 1
@@ -1878,6 +1885,7 @@ function! MyHighlights() abort
     let g:rainbow_conf = {
           \   'guifgs': g:rainbow_guifgs_lightcolors,
           \   'ctermfgs': g:rainbow_ctermfgs_lightcolors,
+          \   'operators': '',
           \   'separately': {
           \       '*': 0,
           \       'clojure': {}
@@ -1887,6 +1895,7 @@ function! MyHighlights() abort
     let g:rainbow_conf = {
           \   'guifgs': g:rainbow_guifgs_darkcolors,
           \   'ctermfgs': g:rainbow_ctermfgs_darkcolors,
+          \   'operators': '',
           \   'separately': {
           \       '*': 0,
           \       'clojure': {}
