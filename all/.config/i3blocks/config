@@ -3,6 +3,7 @@ separator_block_width=15
 markup=pango
 
 [taskw]
+full_text=...
 command=i3status-taskwarrior json
 interval=10
 format=json

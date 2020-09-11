@@ -11,3 +11,4 @@ greenclip daemon &
 xiccd &
 keynav &
 calcurse --daemon &
+xmodmap-on-input-change &

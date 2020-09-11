@@ -25,6 +25,7 @@ mountusb() {
   partitiontype="$(lsblk -no "fstype" "$chosen")"
   case "$partitiontype" in
     "vfat") sudo -A mount -t vfat "$chosen" "$mp" -o rw,umask=0000 ;;
+    "exfat") sudo -A mount "$chosen" "$mp" -o uid="$(id -u)",gid="$(id -g)" ;;
     "ntfs") sudo -A mount -t ntfs "$chosen" "$mp" -o rw,gid=wheel,fmask=113,dmask=002 ;;
     *)
       sudo -A mount "$chosen" "$mp"
