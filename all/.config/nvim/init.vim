@@ -679,7 +679,7 @@ augroup end
 " set runtimepath^=/home/neuromante/.nvm/versions/node/v12.17.0/lib/node_modules/coc-conventional/
 " let $NVIM_COC_LOG_LEVEL = 'debug'
 " let $NVIM_COC_LOG_FILE = '/tmp/coc.log'
-function CocExplorerDirvish() abort
+function! CocExplorerDirvish() abort
   if &filetype=='dirvish'
     if isdirectory(expand("<cfile>"))
       execute 'CocCommand explorer --reveal=' . expand('<cfile>:p:h')
@@ -842,13 +842,13 @@ let g:cosco_ignore_comment_lines = 1
 "/
 set fillchars=fold:‧
 let g:crease_foldtext = { 'default': '%{CreaseIndent()}%t%= %l lines %{CreasePercentage()}' }
-function CreasePercentage() abort
+function! CreasePercentage() abort
   let foldSize = 1 + v:foldend - v:foldstart
   let lineCount = line("$")
   let foldPercentage = "[" . printf("%4s", printf("%.1f", (foldSize*1.0)/lineCount*100)) . "%] "
   return foldPercentage
 endfunction
-function CreaseIndent() abort
+function! CreaseIndent() abort
   let fs = nextnonblank(v:foldstart)
   let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
   let foldLevelStr = repeat(' ', match(line,'\S'))
@@ -1391,6 +1391,10 @@ function! s:vim_sexp_mappings()
   omap <silent><buffer> af              <Plug>(sexp_outer_list)
   xmap <silent><buffer> aF              <Plug>(sexp_outer_top_list)
   omap <silent><buffer> aF              <Plug>(sexp_outer_top_list)
+  xmap <silent><buffer> if              <Plug>(sexp_inner_list)
+  omap <silent><buffer> if              <Plug>(sexp_inner_list)
+  xmap <silent><buffer> iF              <Plug>(sexp_inner_top_list)
+  omap <silent><buffer> iF              <Plug>(sexp_inner_top_list)
 endfunction
 augroup VIM_SEXP_MAPPING
   autocmd!
