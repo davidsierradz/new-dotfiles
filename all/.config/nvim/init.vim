@@ -1289,6 +1289,9 @@ let g:EasyMotion_smartcase = 1
 nmap Q <Plug>(easymotion-s)
 xmap Q <Plug>(easymotion-s)
 omap Q <Plug>(easymotion-s)
+nmap , <Plug>(easymotion-overwin-f)
+xmap , <Plug>(easymotion-s)
+omap , <Plug>(easymotion-s)
 nmap <leader><leader>ef <Plug>(easymotion-f)
 nmap <leader><leader>eF <Plug>(easymotion-F)
 nmap <leader><leader>e, <Plug>(easymotion-prev)
@@ -1395,6 +1398,11 @@ function! s:vim_sexp_mappings()
   omap <silent><buffer> if              <Plug>(sexp_inner_list)
   xmap <silent><buffer> iF              <Plug>(sexp_inner_top_list)
   omap <silent><buffer> iF              <Plug>(sexp_inner_top_list)
+
+  nmap <silent><buffer> <LocalLeader>i  <Plug>(sexp_round_head_wrap_list)
+  xmap <silent><buffer> <LocalLeader>i  <Plug>(sexp_round_head_wrap_list)
+  nmap <silent><buffer> <LocalLeader>I  <Plug>(sexp_round_tail_wrap_list)
+  xmap <silent><buffer> <LocalLeader>I  <Plug>(sexp_round_tail_wrap_list)
 endfunction
 augroup VIM_SEXP_MAPPING
   autocmd!

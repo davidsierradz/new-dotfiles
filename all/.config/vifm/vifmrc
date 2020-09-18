@@ -69,7 +69,7 @@ map <C-k> <C-w>k
 map <C-l> <C-w>l
 map <C-o> <C-w>o
 map <C-s> <C-w>s
-map <C-v> <C-w>v
+map <C-v> :vsplit .<CR>
 
 map R :restart<CR>
 map x :!sxiv -ft * 2>/dev/null &<CR>
