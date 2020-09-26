@@ -106,30 +106,30 @@ mode "$mode_gaps_outer" {
   bindsym Escape        mode "default"
 }
 mode "$mode_spotify" {
-  bindsym p             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv play-pause"
-  bindsym Shift+p       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv play-pause", mode "default"
-  bindsym j             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv next"
-  bindsym Shift+j       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv next", mode "default"
-  bindsym k             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv previous"
-  bindsym Shift+k       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv previous", mode "default"
+  bindsym p             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox play-pause"
+  bindsym Shift+p       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox play-pause", mode "default"
+  bindsym j             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox next"
+  bindsym Shift+j       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox next", mode "default"
+  bindsym k             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox previous"
+  bindsym Shift+k       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox previous", mode "default"
   bindsym Return        mode "default"
   bindsym Escape        mode "default"
 }
 mode "$mode_run" {
-  bindsym a             exec --no-startup-id ddspawn 'htop' '-o font_size=18', mode "default"
+  bindsym a             exec --no-startup-id ddspawn 'htop', mode "default"
   bindsym Shift+a       exec $term htop, mode "default"
-  bindsym s             exec --no-startup-id ddspawn "$FILE" '-o font_size=18', mode "default"
+  bindsym s             exec --no-startup-id ddspawn "$FILE", mode "default"
   bindsym Shift+s       exec $term $FILE, mode "default"
-  bindsym d             exec --no-startup-id ddspawn 'dropdowncalc' '-o font_size=18', mode "default"
+  bindsym d             exec --no-startup-id ddspawn 'dropdowncalc', mode "default"
   bindsym Shift+d       exec $term dropdowncalc, mode "default"
-  bindsym f             exec --no-startup-id ddspawn 'calcurse' '-o font_size=18' '-D ~/.config/calcurse', mode "default"
+  bindsym f             exec --no-startup-id ddspawn 'calcurse' '-D ~/.config/calcurse', mode "default"
   bindsym Shift+f       exec $term calcurse -D ~/.config/calcurse, mode "default"
-  bindsym g             exec --no-startup-id ddspawn 'newsboat' '-o font_size=18', mode "default"
+  bindsym g             exec --no-startup-id ddspawn 'newsboat', mode "default"
   bindsym Shift+g       exec $term newsboat, mode "default"
-  bindsym i             exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex', mode "default"
+  bindsym i             exec --no-startup-id ddspawn 'nvim' '-c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex', mode "default"
   bindsym Shift+i       exec $term -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex, mode "default"
   bindsym h             mode "$mode_backlight"
-  bindsym j             exec --no-startup-id ddspawn 'vit' '-o font_size=18', mode "default"
+  bindsym j             exec --no-startup-id ddspawn 'vit', mode "default"
   bindsym Shift+j       exec $term vit, mode "default"
 
   bindsym Return        mode "default"
@@ -269,8 +269,8 @@ bindsym $mod+Shift+h               move left 30
 bindsym $mod+Ctrl+h                move workspace to output left
 bindsym $mod+Shift+Ctrl+h          focus parent; focus left; focus child
 
-bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-o font_size=18 -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
-bindsym $mod+Ctrl+i                exec --no-startup-id ddspawn 'zsh' '-o font_size=18'
+bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
+bindsym $mod+Ctrl+i                exec --no-startup-id ddspawn 'zsh'
 bindsym $mod+Shift+i               exec --no-startup-id i3resize up
 
 bindsym $mod+j                     focus down
@@ -292,6 +292,7 @@ bindsym $mod+Shift+m               exec --no-startup-id rofi -m -1 -sidebar-mode
 bindsym $mod+n                     border toggle
 bindsym $mod+Shift+n               floating toggle; sticky toggle; exec --no-startup-id hover right
 
+bindsym $mod+o                     exec --no-startup-id ddspawn 'zsh'
 bindsym $mod+Shift+o               exec --no-startup-id i3resize right
 
 bindsym $mod+p                     mode "$mode_spotify"

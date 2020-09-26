@@ -16,3 +16,5 @@ xmodmap -e 'keycode 45 = k K NoSymbol NoSymbol Up'
 xmodmap -e 'keycode 46 = l L NoSymbol NoSymbol Right'
 # Alt-Gr+m to enter.
 xmodmap -e 'keycode 58 = m M m M Return'
+# Alt-Gr+v to backspace.
+xmodmap -e 'keycode  55 = v V v V BackSpace V'

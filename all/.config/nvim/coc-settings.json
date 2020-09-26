@@ -53,6 +53,7 @@
   "emmet.includeLanguages": {
     "javascriptreact": "javascriptreact"
   },
+  "sql.database": "postgresql",
   "diagnostic-languageserver.filetypes": {
     // lint `sh` (includes `bash`) files
     "sh": "shellcheck"

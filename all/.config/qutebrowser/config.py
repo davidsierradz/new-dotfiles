@@ -2267,6 +2267,9 @@ config.bind('tT', 'config-cycle -p -t -u {url:domain} content.javascript.enabled
 config.bind('tsH', 'config-cycle -p -u *://*.{url:host}/* content.javascript.enabled ;; reload')
 config.bind('`', 'config-cycle -t tabs.show switching always ;; config-cycle -t statusbar.show in-mode always')
 
+config.bind('<Ctrl-h>', 'fake-key <Backspace>', mode='insert')
+config.bind('<Ctrl-m>', 'fake-key <Enter>', mode='insert')
+
 config.bind('<Alt-`>', 'leave-mode', mode='passthrough')
 config.bind('<Alt-k>', 'tab-next', mode='passthrough')
 config.bind('<Alt-j>', 'tab-prev', mode='passthrough')

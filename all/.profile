@@ -75,6 +75,7 @@ export GIT_PS1_HIDE_IF_PWD_IGNORED=1
 
 export VISUAL=$EDITOR
 export USE_EDITOR=$EDITOR
+export MOZ_X11_EGL=1
 #export NODE_PATH="$NODE_PATH:/home/neuromante/.local/lib/node_modules"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm

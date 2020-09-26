@@ -4,3 +4,5 @@ let b:pear_tree_pairs = {
       \ '(': {'closer': ')'},
       \ '[': {'closer': ']'},
       \ }
+
+hi Comment guifg=#777777

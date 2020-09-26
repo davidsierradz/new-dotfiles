@@ -158,6 +158,8 @@ Plug 'guns/vim-sexp'
 Plug 'HiPhish/guile.vim'
 
 Plug 'bakpakin/fennel.vim'
+
+Plug 'clojure-vim/clojure.vim'
 "}}}
 
 " Initialize plugin system
@@ -429,6 +431,10 @@ nnoremap <M-w> :w<CR>
 " TODO: make function to open directories in vifm (:!$TERMINAL vifm /home/neuromante/).
 nnoremap gx :silent !xdg-open "<cfile>:p"<cr>
 nnoremap gX :silent !xdg-open "<cfile>:p" &<cr>
+
+nnoremap ff f
+xnoremap ff f
+onoremap ff f
 "}}}
 ""/ leader (SPC) {{{
 "/
@@ -660,6 +666,7 @@ let g:coc_global_extensions = [
       \ 'coc-prettier',
       \ 'coc-sh',
       \ 'coc-snippets',
+      \ 'coc-sql',
       \ 'coc-tslint-plugin',
       \ 'coc-tsserver',
       \ 'coc-vimlsp',
@@ -1146,6 +1153,7 @@ function! LightLineFilename()
   return &filetype ==# 'dirvish' ?
         \   (l:fpath ==# getcwd() . '/' ? fnamemodify(l:fpath, ':~') :
         \   fnamemodify(l:fpath, ':~:.')) :
+        \ &buftype ==# 'terminal' ? b:term_title :
         \ &filetype ==# 'fzf' ? 'fzf' :
         \ '' !=# l:fname ? fnamemodify(l:fpath, ':~:.') : '[No Name]'
 endfunction
@@ -1286,7 +1294,10 @@ augroup END
 "/
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
-nmap Q <Plug>(easymotion-s)
+nmap f <Plug>(easymotion-s)
+xmap f <Plug>(easymotion-s)
+omap f <Plug>(easymotion-s)
+nmap Q <Plug>(easymotion-overwin-f)
 xmap Q <Plug>(easymotion-s)
 omap Q <Plug>(easymotion-s)
 nmap , <Plug>(easymotion-overwin-f)
@@ -1941,7 +1952,7 @@ else
 endif
 
 set nohlsearch
-lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; }; '!vim-plug'; '!git'; '!fzf' }
+lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; }; clojure = { names = false; }; '!vim-plug'; '!git'; '!fzf'; '!floggraph'}
 lua require'terminal'.setup()
 " lua require 'nvim-treesitter.configs'.setup { highlight = { enable = true, disable = {} } }
 " lua <<EOF

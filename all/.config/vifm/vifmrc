@@ -18,7 +18,7 @@ set smartcase
 set nohlsearch
 set incsearch
 set suggestoptions=normal,visual,view,otherpane,keys,marks,registers
-set statusline="  %t %T %15s%= %20d %{&sort} %{&dotfiles} %A %10u:%-7g "
+set statusline="  %t %T %15E%= %20d %{&sort} %{&dotfiles} %A %10u:%-7g "
 set timefmt="%F %H:%M"
 set viewcolumns=-40%{name}.,6.5{type}.,17.16{mtime}..,6.5{size}.,11.10{perms}..,6.5{gname}.,11.10{uname}.
 " set dotfiles
@@ -60,6 +60,8 @@ command! togglesort
 " command! zip if [ -n "%a" ]; then
 "   \     zip -r '%a.zip' %f;
 "   \ fi
+
+command! dragon dragon-drag-and-drop -a -x %f
 
 nnoremap S :togglesort<cr>
 
