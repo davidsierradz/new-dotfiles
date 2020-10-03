@@ -3,11 +3,13 @@
 call plug#begin('~/.config/nvim/plugged')
 "----------------Basics----------------- {{{
 " Using this until the unlisted netrw buffer bug is solved.
+let g:loaded_netrw       = 1
+let g:loaded_netrwPlugin = 1
 Plug 'justinmk/vim-dirvish'
 
 " Allows you to configure % to match more than just single characters.
-Plug 'andymass/vim-matchup'
 let g:loaded_matchit = 1
+Plug 'andymass/vim-matchup'
 
 " Visualize your Vim undo tree.
 Plug 'simnalamburt/vim-mundo'
@@ -47,6 +49,11 @@ Plug 'wellle/targets.vim'
 Plug 'easymotion/vim-easymotion'
 
 Plug 'tmsvg/pear-tree'
+
+Plug 'chrisbra/NrrwRgn'
+command! -nargs=* -bang -range -complete=filetype NN
+      \ :<line1>,<line2> call nrrwrgn#NrrwRgn('',<q-bang>)
+      \ | set filetype=<args>
 "}}}
 
 "--------------Interface---------------- {{{
@@ -108,6 +115,11 @@ let g:typescript_indent_disable = 1
 
 " React JSX syntax highlighting and indenting for vim.
 Plug 'maxmellon/vim-jsx-pretty'
+
+Plug 'bfontaine/zprint.vim'
+
+Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
+let g:shfmt_extra_args = '-i 2 -bn -ci -sr -ln bash'
 "}}}
 
 " Initialize plugin system
@@ -366,6 +378,10 @@ nnoremap <M-w> :w<CR>
 " TODO: make function to open directories in vifm (:!$TERMINAL vifm /home/neuromante/).
 nnoremap gx :silent !xdg-open "<cfile>:p"<cr>
 nnoremap gX :silent !xdg-open "<cfile>:p" &<cr>
+
+nnoremap ff f
+xnoremap ff f
+onoremap ff f
 "}}}
 ""/ leader (SPC) {{{
 "/
@@ -586,7 +602,6 @@ let g:coc_config_home = $HOME . '/.config/nvim/wiki'
 let g:coc_global_extensions = [
       \ 'coc-actions',
       \ 'coc-cspell-dicts',
-      \ 'coc-lists',
       \ 'coc-dictionary',
       \ 'coc-emmet',
       \ 'coc-explorer',
@@ -599,10 +614,10 @@ let g:coc_global_extensions = [
       \ 'coc-yank',
       \ ]
 
-augroup Smartf
-  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#cc241d gui=bold
-  autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
-augroup end
+" augroup Smartf
+"   autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#cc241d gui=bold
+"   autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
+" augroup end
 
 let g:coc_filetype_map = {
       \ 'vimwiki': 'markdown',
@@ -612,7 +627,12 @@ let g:coc_filetype_map = {
 "   autocmd FileType vimwiki let b:coc_pairs = [["```", "```"]]
 " augroup end
 
-function CocExplorerDirvish() abort
+" let g:coc_node_args = ['--nolazy', '--inspect-brk=6045']
+" set runtimepath^=/home/neuromante/.nvm/versions/node/v12.17.0/lib/node_modules/coc-conventional/
+" let $NVIM_COC_LOG_LEVEL = 'debug'
+" let $NVIM_COC_LOG_FILE = '/tmp/coc.log'
+
+function! CocExplorerDirvish() abort
   if &filetype=='dirvish'
     if isdirectory(expand("<cfile>"))
       execute 'CocCommand explorer --reveal=' . expand('<cfile>:p:h')
@@ -730,7 +750,7 @@ nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
 nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
-nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
+nnoremap <silent> <leader>cy :call CocAction('diagnosticToggle')<CR>
 " Remap for do codeAction of selected region
 function! s:cocActionsOpenFromSelected(type) abort
   execute 'CocCommand actions.open ' . a:type
@@ -743,13 +763,13 @@ nmap <silent> <leader>ca :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<
 "/
 set fillchars=fold:‧
 let g:crease_foldtext = { 'default': '%{CreaseIndent()}%t%= %l lines %{CreasePercentage()}' }
-function CreasePercentage() abort
+function! CreasePercentage() abort
   let foldSize = 1 + v:foldend - v:foldstart
   let lineCount = line("$")
   let foldPercentage = "[" . printf("%4s", printf("%.1f", (foldSize*1.0)/lineCount*100)) . "%] "
   return foldPercentage
 endfunction
-function CreaseIndent() abort
+function! CreaseIndent() abort
   let fs = nextnonblank(v:foldstart)
   let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
   let foldLevelStr = repeat(' ', match(line,'\S'))
@@ -937,7 +957,7 @@ let g:lightline = {
       \       ['mixed', 'trailing'],
       \       ['coc_error', 'coc_warning', 'coc_hint', 'coc_info', 'coc_fix'],
       \       ['virtuallineinfo', 'percentage', 'cocstatus'],
-      \       ['foldlevel', 'gitbranch', 'fileformat', 'fileencoding', 'filetype']
+      \       ['foldlevel', 'gitbranch', 'fileformat', 'fileencoding', 'filetype', 'noeol']
       \     ]
       \   },
       \   'inactive': {
@@ -953,6 +973,7 @@ let g:lightline = {
       \     'virtuallineinfo': '%l-%c%V',
       \   },
       \   'component_function': {
+      \     'noeol': 'NoEOL',
       \     'foldlevel': 'FoldLevel',
       \     'cocstatus': 'coc#status',
       \   },
@@ -978,6 +999,10 @@ let g:lightline = {
 
 function! FoldLevel()
   return &foldlevel && strlen(&foldlevel) !=# '0' ? &foldlevel : ''
+endfunction
+
+function! NoEOL()
+  return  &endofline ? '' : 'noeol'
 endfunction
 
 function! Strcharpart(...)
@@ -1031,6 +1056,7 @@ function! LightLineFilename()
   return &filetype ==# 'dirvish' ?
         \   (l:fpath ==# getcwd() . '/' ? fnamemodify(l:fpath, ':~') :
         \   fnamemodify(l:fpath, ':~:.')) :
+        \ &buftype ==# 'terminal' ? b:term_title :
         \ &filetype ==# 'fzf' ? 'fzf' :
         \ '' !=# l:fname ? fnamemodify(l:fpath, ':~:.') : '[No Name]'
 endfunction
@@ -1230,9 +1256,15 @@ augroup END
 "/
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
-nmap Q <Plug>(easymotion-s)
+nmap f <Plug>(easymotion-s)
+xmap f <Plug>(easymotion-s)
+omap f <Plug>(easymotion-s)
+nmap Q <Plug>(easymotion-overwin-f2)
 xmap Q <Plug>(easymotion-s)
 omap Q <Plug>(easymotion-s)
+nmap F <Plug>(easymotion-overwin-f2)
+xmap F <Plug>(easymotion-s)
+omap F <Plug>(easymotion-s)
 nmap <leader><leader>ef <Plug>(easymotion-f)
 nmap <leader><leader>eF <Plug>(easymotion-F)
 nmap <leader><leader>e, <Plug>(easymotion-prev)
@@ -1594,7 +1626,9 @@ augroup initvim
 
   autocmd InsertEnter * set noignorecase
   autocmd InsertLeave * set ignorecase
-  autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=500}
+  autocmd CmdlineEnter : set nosmartcase noignorecase
+  autocmd CmdlineLeave : set smartcase ignorecase
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank {timeout=500}
 augroup END
 
 augroup markdownCode

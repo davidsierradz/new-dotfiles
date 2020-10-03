@@ -24,7 +24,12 @@
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
   // "smartf.wordJump": false,
   // "smartf.jumpOnTrigger": false,
+  "diagnostic.refreshOnInsertMode": true,
   "coc.preferences.bracketEnterImprove": false,
+  "yank.priority": 70,
+  "yank.highlight.enable": false,
+  "explorer.position": "floating",
+  "explorer.file.showHiddenFiles": true,
   "cSpell.languageSettings": [
     { "languageId": "*", "dictionaries": ["typescript", "node"] }
   ],

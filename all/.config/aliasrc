@@ -95,7 +95,14 @@ function terminal-scheme() {
 
   kitty_config_file=~/.config/kitty/kitty.conf
   sed --follow-symlinks -i "s#^\(include\s\./kitty-themes/gruvbox_*\).*#\1$1.conf#g" $kitty_config_file
-  kitty @ set-colors --all --configured "$HOME/.config/kitty/kitty-themes/gruvbox_$1.conf"
+  # kitty @ set-colors --all --configured "$HOME/.config/kitty/kitty-themes/gruvbox_$1.conf"
+
+  for socket in $(find /tmp/ -maxdepth 1 -name "kitty-$USER-*"); do
+    if which kitty > /dev/null; then
+      # kitty @  >/dev/null
+      kitty @ --to unix:"$socket" set-colors --all --configured "$HOME/.config/kitty/kitty-themes/gruvbox_$1.conf"
+    fi
+  done
 
   rofi_config_file=~/.config/rofi/config
   sed --follow-symlinks -i "s#^\(rofi.theme: /usr/share/rofi/themes/gruvbox-*\).*#\1$1-soft.rasi#g" $rofi_config_file

@@ -48,7 +48,6 @@
   // "tsserver.trace.server": "verbose",
   "jest.customFlags": ["runInBand", "verbose", "expand", "no-cache"],
   "coc-conventional.enableLernaScopes": true,
-  "todolist.promptForReminder": false,
   "eslint.enable": true,
   "emmet.includeLanguages": {
     "javascriptreact": "javascriptreact"
@@ -72,7 +71,7 @@
       // primarily listed here to call out that flags which take an
       // argument (such as `-i <num-spaces>` for specifying indentation)
       // should be split into two strings, the flag and then the value
-      "args": ["-i", "2", "-bn", "-ci", "-sr"]
+      "args": ["-i", "2", "-bn", "-ci", "-sr", "-ln", "bash"]
     }
   }
 }

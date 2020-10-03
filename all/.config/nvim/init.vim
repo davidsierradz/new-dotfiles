@@ -10,11 +10,13 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 "----------------Basics----------------- {{{
 " Using this until the unlisted netrw buffer bug is solved.
+let g:loaded_netrw       = 1
+let g:loaded_netrwPlugin = 1
 Plug 'justinmk/vim-dirvish'
 
 " Allows you to configure % to match more than just single characters.
-Plug 'andymass/vim-matchup'
 let g:loaded_matchit = 1
+Plug 'andymass/vim-matchup'
 
 " Visualize your Vim undo tree.
 Plug 'simnalamburt/vim-mundo'
@@ -650,6 +652,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 let g:coc_global_extensions = [
+      \ 'coc-actions',
       \ 'coc-conjure',
       \ 'coc-conventional',
       \ 'coc-css',
@@ -673,10 +676,10 @@ let g:coc_global_extensions = [
       \ 'coc-yank',
       \ ]
 
-augroup Smartf
-  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#cc241d gui=bold
-  autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
-augroup end
+" augroup Smartf
+"   autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#cc241d gui=bold
+"   autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
+" augroup end
 
 " augroup Pairs
 "   autocmd FileType markdown let b:coc_pairs = [["```", "```"]]
@@ -686,6 +689,7 @@ augroup end
 " set runtimepath^=/home/neuromante/.nvm/versions/node/v12.17.0/lib/node_modules/coc-conventional/
 " let $NVIM_COC_LOG_LEVEL = 'debug'
 " let $NVIM_COC_LOG_FILE = '/tmp/coc.log'
+
 function! CocExplorerDirvish() abort
   if &filetype=='dirvish'
     if isdirectory(expand("<cfile>"))
@@ -805,6 +809,15 @@ nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
 nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
 nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
 nnoremap <silent> <leader>cr :call CocAction('reloadExtension', 'coc-eslint')<CR>
+nnoremap <silent> <leader>cy :call CocAction('diagnosticToggle')<CR>
+" Remap for do codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+
+xmap <silent> <leader>ca :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> <leader>ca :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+
 " coc-todo
 " nnoremap <silent> <leader>caa  :CocList todolist<CR>
 " nnoremap <silent> <leader>cas  :CocList --input=todolist commands<CR>
@@ -1297,12 +1310,12 @@ let g:EasyMotion_smartcase = 1
 nmap f <Plug>(easymotion-s)
 xmap f <Plug>(easymotion-s)
 omap f <Plug>(easymotion-s)
-nmap Q <Plug>(easymotion-overwin-f)
+nmap Q <Plug>(easymotion-overwin-f2)
 xmap Q <Plug>(easymotion-s)
 omap Q <Plug>(easymotion-s)
-nmap , <Plug>(easymotion-overwin-f)
-xmap , <Plug>(easymotion-s)
-omap , <Plug>(easymotion-s)
+nmap F <Plug>(easymotion-overwin-f2)
+xmap F <Plug>(easymotion-s)
+omap F <Plug>(easymotion-s)
 nmap <leader><leader>ef <Plug>(easymotion-f)
 nmap <leader><leader>eF <Plug>(easymotion-F)
 nmap <leader><leader>e, <Plug>(easymotion-prev)
