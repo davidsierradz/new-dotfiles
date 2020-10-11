@@ -288,7 +288,7 @@ inoremap <M-1> ->
 inoremap <M-2> =>
 
 " Transpose two chars in insert mode <C-t>.
-inoremap <C-t> <ESC>Xpa
+inoremap <C-T> <ESC>Xpa
 
 " Select text inside line.
 nnoremap vv g^vg$
@@ -1181,10 +1181,11 @@ nmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
 vmap <leader><leader>w<Space> <Plug>VimwikiToggleListItem
 nmap <leader><leader>w[ <Plug>VimwikiGoToPrevHeader
 nmap <leader><leader>w] <Plug>VimwikiGoToNextHeader
+imap <F8> <Plug>VimwikiIncreaseLvlSingleItem
 
 augroup initvimwiki
   au!
-  autocmd BufReadPost,BufNewFile ~/notes/index.md setlocal foldlevel=2
+  autocmd BufReadPost,BufNewFile index.md setlocal foldlevel=2
   autocmd FileType vimwiki nmap <buffer> <F7> <Plug>VimwikiFollowLink
   autocmd FileType vimwiki nnoremap <buffer> <silent> <CR> :call FollowLink()<CR>
 augroup END

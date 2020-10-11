@@ -162,6 +162,8 @@ Plug 'HiPhish/guile.vim'
 Plug 'bakpakin/fennel.vim'
 
 Plug 'clojure-vim/clojure.vim'
+
+Plug 'chrisbra/csv.vim'
 "}}}
 
 " Initialize plugin system

@@ -11,6 +11,6 @@
     "coc-prettier": ">=1.1.17",
     "coc-snippets": ">=2.2.1",
     "coc-spell-checker": ">=1.2.0",
-    "coc-yank": ">=1.1.7"
+    "coc-yank": ">=1.1.8"
   }
 }
