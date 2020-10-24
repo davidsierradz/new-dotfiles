@@ -10,11 +10,17 @@ setxkbmap -model 'pc105' -layout 'us' -variant 'altgr-intl' -option 'caps:ctrl_m
 # xmodmap -e 'keycode 135 = Super_R'
 
 # Alt-Gr+hjkl to arrow keys.
-xmodmap -e 'keycode 43 = h H NoSymbol NoSymbol Left'
-xmodmap -e 'keycode 44 = j J NoSymbol NoSymbol Down'
-xmodmap -e 'keycode 45 = k K NoSymbol NoSymbol Up'
-xmodmap -e 'keycode 46 = l L NoSymbol NoSymbol Right'
+xmodmap -e 'keycode 43 = h H h H Left'
+xmodmap -e 'keycode 44 = j J j J Down'
+xmodmap -e 'keycode 45 = k K k K Up'
+xmodmap -e 'keycode 46 = l L l L Right'
+
+# Alt-Gr+; to backspace.
+xmodmap -e 'keycode 47 = semicolon colon semicolon colon BackSpace'
+# Alt-Gr+' to backspace.
+xmodmap -e 'keycode 48 = apostrophe quotedbl apostrophe quotedbl BackSpace'
+
 # Alt-Gr+m to enter.
 xmodmap -e 'keycode 58 = m M m M Return'
 # Alt-Gr+v to backspace.
-xmodmap -e 'keycode  55 = v V v V BackSpace V'
+# xmodmap -e 'keycode 55 = v V v V BackSpace V'

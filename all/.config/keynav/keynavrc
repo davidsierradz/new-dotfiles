@@ -67,7 +67,7 @@ ctrl+n cut-right,cut-down
 
 # Record keynav actions
 #q record ~/dotfiles/keynav/.keynav_macros
-q record ~/.config/keynav/keynav_macros
+q record ~/.keynav_macros
 apostrophe playback
 
 ### Example using the 'sh' command.

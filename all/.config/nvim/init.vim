@@ -220,7 +220,7 @@ set title
 
 " Set <Space> as leader key and \ as localleader.
 let mapleader = " "
-let maplocalleader = "\\"
+let maplocalleader = ","
 
 " Wait time for pending mode.
 set timeoutlen=500
@@ -1693,8 +1693,8 @@ let g:which_key_map.c = {
 
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
-nnoremap <silent> <LocalLeader> :<c-u>WhichKey  '\'<CR>
-vnoremap <silent> <LocalLeader> :<c-u>WhichKeyVisual '\'<CR>
+nnoremap <silent> <LocalLeader> :<c-u>WhichKey ','<CR>
+vnoremap <silent> <LocalLeader> :<c-u>WhichKeyVisual ','<CR>
 nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
 nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
 "}}}

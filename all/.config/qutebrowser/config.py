@@ -459,10 +459,11 @@ c.colors.tabs.selected.odd.bg = '#cb4b16'
 c.colors.webpage.bg = 'white'
 
 ## Which algorithm to use for modifying how colors are rendered with
-## darkmode.
+## darkmode. The `lightness-cielab` value was added with QtWebEngine 5.14
+## and is treated like `lightness-hsl` with older QtWebEngine versions.
 ## Type: String
 ## Valid values:
-##   - lightness-cielab: Modify colors by converting them to CIELAB color space and inverting the L value.
+##   - lightness-cielab: Modify colors by converting them to CIELAB color space and inverting the L value. Not available with Qt < 5.14.
 ##   - lightness-hsl: Modify colors by converting them to the HSL color space and inverting the lightness (i.e. the "L" in HSL).
 ##   - brightness-rgb: Modify colors by subtracting each of r, g, and b from their maximum value.
 c.colors.webpage.darkmode.algorithm = 'lightness-hsl'
@@ -497,15 +498,16 @@ c.colors.webpage.darkmode.enabled = False
 ## Type: Float
 # c.colors.webpage.darkmode.grayscale.images = 0.0
 
-## Which images to apply dark mode to. WARNING: On Qt 5.15.0, this
+## Which images to apply dark mode to. With QtWebEngine 5.15.0, this
 ## setting can cause frequent renderer process crashes due to a
-## https://codereview.qt-project.org/c/qt/qtwebengine-
-## chromium/+/304211[bug in Qt].
+## https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/304211[
+## bug in Qt]. With QtWebEngine 5.10, this is not available at all. In
+## those cases, the 'smart' setting is ignored and treated like 'never'.
 ## Type: String
 ## Valid values:
 ##   - always: Apply dark mode filter to all images.
 ##   - never: Never apply dark mode filter to any images.
-##   - smart: Apply dark mode based on image content.
+##   - smart: Apply dark mode based on image content. Not available with Qt 5.10 / 5.15.0.
 c.colors.webpage.darkmode.policy.images = 'smart'
 
 ## Which pages to apply dark mode to.
@@ -588,9 +590,12 @@ c.completion.height = '30%'
 c.completion.shrink = True
 
 ## Format of timestamps (e.g. for the history completion). See
-## https://sqlite.org/lang_datefunc.html for allowed substitutions.
+## https://sqlite.org/lang_datefunc.html and
+## https://docs.python.org/3/library/datetime.html#strftime-strptime-
+## behavior for allowed substitutions, qutebrowser uses both sqlite and
+## Python to format its timestamps.
 ## Type: String
-# c.completion.timestamp_format = '%Y-%m-%d'
+# c.completion.timestamp_format = '%Y-%m-%d %H:%M'
 
 ## Execute the best-matching command on a partial match.
 ## Type: Bool
@@ -856,13 +861,29 @@ for site in js_whitelist:
 ## Type: Bool
 # c.content.local_storage = True
 
-## Allow websites to record audio/video.
+## Allow websites to record audio.
 ## Type: BoolAsk
 ## Valid values:
 ##   - true
 ##   - false
 ##   - ask
-# c.content.media_capture = 'ask'
+# c.content.media.audio_capture = 'ask'
+
+## Allow websites to record audio and video.
+## Type: BoolAsk
+## Valid values:
+##   - true
+##   - false
+##   - ask
+# c.content.media.audio_video_capture = 'ask'
+
+## Allow websites to record video.
+## Type: BoolAsk
+## Valid values:
+##   - true
+##   - false
+##   - ask
+# c.content.media.video_capture = 'ask'
 
 ## Allow websites to lock your mouse pointer.
 ## Type: BoolAsk
@@ -1397,6 +1418,7 @@ c.hints.uppercase = True
 ##   - tab-silent: Open a new tab in the existing window without activating the window.
 ##   - tab-bg-silent: Open a new background tab in the existing window without activating the window.
 ##   - window: Open in a new window.
+##   - private-window: Open in a new private window.
 # c.new_instance_open_target = 'tab'
 
 ## Which window to choose when opening links as new tabs. When
@@ -1766,15 +1788,15 @@ c.tabs.show = 'always'
 ## Format to use for the tab title. The following placeholders are
 ## defined:  * `{perc}`: Percentage as a string like `[10%]`. *
 ## `{perc_raw}`: Raw percentage, e.g. `10`. * `{current_title}`: Title of
-## the current web page. * `{title_sep}`: The string ` - ` if a title is
-## set, empty otherwise. * `{index}`: Index of this tab. *
+## the current web page. * `{title_sep}`: The string `" - "` if a title
+## is set, empty otherwise. * `{index}`: Index of this tab. *
 ## `{aligned_index}`: Index of this tab padded with spaces to have the
-## same width. * `{id}`: Internal tab ID of this tab. * `{scroll_pos}`:
+## same   width. * `{id}`: Internal tab ID of this tab. * `{scroll_pos}`:
 ## Page scroll position. * `{host}`: Host of the current web page. *
-## `{backend}`: Either ''webkit'' or ''webengine'' * `{private}`:
-## Indicates when private mode is enabled. * `{current_url}`: URL of the
-## current web page. * `{protocol}`: Protocol (http/https/...) of the
-## current web page. * `{audio}`: Indicator for audio/mute status.
+## `{backend}`: Either `webkit` or `webengine` * `{private}`: Indicates
+## when private mode is enabled. * `{current_url}`: URL of the current
+## web page. * `{protocol}`: Protocol (http/https/...) of the current web
+## page. * `{audio}`: Indicator for audio/mute status.
 ## Type: FormatString
 c.tabs.title.format = '{current_title} - {audio}'
 
@@ -1788,8 +1810,8 @@ c.tabs.title.format = '{current_title} - {audio}'
 ## Type: Bool
 # c.tabs.tooltips = True
 
-## Number of close tab actions to remember, per window (-1 for no
-## maximum).
+## Number of closed tabs (per window) and closed windows to remember for
+## :undo (-1 for no maximum).
 ## Type: Int
 # c.tabs.undo_stack_size = 100
 
@@ -1982,6 +2004,7 @@ c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '125%', '150%
 # config.bind('Sq', 'open qute://bookmarks')
 # config.bind('Ss', 'open qute://settings')
 # config.bind('T', 'tab-focus')
+# config.bind('U', 'undo -w')
 # config.bind('V', 'enter-mode caret ;; toggle-selection --line')
 # config.bind('ZQ', 'quit')
 # config.bind('ZZ', 'quit --save')
@@ -2145,6 +2168,8 @@ c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '125%', '150%
 # config.bind('<Ctrl-Y>', 'rl-yank', mode='command')
 # config.bind('<Down>', 'completion-item-focus --history next', mode='command')
 # config.bind('<Escape>', 'leave-mode', mode='command')
+# config.bind('<PgDown>', 'completion-item-focus next-page', mode='command')
+# config.bind('<PgUp>', 'completion-item-focus prev-page', mode='command')
 # config.bind('<Return>', 'command-accept', mode='command')
 # config.bind('<Shift-Delete>', 'completion-item-del', mode='command')
 # config.bind('<Shift-Tab>', 'completion-item-focus prev', mode='command')
@@ -2207,7 +2232,7 @@ c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '125%', '150%
 
 config.bind('zi', 'run-with-count 3 zoom-in')
 config.bind('zo', 'run-with-count 3 zoom-out')
-config.bind(',r', 'spawn --userscript readability-js')
+config.bind(',z', 'spawn --userscript readability-js')
 config.bind(',t', 'hint all spawn nohup mpv --ytdl-format="[height <=? 480]" {hint-url}')
 config.bind(',T', 'hint all spawn nohup mpv {hint-url}')
 config.bind(',,', "hint all run jseval -q let q = document.querySelector('[src*=\"{hint-url}\"],[href*=\"{hint-url}\"]');q.setAttribute('tabIndex', '-1');q.focus()")
@@ -2220,6 +2245,7 @@ config.bind(',W', 'hint links spawn nohup i3 "exec --no-startup-id xterm -e w3m 
 config.bind(';k', 'hint kill delete')
 config.bind(';;', 'hint all hover')
 config.bind(';m', 'hint links userscript yank-markdown-js')
+config.bind(';z', 'hint links userscript readability-js')
 
 config.bind('<Ctrl-u>', 'run-with-count 11 scroll up')
 config.bind('d', 'scroll-page 0 0.6')
@@ -2238,7 +2264,7 @@ config.bind('<Ctrl-Tab>', 'tab-next')
 config.bind('<Alt-`>', 'enter-mode passthrough')
 config.bind('x', 'tab-close')
 
-config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave;; jseval -q document.activeElement.blur();; enter-mode caret;; fake-key --global <Escape>')
+config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave;; jseval -q document.activeElement.blur();; enter-mode caret;; fake-key --global <Escape>;; fake-key <Escape>')
 
 config.bind('c', 'tab-close --prev')
 config.bind('C', 'tab-close --next')

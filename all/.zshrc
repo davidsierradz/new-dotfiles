@@ -429,19 +429,10 @@ zstyle -e ':completion:*' special-dirs 'false'
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# kitty +complete setup zsh
-
-_kitty() {
-  local src
-  # Send all words up to the word the cursor is currently on
-  src=$(printf "%s
-  " "${(@)words[1,$CURRENT]}" | kitty +complete zsh)
-  if [[ $? == 0 ]]; then
-    eval ${src}
-  fi
-}
-
-compdef _kitty kitty
+autoload -Uz compinit
+compinit
+# Completion for kitty
+kitty + complete setup zsh | source /dev/stdin
 
 if test -z $DISPLAY; then
   export IS_TTY=yes
