@@ -4,7 +4,7 @@
     "coc-cspell-dicts": ">=1.0.1",
     "coc-dictionary": ">=1.2.2",
     "coc-emmet": ">=1.1.6",
-    "coc-explorer": ">=0.8.2",
+    "coc-explorer": ">=0.8.3",
     "coc-json": ">=1.3.2",
     "coc-lists": ">=1.3.10",
     "coc-markdownlint": ">=1.6.0",

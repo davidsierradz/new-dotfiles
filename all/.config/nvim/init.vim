@@ -108,7 +108,7 @@ Plug 'rbong/vim-flog'
 Plug 'lambdalisue/suda.vim'
 
 " markdown preview plugin for (neo)vim.
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
 Plug 'mtikekar/nvim-send-to-term'
 
@@ -392,9 +392,9 @@ xnoremap ; :
 
 " make ; always "find" forward and , backward
 nnoremap <expr> ;; getcharsearch().forward ? ';' : ','
-nnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
+" nnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
 xnoremap <expr> ;; getcharsearch().forward ? ';' : ','
-xnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
+" xnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
 
 cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
@@ -851,9 +851,14 @@ augroup END
 "}}}
 ""/ conjure {{{
 "/
-let g:conjure#mapping#eval_root_form = '\'
-let g:conjure#mapping#eval_visual = '\'
+let g:conjure#mapping#eval_root_form = ','
+let g:conjure#mapping#eval_visual = ','
 let g:conjure#log#botright = v:true
+let g:conjure#preview#sample_limit = 1.0
+let g:conjure#log#hud#passive_close_delay = 300
+let g:conjure#log#hud#height = 0.93
+let g:conjure#log#hud#width = 0.5
+let g:conjure#client#clojure#nrepl#completion#with_context = v:true
 "}}}
 ""/ cosco.vim {{{
 "/

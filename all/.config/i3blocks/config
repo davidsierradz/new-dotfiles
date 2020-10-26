@@ -4,7 +4,7 @@ markup=pango
 
 [taskw]
 full_text=...
-command=i3status-taskwarrior json
+command=i3blocks-task
 interval=60
 format=json
 
