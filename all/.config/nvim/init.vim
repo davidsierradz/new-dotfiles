@@ -114,7 +114,7 @@ Plug 'mtikekar/nvim-send-to-term'
 
 Plug 'metakirby5/codi.vim'
 
-Plug 'diepm/vim-rest-console'
+Plug 'davidsierradz/vim-rest-console'
 "}}}
 
 "-------Completions and omnifuncs------- {{{
@@ -145,7 +145,7 @@ Plug 'tpope/vim-dispatch'
 
 Plug 'radenling/vim-dispatch-neovim'
 
-Plug 'Olical/conjure'
+Plug 'davidsierradz/conjure'
 
 Plug 'bfontaine/zprint.vim'
 
@@ -1945,6 +1945,9 @@ function! MyHighlights() abort
           \   }
           \}
   endif
+  if $IS_TTY == 'yes'
+    highlight! Visual ctermbg=7 ctermfg=0
+  endif
 endfunction
 
 augroup MyColors
@@ -1963,7 +1966,12 @@ let g:gruvbox_invert_selection='0'
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_light='soft'
 
-colorscheme gruvbox
+if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes'
+  colorscheme default
+  syntax off
+else
+  colorscheme gruvbox
+endif
 
 if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes'
   let g:lightline.colorscheme = 'deus'
@@ -1972,7 +1980,11 @@ else
 endif
 
 set nohlsearch
-lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; }; clojure = { names = false; }; '!vim-plug'; '!git'; '!fzf'; '!floggraph'}
+
+if $IS_TTY != 'yes'
+  lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; }; clojure = { names = false; }; '!vim-plug'; '!git'; '!fzf'; '!floggraph'}
+endif
+
 lua require'terminal'.setup()
 " lua require 'nvim-treesitter.configs'.setup { highlight = { enable = true, disable = {} } }
 " lua <<EOF

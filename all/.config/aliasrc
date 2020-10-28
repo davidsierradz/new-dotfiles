@@ -165,3 +165,5 @@ function kbg() {
 alias -g GHFZF='| gh'
 alias -g lastbranch='$(cat .git/lastbranch)'
 # compdef config=git
+
+alias vtty='IS_TTY=yes $EDITOR'
