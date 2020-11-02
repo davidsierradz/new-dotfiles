@@ -28,7 +28,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
 " Repeat command extended to visual mode.
-Plug 'inkarkat/vim-visualrepeat'
+" Plug 'inkarkat/vim-visualrepeat'
 
 " Pairs of handy bracket mappings.
 Plug 'tpope/vim-unimpaired'
@@ -60,6 +60,8 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tmsvg/pear-tree'
 
 Plug 'lfilho/cosco.vim'
+
+" Plug 'landock/vim-expand-region'
 "}}}
 
 "--------------Interface---------------- {{{
@@ -110,11 +112,14 @@ Plug 'lambdalisue/suda.vim'
 " markdown preview plugin for (neo)vim.
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
-Plug 'mtikekar/nvim-send-to-term'
+" Plug 'mtikekar/nvim-send-to-term'
 
 Plug 'metakirby5/codi.vim'
 
 Plug 'davidsierradz/vim-rest-console'
+
+" Plug 'puremourning/vimspector'
+" let g:vimspector_enable_mappings = 'HUMAN'
 "}}}
 
 "-------Completions and omnifuncs------- {{{
@@ -123,6 +128,11 @@ Plug 'honza/vim-snippets'
 
 " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode.
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
+" Plug 'liuchengxu/vista.vim'
+" let g:vista_default_executive = 'coc'
+" let g:vista_close_on_jump = 1
+" autocmd FileType vista,vista_kind setlocal foldlevel=0
 "}}}
 
 "------Syntax files and Languages------- {{{
@@ -149,19 +159,30 @@ Plug 'davidsierradz/conjure'
 
 Plug 'bfontaine/zprint.vim'
 
-Plug 'clojure-vim/vim-jack-in'
+" Plug 'clojure-vim/vim-jack-in'
 
 Plug 'Olical/vim-scheme', { 'for': 'scheme', 'on': 'SchemeConnect' }
 
 Plug 'guns/vim-sexp'
 
+" And while you're here, tpope's bindings make vim-sexp a little nicer to use.
+" Plug 'tpope/vim-sexp-mappings-for-regular-people'
+
+" Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
+" let g:acid_no_default_keymappings = 1
+" nmap <buffer> <silent> <Leader>mp     <Plug>(acid-motion-op)
+" nmap <buffer> <silent> <Leader>mpp    <Plug>(acid-eval-expr)
+" nmap <buffer> <silent> <Leader>mqp    <Plug>(acid-eval-print)
+
 " Plug 'nvim-treesitter/nvim-treesitter'
 
-Plug 'HiPhish/guile.vim'
+" Plug 'HiPhish/guile.vim'
 
 Plug 'bakpakin/fennel.vim'
 
 Plug 'clojure-vim/clojure.vim'
+
+" Plug 'tpope/vim-classpath'
 
 Plug 'chrisbra/csv.vim'
 "}}}
@@ -439,6 +460,10 @@ nnoremap gX :silent !xdg-open "<cfile>:p" &<cr>
 nnoremap ff f
 xnoremap ff f
 onoremap ff f
+
+nnoremap FF F
+xnoremap FF F
+onoremap FF F
 "}}}
 ""/ leader (SPC) {{{
 "/
@@ -862,7 +887,7 @@ let g:conjure#client#clojure#nrepl#completion#with_context = v:true
 "}}}
 ""/ cosco.vim {{{
 "/
-autocmd FileType javascript,json imap <buffer> <silent> <LocalLeader>\ <c-o><Plug>(cosco-commaOrSemiColon)
+autocmd FileType javascript,json imap <buffer> <silent> <LocalLeader>, <c-o><Plug>(cosco-commaOrSemiColon)
 let g:cosco_ignore_comment_lines = 1
 "}}}
 ""/ crease.vim {{{
@@ -1184,11 +1209,11 @@ let g:mkdp_browser = '/usr/bin/qutebrowser'
 "}}}
 ""/ nvim-send-to-term {{{
 "/
-let g:send_disable_mapping = 1
-nmap <Leader>aa <Plug>SendLine
-nmap <Leader>am <Plug>Send
-vmap <Leader>am <Plug>Send
-nmap <Leader>aM m$
+" let g:send_disable_mapping = 1
+" nmap <Leader>aa <Plug>SendLine
+" nmap <Leader>am <Plug>Send
+" vmap <Leader>am <Plug>Send
+" nmap <Leader>aM m$
 "}}}
 ""/ pear-tree {{{
 "/

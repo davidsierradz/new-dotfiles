@@ -2264,7 +2264,7 @@ config.bind('<Ctrl-Tab>', 'tab-next')
 config.bind('<Alt-`>', 'enter-mode passthrough')
 config.bind('x', 'tab-close')
 
-config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave;; jseval -q document.activeElement.blur();; enter-mode caret;; fake-key --global <Escape>;; fake-key <Escape>')
+config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave;; enter-mode caret;; fake-key --global <Escape>;; fake-key <Escape>;; jseval -q document.activeElement.blur()')
 
 config.bind('c', 'tab-close --prev')
 config.bind('C', 'tab-close --next')
