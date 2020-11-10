@@ -1,12 +1,12 @@
 html {
-  background: #fbf1c7 !important;
+  background: #f2e5bc !important;
 }
 
 /*----- DEFAULT TEXT, BORDER & BACKGROUND COLORS -----*/
 * {
   color: #282828 !important;
   box-shadow: none !important;
-  background-color: #fbf1c7 !important;
+  background-color: #f2e5bc !important;
   background-color: rgba(251, 241, 199, 0.1) !important;
   /*   border-color: #444 !important;
     border-top-color: #444 !important;
@@ -80,13 +80,13 @@ div[class*="content"], div[class*="container"],
 /* Popup divs that use visibility: hidden and display: none */
 div[style*="display: block"],
 div[style*="visibility: visible"] {
-  background: #fbf1c7 !important;
+  background: #f2e5bc !important;
 }
 
 /* Highlight */
 ::-moz-selection {
   background-color: #3c3836 !important;
-  color: #fbf1c7 !important;
+  color: #f2e5bc !important;
 }
 
 /* ::: anchor/links ::: */
@@ -202,7 +202,7 @@ button,
 select,
 option,
 optgroup {
-  /*color: #fbf1c7 !important;*/
+  /*color: #f2e5bc !important;*/
   background: none #d5c4a1 !important;
   -moz-appearance: none !important;
   -webkit-appearance: none !important;
@@ -211,7 +211,7 @@ optgroup {
 input,
 textarea,
 button {
-  border-color: #fbf1c7 !important;
+  border-color: #f2e5bc !important;
   border-width: 1px !important;
 }
 
@@ -252,7 +252,7 @@ a:hover img {
 
 #main-area,
 textbox {
-  background: #fbf1c7 !important;
+  background: #f2e5bc !important;
   color: #3c3836 !important;
 }
 
@@ -316,9 +316,9 @@ popup > menu > menupopup,
 menupopup > menu > menupopup {
   -moz-appearance: none !important;
   background: rgba(15, 15, 15, 0.9) !important;
-  border: 1px solid #fbf1c7 !important;
+  border: 1px solid #f2e5bc !important;
   border-radius: 3px !important;
-  box-shadow: inset 0 0 1px #a89984, inset 0 0 10px #fbf1c7 !important;
+  box-shadow: inset 0 0 1px #a89984, inset 0 0 10px #f2e5bc !important;
   padding: 2px 0 !important;
 }
 
@@ -345,7 +345,7 @@ menupopup menuseparator {
 menupopup menuitem {
   -moz-appearance: none !important;
   background: transparent !important;
-  text-shadow: 0 1px #fbf1c7 !important;
+  text-shadow: 0 1px #f2e5bc !important;
 }
 
 tooltip {

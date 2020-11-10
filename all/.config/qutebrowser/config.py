@@ -817,6 +817,7 @@ c.content.javascript.enabled = False
 js_whitelist = [
         "*://*.bitbucket.org/*",
         "*://*.github.com/*",
+        "*://github.com/*",
         "*://*.mail.google.com/*",
         "*://*.qutebrowser.org/*",
         "*://*.youtube.com/*",
@@ -825,6 +826,7 @@ js_whitelist = [
         "*://news.ycombinator.com/*",
         "*://translate.google.com/*",
         "file:///home/neuromante/.config/qutebrowser/homepage.html",
+        "https://clojuredocs.org/*",
         ]
 
 for site in js_whitelist:

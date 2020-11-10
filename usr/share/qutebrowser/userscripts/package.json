@@ -12,8 +12,8 @@
   "dependencies": {
     "@mozilla/readability": "^0.3.0",
     "cheerio": "^1.0.0-rc.3",
-    "got": "^11.5.1",
-    "jsdom": "^16.3.0",
+    "got": "^11.8.0",
+    "jsdom": "^16.4.0",
     "qutejs": "^1.1.1"
   }
 }
