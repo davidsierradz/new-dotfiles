@@ -1,4 +1,8 @@
 
+bindsym $mod+Ctrl+h                      move workspace to output left
+
+bindsym $mod+Ctrl+l                      move workspace to output right
+
 bindsym Ctrl+XF86MonBrightnessDown       exec --no-startup-id backlight monitor down 5
 bindsym Ctrl+XF86MonBrightnessUp         exec --no-startup-id backlight monitor up 5
 bindsym Ctrl+Shift+XF86MonBrightnessDown exec --no-startup-id backlight monitor down 10

@@ -9,6 +9,10 @@ bindsym XF86AudioPlay                    exec --no-startup-id backlight panel up
 bindsym Ctrl+XF86AudioPrev               exec --no-startup-id backlight panel down 10
 bindsym Ctrl+XF86AudioPlay               exec --no-startup-id backlight panel up 10
 
+bindsym $mod+Ctrl+h                move workspace to output up
+
+bindsym $mod+Ctrl+l                move workspace to output down
+
 bar {
   output HDMI1
   tray_output none

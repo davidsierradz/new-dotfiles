@@ -266,7 +266,6 @@ bindsym $mod+Shift+g               mode "$mode_gaps"
 
 bindsym $mod+h                     focus left
 bindsym $mod+Shift+h               move left 30
-bindsym $mod+Ctrl+h                move workspace to output left
 bindsym $mod+Shift+Ctrl+h          focus parent; focus left; focus child
 
 bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
@@ -283,7 +282,6 @@ bindsym $mod+Ctrl+k                workspace next
 
 bindsym $mod+l                     focus right
 bindsym $mod+Shift+l               move right 30
-bindsym $mod+Ctrl+l                move workspace to output right
 bindsym $mod+Shift+Ctrl+l          focus parent; focus right; focus child
 
 bindsym $mod+m                     bar mode toggle
