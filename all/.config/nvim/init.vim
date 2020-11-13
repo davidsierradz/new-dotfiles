@@ -127,7 +127,7 @@ Plug 'davidsierradz/vim-rest-console'
 Plug 'honza/vim-snippets'
 
 " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode.
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 
 " Plug 'liuchengxu/vista.vim'
 " let g:vista_default_executive = 'coc'
@@ -174,7 +174,8 @@ Plug 'guns/vim-sexp'
 " nmap <buffer> <silent> <Leader>mpp    <Plug>(acid-eval-expr)
 " nmap <buffer> <silent> <Leader>mqp    <Plug>(acid-eval-print)
 
-" Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/playground'
 
 " Plug 'HiPhish/guile.vim'
 
@@ -343,7 +344,7 @@ noremap <expr> k v:count ? 'k' : 'gk'
 set pastetoggle=<F2>
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
-nnoremap <silent> <C-l> :syntax sync fromstart <bar> nohlsearch <bar> diffupdate <bar> call lightline#enable() <bar> redraw! <bar> echo<CR>
+nnoremap <silent> <C-l> :syntax sync fromstart <bar> nohlsearch <bar> diffupdate <bar> call lightline#update() <bar> call timer_start(1, {->execute('TSBufEnable highlight')}) <bar> redraw! <bar> echo<CR>
 
 " Y yanks from current cursor position to end of (wrapped) line, more logical.
 nnoremap Y yg$
@@ -1108,6 +1109,7 @@ let g:lightline = {
       \     'foldlevel': 'FoldLevel',
       \     'cocstatus': 'coc#status',
       \     'gitbranch': 'TruncateGitBranch',
+      \     'treesitter': 'nvim_treesitter#statusline',
       \   },
       \   'component_expand': {
       \     'trailing': 'lightline#trailing_whitespace#component',
@@ -1762,7 +1764,7 @@ augroup initvim
   autocmd CursorHold * silent! checktime
 
   " Set folding method
-  autocmd FileType json setlocal foldmethod=syntax
+  autocmd FileType json setlocal foldmethod=indent
 
   " Formatters.
   " autocmd FileType javascript setlocal formatprg=prettier\ --parser\ babel
@@ -2012,25 +2014,34 @@ endif
 
 lua require'terminal'.setup()
 " lua require 'nvim-treesitter.configs'.setup { highlight = { enable = true, disable = {} } }
-" lua <<EOF
-" require'nvim-treesitter.configs'.setup {
-"     highlight = {
-"         enable = true,                    -- false will disable the whole extension
-"         disable = {},                     -- list of language that will be disabled
-"     },
-"     incremental_selection = {
-"         enable = false,
-"         disable = { 'cpp', 'lua' },
-"         keymaps = {                       -- mappings for incremental selection (visual mappings)
-"           init_selection = 'gnn',         -- maps in normal mode to init the node/scope selection
-"           node_incremental = "grn",       -- increment to the upper named parent
-"           scope_incremental = "grc",      -- increment to the upper scope (as defined in locals.scm)
-"           node_decremental = "grm",      -- decrement to the previous node
-"         }
-"     },
-"     ensure_installed = { 'bash' }, -- one of 'all', 'language', or a list of languages
-" }
-" EOF
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    use_languagetree = false, -- Use this to enable language injection (this is very unstable)
+  },
+  indent = {
+    enable = true
+  },
+}
+
+require "nvim-treesitter.configs".setup {
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false -- Whether the query persists across vim sessions
+  }
+}
+
+-- https://github.com/nvim-treesitter/nvim-treesitter/issues/123#issuecomment-651162962
+require "nvim-treesitter.highlight"
+local hlmap = vim.treesitter.highlighter.hl_map
+--Misc
+hlmap.error = nil
+hlmap["punctuation.delimiter"] = "Delimiter"
+hlmap["punctuation.bracket"] = nil
+EOF
 "--------------------------------End Colors------------------------------------"
 "}}}
 " vim: set fdm=marker fmr={{{,}}} :

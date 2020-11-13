@@ -1909,7 +1909,7 @@ c.url.start_pages = ['~/.config/qutebrowser/homepage.html']
 
 ## Default zoom level.
 ## Type: Perc
-# c.zoom.default = '100%'
+c.zoom.default = '150%'
 
 ## Available zoom levels.
 ## Type: List of Perc

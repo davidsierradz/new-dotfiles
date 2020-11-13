@@ -271,7 +271,7 @@ noremap <expr> k v:count ? 'k' : 'gk'
 set pastetoggle=<F2>
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
-nnoremap <silent> <C-l> :syntax sync fromstart <bar> nohlsearch <bar> diffupdate <bar> call lightline#enable() <bar> redraw! <bar> echo<CR>
+nnoremap <silent> <C-l> :syntax sync fromstart <bar> nohlsearch <bar> call lightline#update() <bar> redraw! <bar> echo<CR>
 
 " Y yanks from current cursor position to end of (wrapped) line, more logical.
 nnoremap Y yg$
@@ -1606,7 +1606,7 @@ augroup initvim
   "       \ endif
 
   " Update the auto read of a file after 4 seconds.
-  autocmd CursorHold * silent! checktime | syntax sync fromstart | redraw! | echo
+  autocmd CursorHold * silent! checktime | echo
 
   " Surround ** with € (Right Control).
   autocmd FileType vimwiki let b:surround_8364 = "**\r**"

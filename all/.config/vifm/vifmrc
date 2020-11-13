@@ -62,6 +62,7 @@ command! togglesort
 "   \ fi
 
 command! dragon dragon-drag-and-drop -a -x %f
+command! vv vv %c &
 
 nnoremap S :togglesort<cr>
 

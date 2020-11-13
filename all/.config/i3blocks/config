@@ -12,6 +12,11 @@ format=json
 #full_text=...
 #interval=1
 
+[i3-pomodoro]
+full_text=...
+command=i3-pomodoro
+interval=1
+
 [bandwidth2]
 full_text=...
 interval=persist
