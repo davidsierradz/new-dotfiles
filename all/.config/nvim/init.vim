@@ -174,7 +174,7 @@ Plug 'guns/vim-sexp'
 " nmap <buffer> <silent> <Leader>mpp    <Plug>(acid-eval-expr)
 " nmap <buffer> <silent> <Leader>mqp    <Plug>(acid-eval-print)
 
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'davidsierradz/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 
 " Plug 'HiPhish/guile.vim'
