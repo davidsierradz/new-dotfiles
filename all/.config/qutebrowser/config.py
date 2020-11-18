@@ -1886,7 +1886,8 @@ c.url.searchengines = {
     'definitiones': 'https://www.wordreference.com/definicion/{}',
     'definitionen': 'https://www.wordreference.com/definition/{}',
     'mdn': 'https://developer.mozilla.org/en-US/search?q={}',
-    'thesaurusen': 'https://www.thesaurus.com/browse/{}'
+    'thesaurusen': 'https://www.thesaurus.com/browse/{}',
+    'cd': 'https://clojuredocs.org/search?q={}',
 }
 
 ## Page(s) to open at the start.

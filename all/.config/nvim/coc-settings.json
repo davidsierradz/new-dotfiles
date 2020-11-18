@@ -39,7 +39,10 @@
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
   // "smartf.wordJump": false,
   // "smartf.jumpOnTrigger": false,
+  "diagnostic.displayByAle": false,
   "diagnostic.refreshOnInsertMode": true,
+  "diagnostic.messageDelay": 1000,
+  "diagnostic.refreshAfterSave": false,
   "javascript.validate.enable": false,
   "yank.priority": 70,
   "yank.highlight.enable": false,
@@ -55,7 +58,33 @@
   "sql.database": "postgresql",
   "diagnostic-languageserver.filetypes": {
     // lint `sh` (includes `bash`) files
-    "sh": "shellcheck"
+    "sh": "shellcheck",
+    "clojure":"clj_kondo_lint"
+  },
+  "diagnostic-languageserver.linters": {
+    "clj_kondo_lint": {
+      "command": "clj-kondo",
+      "debounce": 100,
+      "args": [ "--lint", "%filepath"],
+      "offsetLine": 0,
+      "offsetColumn": 0,
+      "sourceName": "clj-kondo",
+      "formatLines": 1,
+      "formatPattern": [
+        "^[^:]+:(\\d+):(\\d+):\\s+([^:]+):\\s+(.*)$",
+        {
+          "line": 1,
+          "column": 2,
+          "message": 4,
+          "security": 3
+        }
+      ],
+      "securities": {
+        "error": "error",
+        "warning": "warning",
+        "note": "info"
+      }
+    }
   },
   "diagnostic-languageserver.formatFiletypes": {
     // format `sh` (includes `bash`) files using formatter defined below

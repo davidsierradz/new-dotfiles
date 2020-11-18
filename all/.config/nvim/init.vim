@@ -1461,6 +1461,14 @@ function! s:vim_sexp_mappings()
   xmap <silent><buffer> <LocalLeader>i  <Plug>(sexp_round_head_wrap_list)
   nmap <silent><buffer> <LocalLeader>I  <Plug>(sexp_round_tail_wrap_list)
   xmap <silent><buffer> <LocalLeader>I  <Plug>(sexp_round_tail_wrap_list)
+
+  nmap <silent><buffer> <LocalLeader>@  <Plug>(sexp_splice_list)
+  nmap <silent><buffer> <LocalLeader>?  <Plug>(sexp_convolute)
+
+  nmap <silent><buffer> <LocalLeader>o  <Plug>(sexp_raise_list)
+  xmap <silent><buffer> <LocalLeader>o  <Plug>(sexp_raise_list)
+  nmap <silent><buffer> <LocalLeader>O  <Plug>(sexp_raise_element)
+  xmap <silent><buffer> <LocalLeader>O  <Plug>(sexp_raise_element)
 endfunction
 augroup VIM_SEXP_MAPPING
   autocmd!

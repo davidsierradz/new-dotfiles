@@ -1,1 +1,1 @@
-{:search-config? true}
+{:map {:lift-ns? false, :unlift-ns? true}, :search-config? true}
