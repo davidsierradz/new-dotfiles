@@ -266,6 +266,11 @@ zle -N zle-line-finish
 function glofzf() {
   glo -- $1 | gh $1
 }
+
+# This is for fuzzy a path finishing with **
+_fzf_compgen_path() {
+  rg --smart-case --files --color never --no-heading --no-ignore-vcs --hidden "$1"
+}
 #--------------------------------End Functions---------------------------------#
 #}}}
 
@@ -355,6 +360,10 @@ bindkey -M menuselect '^N' down-line-or-history
 bindkey '' backward-kill-line
 
 bindkey '^R' fzf-history-widget
+
+export FZF_COMPLETION_TRIGGER=''
+bindkey '^T' fzf-completion
+bindkey '^I' $fzf_default_completion
 #--------------------------------End KeyBindings-------------------------------#
 #}}}
 
