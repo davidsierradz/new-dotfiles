@@ -8,7 +8,7 @@ set vicmd=$EDITOR
 set syscalls
 set nofollowlinks
 set sortnumbers
-set sort=+dir,+name,-mtime
+set sort=+dir,+iname,-mtime
 set undolevels=100
 set wildmenu
 set wildstyle=popup
@@ -49,12 +49,15 @@ command! vgrep vim "+grep %a"
 command! reload :write | restart
 
 command! togglesort
-  \ :if &sort == '+dir,-mtime,+name'
-  \ |    set sort=+dir,+name,-mtime
-  \ |    echo 'Sorted by name'
-  \ |else
-  \ |    set sort=+dir,-mtime,+name
+  \ :if &sort == '+dir,+iname,-mtime'
+  \ |    set sort=+dir,-mtime,+iname
+  \ |    echo 'Sorted by time'
+  \ |elseif &sort == '+dir,-mtime,+iname'
+  \ |    set sort=+dir,-size,+iname
   \ |    echo 'Sorted by size'
+  \ |elseif &sort == '+dir,-size,+iname'
+  \ |    set sort=+dir,+iname,-mtime
+  \ |    echo 'Sorted by name'
   \ |endif
 
 " command! zip if [ -n "%a" ]; then

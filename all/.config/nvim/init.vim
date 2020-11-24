@@ -2029,7 +2029,7 @@ require'nvim-treesitter.configs'.setup {
     use_languagetree = false, -- Use this to enable language injection (this is very unstable)
   },
   indent = {
-    enable = true
+    enable = true,
   },
 }
 
