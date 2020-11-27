@@ -1217,6 +1217,40 @@ let g:mkdp_browser = '/usr/bin/qutebrowser'
 " vmap <Leader>am <Plug>Send
 " nmap <Leader>aM m$
 "}}}
+""/ nvim-treesitter/nvim-treesitter {{{
+"/
+" lua require 'nvim-treesitter.configs'.setup { highlight = { enable = true, disable = {} } }
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    use_languagetree = false, -- Use this to enable language injection (this is very unstable)
+  },
+  indent = {
+    enable = true,
+  },
+}
+
+require "nvim-treesitter.configs".setup {
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false -- Whether the query persists across vim sessions
+  }
+}
+
+-- https://github.com/nvim-treesitter/nvim-treesitter/issues/123#issuecomment-651162962
+require "nvim-treesitter.highlight"
+local hlmap = vim.treesitter.highlighter.hl_map
+--Misc
+hlmap.error = nil
+hlmap["punctuation.delimiter"] = "Delimiter"
+hlmap["punctuation.bracket"] = nil
+EOF
+
+nmap <M-W> :write <bar> edit <bar> TSBufEnable highlight<CR>
+"}}}
 ""/ pear-tree {{{
 "/
 imap <BS> <Plug>(PearTreeBackspace)
@@ -2021,35 +2055,6 @@ if $IS_TTY != 'yes'
 endif
 
 lua require'terminal'.setup()
-" lua require 'nvim-treesitter.configs'.setup { highlight = { enable = true, disable = {} } }
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    use_languagetree = false, -- Use this to enable language injection (this is very unstable)
-  },
-  indent = {
-    enable = true,
-  },
-}
-
-require "nvim-treesitter.configs".setup {
-  playground = {
-    enable = true,
-    disable = {},
-    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-    persist_queries = false -- Whether the query persists across vim sessions
-  }
-}
-
--- https://github.com/nvim-treesitter/nvim-treesitter/issues/123#issuecomment-651162962
-require "nvim-treesitter.highlight"
-local hlmap = vim.treesitter.highlighter.hl_map
---Misc
-hlmap.error = nil
-hlmap["punctuation.delimiter"] = "Delimiter"
-hlmap["punctuation.bracket"] = nil
-EOF
 "--------------------------------End Colors------------------------------------"
 "}}}
 " vim: set fdm=marker fmr={{{,}}} :

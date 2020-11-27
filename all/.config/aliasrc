@@ -65,7 +65,7 @@ alias b='bat' \
 if [ -n "$ZSH_VERSION" ]; then
   alias -g J='| python -m json.tool'
   alias -g X='| xsel -bi'
-  alias -g B='| /usr/bin/bat --style="plain"'
+  alias -g B='| /usr/bin/bat'
   alias -g L='| /usr/bin/less'
   alias -g F='| fx'
   alias -g N='&& dunstify "done"'
