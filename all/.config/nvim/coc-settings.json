@@ -2,18 +2,18 @@
   "npm.binPath": "yarn",
   "coc.preferences.extensionUpdateCheck": "never",
   "coc.preferences.formatOnType": false,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "css",
-    "html",
-    "javascript",
-    "json",
-    "markdown",
-    "scss",
-    "typescript",
-    "vimwiki",
-    "yaml",
-    "sh"
-  ],
+  // "coc.preferences.formatOnSaveFiletypes": [
+  //   "css",
+  //   "html",
+  //   "javascript",
+  //   "json",
+  //   "markdown",
+  //   "scss",
+  //   "typescript",
+  //   "vimwiki",
+  //   "yaml",
+  //   "sh"
+  // ],
   "coc.preferences.enableFloatHighlight": false,
   "coc.preferences.colorSupport": false,
   "coc.source.file.ignoreHidden": false,
@@ -29,20 +29,24 @@
   "typescript.format.enabled": false,
   "javascript.format.enabled": false,
   "json.format.enable": false,
-  "prettier.disableLanguages": ["vue"],
-  "prettier.requireConfig": true,
-  "prettier.onlyUseLocalVersion": true,
-  "prettier.semi": false,
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "all",
+  // "prettier.disableLanguages": ["vue"],
+  // "prettier.requireConfig": true,
+  // "prettier.onlyUseLocalVersion": true,
+  // "prettier.semi": false,
+  // "prettier.singleQuote": true,
+  // "prettier.trailingComma": "all",
   "snippets.extends": { "vimwiki": ["markdown", "vimwiki"] },
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips/UltiSnips",
   // "smartf.wordJump": false,
   // "smartf.jumpOnTrigger": false,
   "diagnostic.displayByAle": false,
   "diagnostic.refreshOnInsertMode": true,
-  "diagnostic.messageDelay": 1000,
+  "diagnostic.messageDelay": 500,
   "diagnostic.refreshAfterSave": false,
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextLines": 1,
+  "diagnostic.virtualTextCurrentLineOnly": false,
+  "diagnostic.virtualTextPrefix": "<-> ",
   "javascript.validate.enable": false,
   "yank.priority": 70,
   "yank.highlight.enable": false,
@@ -51,7 +55,7 @@
   // "tsserver.trace.server": "verbose",
   "jest.customFlags": ["runInBand", "verbose", "expand", "no-cache"],
   "coc-conventional.enableLernaScopes": true,
-  "eslint.enable": true,
+  // "eslint.enable": false,
   "emmet.includeLanguages": {
     "javascriptreact": "javascriptreact"
   },
@@ -59,13 +63,34 @@
   "diagnostic-languageserver.filetypes": {
     // lint `sh` (includes `bash`) files
     "sh": "shellcheck",
-    "clojure":"clj_kondo_lint"
+    "clojure": "clj_kondo_lint",
+    "javascript": "eslint"
   },
   "diagnostic-languageserver.linters": {
+    "eslint": {
+      "command": "./node_modules/.bin/eslint", // this will find local eslint first, if local eslint not found, it
+      "rootPatterns": [".git", "package.json"],
+      "debounce": 100,
+      "args": ["--stdin", "--stdin-filename", "%filepath", "--format", "json"],
+      "sourceName": "eslint",
+      "parseJson": {
+        "errorsRoot": "[0].messages",
+        "line": "line",
+        "column": "column",
+        "endLine": "endLine",
+        "endColumn": "endColumn",
+        "message": "${message} [${ruleId}]",
+        "security": "severity"
+      },
+      "securities": {
+        "2": "error",
+        "1": "warning"
+      }
+    },
     "clj_kondo_lint": {
       "command": "clj-kondo",
       "debounce": 100,
-      "args": [ "--lint", "%filepath"],
+      "args": ["--lint", "%filepath"],
       "offsetLine": 0,
       "offsetColumn": 0,
       "sourceName": "clj-kondo",
@@ -88,8 +113,8 @@
   },
   "diagnostic-languageserver.formatFiletypes": {
     // format `sh` (includes `bash`) files using formatter defined below
-    "sh": "shfmt",
-    "env": {}
+    // "sh": "shfmt",
+    // "env": {}
   },
   "diagnostic-languageserver.formatters": {
     // define our formatter so that we can reference it from

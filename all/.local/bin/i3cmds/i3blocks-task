@@ -45,8 +45,8 @@
           (let [output (format-output count-out id description start)
                 count-output (count output)]
             {:full_text output,
-             :short_text (if (> count-output 59)
-                           (str (subs output 0 (min 59 count-output)) "...")
+             :short_text (if (> count-output 109)
+                           (str (subs output 10 (min 109 count-output)) "...")
                            output),
              :color "#fcc0cf"}))))
     (do (println "ERROR:" count-err) (System/exit 1))))

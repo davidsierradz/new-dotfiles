@@ -120,6 +120,8 @@ Plug 'davidsierradz/vim-rest-console'
 
 " Plug 'puremourning/vimspector'
 " let g:vimspector_enable_mappings = 'HUMAN'
+
+Plug 'mhartington/formatter.nvim'
 "}}}
 
 "-------Completions and omnifuncs------- {{{
@@ -157,7 +159,7 @@ Plug 'radenling/vim-dispatch-neovim'
 
 Plug 'davidsierradz/conjure'
 
-Plug 'bfontaine/zprint.vim'
+" Plug 'bfontaine/zprint.vim'
 
 " Plug 'clojure-vim/vim-jack-in'
 
@@ -269,6 +271,9 @@ let g:python3_host_prog = '/usr/bin/python3'
 
 " Allow backspace and cursor keys to cross line boundaries.
 set whichwrap+=<,>
+
+" Lua syntax highlighting inside .vim files.
+let g:vimsyn_embed = 'l'
 "--------------------------------End General-----------------------------------"
 "}}}
 
@@ -645,16 +650,16 @@ function! s:show_documentation()
   endif
 endfunction
 
-function! CocPrettierFormatUseGlobal()
-  call coc#config('prettier.onlyUseLocalVersion', v:false)
-  call coc#config('prettier.requireConfig', v:false)
-  call CocAction('reloadExtension', 'coc-prettier')
-  call CocAction('runCommand', 'prettier.formatFile')
-  call coc#config('prettier.onlyUseLocalVersion', v:true)
-  call coc#config('prettier.requireConfig', v:true)
-  call CocAction('reloadExtension', 'coc-prettier')
-endfunction
-command! CocPrettierFormatUseGlobal call CocPrettierFormatUseGlobal()
+" function! CocPrettierFormatUseGlobal()
+"   call coc#config('prettier.onlyUseLocalVersion', v:false)
+"   call coc#config('prettier.requireConfig', v:false)
+"   call CocAction('reloadExtension', 'coc-prettier')
+"   call CocAction('runCommand', 'prettier.formatFile')
+"   call coc#config('prettier.onlyUseLocalVersion', v:true)
+"   call coc#config('prettier.requireConfig', v:true)
+"   call CocAction('reloadExtension', 'coc-prettier')
+" endfunction
+" command! CocPrettierFormatUseGlobal call CocPrettierFormatUseGlobal()
 
 " Highlight symbol under cursor on CursorHold
 " autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -687,14 +692,12 @@ let g:coc_global_extensions = [
       \ 'coc-diagnostic',
       \ 'coc-dictionary',
       \ 'coc-emmet',
-      \ 'coc-eslint',
       \ 'coc-explorer',
       \ 'coc-html',
       \ 'coc-jest',
       \ 'coc-json',
       \ 'coc-lists',
       \ 'coc-markdownlint',
-      \ 'coc-prettier',
       \ 'coc-sh',
       \ 'coc-snippets',
       \ 'coc-sql',
@@ -836,7 +839,7 @@ nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
 nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
-nnoremap <silent> <leader>cr :call CocAction('reloadExtension', 'coc-eslint')<CR>
+" nnoremap <silent> <leader>cr :call CocAction('reloadExtension', 'coc-eslint')<CR>
 nnoremap <silent> <leader>cy :call CocAction('diagnosticToggle')<CR>
 " Remap for do codeAction of selected region
 function! s:cocActionsOpenFromSelected(type) abort
@@ -912,6 +915,68 @@ endfunction
 "/
 " Don't output 'cursorcolumn'.
 let g:EditorConfig_max_line_indicator = "none"
+"}}}
+""/ formatter.nvim {{{
+"/
+lua <<EOF
+local function prettier()
+  return {
+    exe = "npx --yes=true -- prettier",
+    args = {
+      "--config-precedence",
+      "prefer-file",
+      "--single-quote",
+      "--trailing-comma",
+      "all",
+      "--no-semi",
+      "--stdin-filepath",
+      vim.api.nvim_buf_get_name(0)
+    },
+    stdin = true
+  }
+end
+
+local function shfmt()
+  return {
+    exe = "shfmt",
+    args = {"-i", "2", "-bn", "-ci", "-sr", "-ln", "bash", "-"},
+    stdin = true
+  }
+end
+
+local function zprint()
+  return {
+    exe = "zprint",
+    stdin = true
+  }
+end
+
+require('formatter').setup({
+  logging = false,
+  filetype = {
+    javascript = {prettier},
+    typescript = {prettier},
+    ["javascript.jsx"] = {prettier},
+    ["typescript.tsx"] = {prettier},
+    markdown = {prettier},
+    css = {prettier},
+    json = {prettier},
+    scss = {prettier},
+    less = {prettier},
+    yaml = {prettier},
+    graphql = {prettier},
+    html = {prettier},
+    sh = {shfmt},
+    bash = {shfmt},
+    zsh = {shfmt},
+    clojure = {zprint},
+  }
+})
+EOF
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * FormatWrite
+augroup END
 "}}}
 ""/ fzf.vim {{{
 "/
