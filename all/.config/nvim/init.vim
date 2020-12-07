@@ -1830,6 +1830,42 @@ let g:which_key_map.c = {
       \ '': '',
       \ }
 
+call which_key#register(',', "g:which_key_map_local")
+
+let g:which_key_map_local =  {}
+
+let g:which_key_map_local['name'] = 'root local'
+
+let g:which_key_map_local[','] = [ ':exec "lua require(\"conjure.eval\")[\"root-form\"]()"', 'eval_root_form' ]
+
+let g:which_key_map_local['l'] = {
+      \ 'name' : 'log',
+      \ }
+
+let g:which_key_map_local['e'] = {
+      \ 'name' : 'eval',
+      \ }
+
+let g:which_key_map_local['c'] = {
+      \ 'name' : 'connect',
+      \ }
+
+let g:which_key_map_local['v'] = {
+      \ 'name' : 'view',
+      \ }
+
+let g:which_key_map_local['s'] = {
+      \ 'name' : 'session',
+      \ }
+
+let g:which_key_map_local['t'] = {
+      \ 'name' : 'tests',
+      \ }
+
+let g:which_key_map_local['r'] = {
+      \ 'name' : 'namespaces',
+      \ }
+
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
 nnoremap <silent> <LocalLeader> :<c-u>WhichKey ','<CR>
