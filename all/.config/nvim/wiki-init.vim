@@ -95,6 +95,8 @@ Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
 
 " markdown preview plugin for (neo)vim.
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
+Plug 'metakirby5/codi.vim'
 "}}}
 
 "-------Completions and omnifuncs------- {{{
@@ -176,7 +178,7 @@ set title
 
 " Set <Space> as leader key and \ as localleader.
 let mapleader = " "
-let maplocalleader = "\\"
+let maplocalleader = ","
 
 " Wait time for pending mode.
 set timeoutlen=500
@@ -341,9 +343,9 @@ xnoremap ; :
 
 " make ; always "find" forward and , backward
 nnoremap <expr> ;; getcharsearch().forward ? ';' : ','
-nnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
+" nnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
 xnoremap <expr> ;; getcharsearch().forward ? ';' : ','
-xnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
+" xnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
 
 cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
@@ -382,6 +384,10 @@ nnoremap gX :silent !xdg-open "<cfile>:p" &<cr>
 nnoremap ff f
 xnoremap ff f
 onoremap ff f
+
+nnoremap FF F
+xnoremap FF F
+onoremap FF F
 "}}}
 ""/ leader (SPC) {{{
 "/
@@ -759,6 +765,25 @@ endfunction
 xmap <silent> <leader>ca :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
 nmap <silent> <leader>ca :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
 "}}}
+""/ codi.vim {{{
+"/
+let g:codi#virtual_text = 1
+" Change the color
+highlight CodiVirtualText guifg=cyan
+
+let g:codi#virtual_text_prefix = "❯ "
+
+let g:codi#interpreters = {
+      \ 'javascript': {
+      \ 'bin': ['node', '-e', 'require("repl").start({ignoreUndefined: true, useGlobal: true, writer: function(o){return util.inspect(o,{depth:4,compact:true})}})'],
+      \ },
+      \ }
+
+augroup initvimCodi
+  au!
+  autocmd FileType javascript nnoremap <buffer> <LocalLeader>, :CodiUpdate<CR>
+augroup END
+"}}}
 ""/ crease.vim {{{
 "/
 set fillchars=fold:‧
@@ -1120,29 +1145,29 @@ let g:vimwiki_fold_blank_lines = 0
 " set to '=' for wiki syntax
 let g:vimwiki_header_type = '#'
 
-function! Fold(lnum)
-  let fold_level = strlen(matchstr(getline(a:lnum), '^' . g:vimwiki_header_type . '\+'))
-  if (fold_level && !vimwiki#u#is_codeblock(a:lnum))
-    return '>' . fold_level  " start a fold level
-  endif
-  if getline(a:lnum) =~? '\v^\s*$'
-    if (strlen(matchstr(getline(a:lnum + 1), '^' . g:vimwiki_header_type . '\+')) > 0 && !g:vimwiki_fold_blank_lines)
-      return '-1' " don't fold last blank line before header
-    endif
-  endif
-  return '=' " return previous fold level
-endfunction
+" function! Fold(lnum)
+"   let fold_level = strlen(matchstr(getline(a:lnum), '^' . g:vimwiki_header_type . '\+'))
+"   if (fold_level && !vimwiki#u#is_codeblock(a:lnum))
+"     return '>' . fold_level  " start a fold level
+"   endif
+"   if getline(a:lnum) =~? '\v^\s*$'
+"     if (strlen(matchstr(getline(a:lnum + 1), '^' . g:vimwiki_header_type . '\+')) > 0 && !g:vimwiki_fold_blank_lines)
+"       return '-1' " don't fold last blank line before header
+"     endif
+"   endif
+"   return '=' " return previous fold level
+" endfunction
 
-function! VimwikiFoldLevelCustom(lnum) abort
-  let line = getline(a:lnum)
-
-  " Header/section folding...
-  if line =~# vimwiki#vars#get_syntaxlocal('rxHeader') && !vimwiki#u#is_codeblock(a:lnum)
-    return '>'.vimwiki#u#count_first_sym(line)
-  else
-    return '='
-  endif
-endfunction
+" function! VimwikiFoldLevelCustom(lnum) abort
+"   let line = getline(a:lnum)
+"
+"   " Header/section folding...
+"   if line =~# vimwiki#vars#get_syntaxlocal('rxHeader') && !vimwiki#u#is_codeblock(a:lnum)
+"     return '>'.vimwiki#u#count_first_sym(line)
+"   else
+"     return '='
+"   endif
+" endfunction
 
 augroup VimrcAuGroup
   autocmd!
@@ -1570,8 +1595,8 @@ let g:which_key_map.c = {
 
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
-nnoremap <silent> <LocalLeader> :<c-u>WhichKey  '\'<CR>
-vnoremap <silent> <LocalLeader> :<c-u>WhichKeyVisual '\'<CR>
+nnoremap <silent> <LocalLeader> :<c-u>WhichKey ','<CR>
+vnoremap <silent> <LocalLeader> :<c-u>WhichKeyVisual ','<CR>
 nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
 nnoremap <silent> ]       :<C-u>WhichKey ']'<Cr>
 "}}}
@@ -1679,6 +1704,12 @@ function! Fold(lnum)
   if (fold_level && !vimwiki#u#is_codeblock(a:lnum))
     return '>' . fold_level  " start a fold level
   endif
+  if getline(a:lnum) =~ '^\s*```.\+$'
+    return 'a1'
+  endif
+  if getline(a:lnum) =~ '^\s*```$'
+    return 's1'
+  endif
   if getline(a:lnum) =~? '\v^\s*$'
     if (strlen(matchstr(getline(a:lnum + 1), '^' . g:vimwiki_header_type . '\+')) > 0 && !g:vimwiki_fold_blank_lines)
       return '-1' " don't fold last blank line before header
@@ -1777,6 +1808,7 @@ endfunction
 " Custom Highlight groups.
 function! MyHighlights() abort
   highlight MatchParen guibg=NONE gui=bold cterm=bold ctermfg=1 ctermbg=NONE
+  highlight CodiVirtualText guifg=#cc241d
   highlight SpellBad gui=undercurl guifg=NONE
   highlight! link CocExplorerFileFullpath Operator
   highlight! link CocExplorerFileLinkTarget Operator

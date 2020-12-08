@@ -128,8 +128,12 @@ Plug 'mhartington/formatter.nvim'
 " List of snippets for Ultisnips.
 Plug 'honza/vim-snippets'
 
+function! CocInstall()
+  call system('yarn install --frozen-lockfile')
+  CocUpdate
+endfunction
 " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode.
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': { -> CocInstall() }}
 
 " Plug 'liuchengxu/vista.vim'
 " let g:vista_default_executive = 'coc'
@@ -869,13 +873,13 @@ let g:codi#virtual_text_prefix = "❯ "
 
 let g:codi#interpreters = {
       \ 'javascript': {
-      \ 'bin': ['node', '-e', 'require("repl").start({ignoreUndefined: false, useGlobal: true, writer: function(o){return util.inspect(o,{depth:4,compact:true})}})'],
+      \ 'bin': ['node', '-e', 'require("repl").start({ignoreUndefined: true, useGlobal: true, writer: function(o){return util.inspect(o,{depth:4,compact:true,breakLength:Infinity})}})'],
       \ },
       \ }
 
 augroup initvimCodi
   au!
-  autocmd FileType javascript nnoremap <buffer> <LocalLeader>' :CodiUpdate<CR>
+  autocmd FileType javascript nnoremap <buffer> <LocalLeader>, :CodiUpdate<CR>
 augroup END
 "}}}
 ""/ conjure {{{
@@ -919,6 +923,46 @@ let g:EditorConfig_max_line_indicator = "none"
 ""/ formatter.nvim {{{
 "/
 lua <<EOF
+
+--local function err(msg)
+--  local txt = string.format("Log Formatter: %s", msg)
+--  vim.api.nvim_err_writeln(txt)
+--end
+
+local function decide()
+  local buffername = vim.api.nvim_buf_get_name(0)
+  local bufferfiletype = vim.api.nvim_buf_get_option(0, 'filetype')
+  if buffername ~= '' then
+    return buffername
+  else
+    if bufferfiletype == "javascript" then
+      return "foo.js"
+    elseif bufferfiletype == "typescript" then
+      return "foo.ts"
+    elseif bufferfiletype == "javascript.jsx" then
+      return "foo.jsx"
+    elseif bufferfiletype == "typescript.tsx" then
+      return "foo.tsx"
+    elseif bufferfiletype == "markdown" then
+      return "foo.md"
+    elseif bufferfiletype == "css" then
+      return "foo.css"
+    elseif bufferfiletype == "json" then
+      return "foo.json"
+    elseif bufferfiletype == "scss" then
+      return "foo.scss"
+    elseif bufferfiletype == "less" then
+      return "foo.less"
+    elseif bufferfiletype == "yaml" then
+      return "foo.yaml"
+    elseif bufferfiletype == "graphql" then
+      return "foo.graphql"
+    elseif bufferfiletype == "html" then
+      return "foo.html"
+    end
+  end
+end
+
 local function prettier()
   return {
     exe = "npx --yes=true -- prettier",
@@ -930,7 +974,7 @@ local function prettier()
       "all",
       "--no-semi",
       "--stdin-filepath",
-      vim.api.nvim_buf_get_name(0)
+      decide()
     },
     stdin = true
   }
@@ -1836,7 +1880,10 @@ let g:which_key_map_local =  {}
 
 let g:which_key_map_local['name'] = 'root local'
 
-let g:which_key_map_local[','] = [ ':exec "lua require(\"conjure.eval\")[\"root-form\"]()"', 'eval_root_form' ]
+augroup initWhichKey
+  au!
+  autocmd FileType clojure let g:which_key_map_local[','] = [ ':exec "lua require(\"conjure.eval\")[\"root-form\"]()"', 'eval_root_form' ]
+augroup END
 
 let g:which_key_map_local['l'] = {
       \ 'name' : 'log',
