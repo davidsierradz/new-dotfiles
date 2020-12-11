@@ -45,7 +45,7 @@ interval=30
 [cpu_usage]
 full_text=...
 interval=10
-LABEL=⌛
+#LABEL=⌛
 #min_width=CPU: 100.00%
 #T_WARN=50
 #T_CRIT=80
@@ -53,15 +53,15 @@ LABEL=⌛
 
 [extbrightness]
 full_text=...
-label=🖥️
+#label=🖥️
 command=sudo ddcutil getvcp 10 | awk '{gsub(/,/,"%",$9);print $9}'
 interval=once
 signal=14
 
 [displaybrightness]
 full_text=...
-label=💻
-command=printf " %.0f%%\n" "$(xbacklight -get)"
+#label=💻
+command=printf "%.0f%%\n" "$(xbacklight -get)"
 interval=once
 signal=13
 
@@ -88,7 +88,7 @@ interval=5
 
 [clock]
 full_text=...
-label=📅
+#label=📅
 interval=5
 
 [volume]

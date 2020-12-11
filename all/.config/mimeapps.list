@@ -29,3 +29,4 @@ application/json=text.desktop
 [Added Associations]
 
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;
+text/x-scheme=nvim.desktop;

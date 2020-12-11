@@ -1336,6 +1336,9 @@ let g:rsi_no_meta = 1
 if empty(mapcheck('<C-k>', 'i'))
   inoremap <C-k> <C-o>C
 endif
+
+inoremap <expr> <C-E> col('.')>strlen(getline('.'))<bar><bar>pumvisible()?"\<Lt>End>":"\<Lt>End>"
+
 if empty(mapcheck('<C-k>', 'c'))
   cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1)<CR>
 endif
@@ -1699,24 +1702,24 @@ function! Is_codeblock(lnum) abort
 endfunction
 
 " fold markdown filetype.
-function! Fold(lnum)
-  let fold_level = strlen(matchstr(getline(a:lnum), '^' . g:vimwiki_header_type . '\+'))
-  if (fold_level && !vimwiki#u#is_codeblock(a:lnum))
-    return '>' . fold_level  " start a fold level
-  endif
-  if getline(a:lnum) =~ '^\s*```.\+$'
-    return 'a1'
-  endif
-  if getline(a:lnum) =~ '^\s*```$'
-    return 's1'
-  endif
-  if getline(a:lnum) =~? '\v^\s*$'
-    if (strlen(matchstr(getline(a:lnum + 1), '^' . g:vimwiki_header_type . '\+')) > 0 && !g:vimwiki_fold_blank_lines)
-      return '-1' " don't fold last blank line before header
-    endif
-  endif
-  return '=' " return previous fold level
-endfunction
+" function! Fold(lnum)
+"   let fold_level = strlen(matchstr(getline(a:lnum), '^' . g:vimwiki_header_type . '\+'))
+"   if (fold_level && !vimwiki#u#is_codeblock(a:lnum))
+"     return '>' . fold_level  " start a fold level
+"   endif
+"   if getline(a:lnum) =~ '^\s*```.\+$'
+"     return 'a1'
+"   endif
+"   if getline(a:lnum) =~ '^\s*```$'
+"     return 's1'
+"   endif
+"   if getline(a:lnum) =~? '\v^\s*$'
+"     if (strlen(matchstr(getline(a:lnum + 1), '^' . g:vimwiki_header_type . '\+')) > 0 && !g:vimwiki_fold_blank_lines && !vimwiki#u#is_codeblock(a:lnum))
+"       return strlen(matchstr(getline(a:lnum + 1), '^' . g:vimwiki_header_type . '\+')) - 1
+"     endif
+"   endif
+"   return '=' " return previous fold level
+" endfunction
 
 " Modification of https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
 " Always show some delimiters (the argument of CustomFoldText) and the tail of

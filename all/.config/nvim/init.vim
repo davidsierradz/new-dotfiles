@@ -1786,19 +1786,19 @@ let g:which_key_map.w = {
       \ 'o': 'only',
       \ }
 
-let g:which_key_map.t = {
-      \ 'name' : '+tabs',
-      \ '[1-9]': 'window [1-9]',
-      \ '1': 'which_key_ignore',
-      \ '2': 'which_key_ignore',
-      \ '3': 'which_key_ignore',
-      \ '4': 'which_key_ignore',
-      \ '5': 'which_key_ignore',
-      \ '6': 'which_key_ignore',
-      \ '7': 'which_key_ignore',
-      \ '8': 'which_key_ignore',
-      \ '9': 'which_key_ignore',
-      \ }
+" let g:which_key_map.t = {
+"       \ 'name' : '+tabs',
+"       \ '[1-9]': 'window [1-9]',
+"       \ '1': 'which_key_ignore',
+"       \ '2': 'which_key_ignore',
+"       \ '3': 'which_key_ignore',
+"       \ '4': 'which_key_ignore',
+"       \ '5': 'which_key_ignore',
+"       \ '6': 'which_key_ignore',
+"       \ '7': 'which_key_ignore',
+"       \ '8': 'which_key_ignore',
+"       \ '9': 'which_key_ignore',
+"       \ }
 
 let g:which_key_map.z = {
       \ 'name' : '+fzf',
@@ -1937,6 +1937,81 @@ nmap <leader>pp <plug>(YoinkPostPasteSwapForward)
 "--------------------------------User Commands---------------------------------"{{{
 " :W sudo saves the file (doesn't work in neovim).
 command! W w !sudo tee % > /dev/null
+
+function! Annotate2(...) abort
+  let l:highlight = a:1 < 4 ? {0: 'GruvboxRedBold', 1: 'GruvboxYellowBold', 2: 'GruvboxBlueBold', 3: 'GruvboxPurpleBold'}[a:1] : 'GruvboxRedBold'
+  if a:0 == 1
+    " call nvim_buf_set_virtual_text(0, -1, line('.') - 1, [[input("? "), l:highlight]], {})
+    call Set_virtual_texts(0, 666, {'line': line('.') - 1, 'text': input("? "), 'hl_group': l:highlight})
+  else
+    " call nvim_buf_set_virtual_text(0, -1, line('.') - 1, [[join(a:000[1:-1]), l:highlight]], {})
+    call Set_virtual_texts(0, 666, {'line': line('.') - 1, 'text': join(a:000[1:-1]), 'hl_group': l:highlight})
+  endif
+endfunction
+command! -nargs=+ Annotate2 call Annotate2(<f-args>)
+
+function! Set_virtual_texts(buf_id, ns_id, virtual_texts) abort
+  let l:available_space = winwidth('%') - strwidth(getline(a:virtual_texts['line']+1)) - 8
+  let l:text = a:virtual_texts['text']
+  if strwidth(l:text) < l:available_space
+    let l:text = repeat(" ", l:available_space - strwidth(l:text)).l:text
+  endif
+  call nvim_buf_set_virtual_text(a:buf_id, a:ns_id, a:virtual_texts['line'], [[l:text, a:virtual_texts['hl_group']]], {})
+endfunction
+
+function! Annotate(...) abort
+  if !exists("b:annotatenvim_annotations")
+    let b:annotatenvim_annotations=[]
+  endif
+  let l:highlight = a:1 < 4 ? {0: 'GruvboxRedBold', 1: 'GruvboxYellowBold', 2: 'GruvboxBlueBold', 3: 'GruvboxPurpleBold'}[a:1] : 'GruvboxRedBold'
+  if a:0 == 1
+    " call nvim_buf_set_virtual_text(0, -1, line('.') - 1, [[input("? "), l:highlight]], {})
+    call add(b:annotatenvim_annotations, {'line': line('.') - 1, 'text': input("? "), 'hl_group': l:highlight})
+    " call Set_virtual_texts(0, 666, {'line': line('.') - 1, 'text': input("? "), 'hl_group': l:highlight})
+  else
+    " call nvim_buf_set_virtual_text(0, -1, line('.') - 1, [[join(a:000[1:-1]), l:highlight]], {})
+    call add(b:annotatenvim_annotations, {'line': line('.') - 1, 'text': join(a:000[1:-1]), 'hl_group': l:highlight})
+    " call Set_virtual_texts(0, 666, {'line': line('.') - 1, 'text': join(a:000[1:-1]), 'hl_group': l:highlight})
+  endif
+  call Set_all_virtual_texts(0, 666, 0, -1, b:annotatenvim_annotations)
+  " call writefile(split(varname, "\n", 1), glob('/path/to/file'), 'b')
+endfunction
+command! -nargs=+ Annotate call Annotate(<f-args>)
+
+augroup annotatevim
+  au!
+  autocmd VimResized * call Set_all_virtual_texts(0, 666, 0, -1, exists("b:annotatenvim_annotations") ? b:annotatenvim_annotations : [])
+augroup END
+
+function! Set_all_virtual_texts(buf_id, ns_id, line_start, line_end, virtual_texts) abort
+  " VirtualText: map with keys line, text and hl_group.
+
+  if !exists('*nvim_buf_set_virtual_text')
+    return
+  endif
+
+  call nvim_buf_clear_namespace(a:buf_id, a:ns_id, a:line_start, a:line_end)
+
+  for vt in a:virtual_texts
+    let l:available_space = winwidth('%') - strwidth(getline(vt['line']+1)) - 8
+    let l:text = vt['text']
+    if strwidth(l:text) < l:available_space
+      let l:text = repeat(" ", l:available_space - strwidth(l:text)).l:text
+    endif
+    call nvim_buf_set_virtual_text(a:buf_id, a:ns_id, vt['line'], [[l:text, vt['hl_group']]], {})
+  endfor
+endfunction
+
+nnoremap <Space>o1 :Annotate 0<Space>
+nnoremap <Space>o! :Annotate 0<CR>
+nnoremap <Space>o2 :Annotate 1<Space>
+nnoremap <Space>o@ :Annotate 1<CR>
+nnoremap <Space>o3 :Annotate 2<Space>
+nnoremap <Space>o# :Annotate 2<CR>
+nnoremap <Space>o4 :Annotate 3<Space>
+nnoremap <Space>o$ :Annotate 3<CR>
+nnoremap <silent> <Space>o0 :let b:annotatenvim_annotations = [] <bar> call Set_all_virtual_texts(0, 666, 0, -1, b:annotatenvim_annotations)<CR>
+nnoremap <silent> <Space>oo :call Set_all_virtual_texts(0, 666, 0, -1, exists("b:annotatenvim_annotations") ? b:annotatenvim_annotations : [])<CR>
 "--------------------------------End User Commands-----------------------------"
 "}}}
 
