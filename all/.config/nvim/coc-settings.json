@@ -69,7 +69,7 @@
   "diagnostic-languageserver.linters": {
     "eslint": {
       "command": "./node_modules/.bin/eslint", // this will find local eslint first, if local eslint not found, it
-      "rootPatterns": [".git", "package.json"],
+      "rootPatterns": ["package.json"],
       "debounce": 100,
       "args": ["--stdin", "--stdin-filename", "%filepath", "--format", "json"],
       "sourceName": "eslint",

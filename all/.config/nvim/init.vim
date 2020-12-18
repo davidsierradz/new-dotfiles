@@ -1047,6 +1047,8 @@ let g:fzf_action = {
   \ 'ctrl-l': {l -> execute('args ' . join(map(l, {_, v -> fnameescape(v)}), ' '))},
   \  }
 
+let g:fzf_preview_window = ['right:50%', '?']
+
 " Show preview window with '?'.
 function! FilesFZF(query, fullscreen)
   let $FZF_DEFAULT_COMMAND = 'rg --smart-case --files --color never --no-heading --hidden "."'
