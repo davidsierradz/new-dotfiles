@@ -696,6 +696,7 @@ let g:coc_global_extensions = [
       \ 'coc-diagnostic',
       \ 'coc-dictionary',
       \ 'coc-emmet',
+      \ 'coc-eslint',
       \ 'coc-explorer',
       \ 'coc-html',
       \ 'coc-jest',
@@ -2280,6 +2281,8 @@ if $IS_TTY != 'yes'
 endif
 
 lua require'terminal'.setup()
+
+source $HOME/.config/nvim/local.vim
 "--------------------------------End Colors------------------------------------"
 "}}}
 " vim: set fdm=marker fmr={{{,}}} :
