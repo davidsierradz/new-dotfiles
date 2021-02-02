@@ -2287,6 +2287,4 @@ lua require'terminal'.setup()
 source $HOME/.config/nvim/local.vim
 "--------------------------------End Colors------------------------------------"
 "}}}
-
-source ~/.config/nvim/local.vim
 " vim: set fdm=marker fmr={{{,}}} :
