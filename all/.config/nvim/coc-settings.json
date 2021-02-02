@@ -55,7 +55,6 @@
   // "tsserver.trace.server": "verbose",
   "jest.customFlags": ["runInBand", "verbose", "expand", "no-cache"],
   "coc-conventional.enableLernaScopes": true,
-  // "eslint.enable": false,
   "emmet.includeLanguages": {
     "javascriptreact": "javascriptreact"
   },
@@ -63,8 +62,8 @@
   "diagnostic-languageserver.filetypes": {
     // lint `sh` (includes `bash`) files
     "sh": "shellcheck",
-    "clojure": "clj_kondo_lint",
-    "javascript": "eslint"
+    "clojure": "clj_kondo_lint"
+    // "javascript": "eslint"
   },
   "diagnostic-languageserver.linters": {
     "eslint": {
