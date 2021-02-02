@@ -12,7 +12,7 @@
 
 ## This is here so configs done via the GUI are still loaded.
 ## Remove it to not load settings done via the GUI.
-# config.load_autoconfig()
+# config.load_autoconfig(True)
 
 ## Aliases for commands. The keys of the given dictionary are the
 ## aliases, while the values are the commands they map to.
@@ -34,17 +34,25 @@
 c.auto_save.session = True
 
 ## Backend to use to display websites. qutebrowser supports two different
-## web rendering engines / backends, QtWebKit and QtWebEngine. QtWebKit
-## was discontinued by the Qt project with Qt 5.6, but picked up as a
-## well maintained fork: https://github.com/annulen/webkit/wiki -
-## qutebrowser only supports the fork. QtWebEngine is Qt's official
-## successor to QtWebKit. It's slightly more resource hungry than
-## QtWebKit and has a couple of missing features in qutebrowser, but is
-## generally the preferred choice.
+## web rendering engines / backends, QtWebEngine and QtWebKit (not
+## recommended). QtWebEngine is Qt's official successor to QtWebKit, and
+## both the default/recommended backend. It's based on a stripped-down
+## Chromium and regularly updated with security fixes and new features by
+## the Qt project: https://wiki.qt.io/QtWebEngine QtWebKit was
+## qutebrowser's original backend when the project was started. However,
+## support for QtWebKit was discontinued by the Qt project with Qt 5.6 in
+## 2016. The development of QtWebKit was picked up in an official fork:
+## https://github.com/qtwebkit/qtwebkit - however, the project seems to
+## have stalled again. The latest release (5.212.0 Alpha 4) from March
+## 2020 is based on a WebKit version from 2016, with many known security
+## vulnerabilities. Additionally, there is no process isolation and
+## sandboxing. Due to all those issues, while support for QtWebKit is
+## still available in qutebrowser for now, using it is strongly
+## discouraged.
 ## Type: String
 ## Valid values:
-##   - webengine: Use QtWebEngine (based on Chromium).
-##   - webkit: Use QtWebKit (based on WebKit, similar to Safari).
+##   - webengine: Use QtWebEngine (based on Chromium - recommended).
+##   - webkit: Use QtWebKit (based on WebKit, similar to Safari - many known security issues!).
 # c.backend = 'webengine'
 
 ## This setting can be used to map keys to other keys. When the key used
@@ -466,7 +474,7 @@ c.colors.webpage.bg = 'white'
 ##   - lightness-cielab: Modify colors by converting them to CIELAB color space and inverting the L value. Not available with Qt < 5.14.
 ##   - lightness-hsl: Modify colors by converting them to the HSL color space and inverting the lightness (i.e. the "L" in HSL).
 ##   - brightness-rgb: Modify colors by subtracting each of r, g, and b from their maximum value.
-c.colors.webpage.darkmode.algorithm = 'lightness-hsl'
+# c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
 
 ## Contrast for dark mode. This only has an effect when
 ## `colors.webpage.darkmode.algorithm` is set to `lightness-hsl` or
@@ -500,14 +508,13 @@ c.colors.webpage.darkmode.enabled = False
 
 ## Which images to apply dark mode to. With QtWebEngine 5.15.0, this
 ## setting can cause frequent renderer process crashes due to a
-## https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/304211[
-## bug in Qt]. With QtWebEngine 5.10, this is not available at all. In
-## those cases, the 'smart' setting is ignored and treated like 'never'.
+## https://codereview.qt-project.org/c/qt/qtwebengine-
+## chromium/+/304211[bug in Qt].
 ## Type: String
 ## Valid values:
 ##   - always: Apply dark mode filter to all images.
 ##   - never: Never apply dark mode filter to any images.
-##   - smart: Apply dark mode based on image content. Not available with Qt 5.10 / 5.15.0.
+##   - smart: Apply dark mode based on image content. Not available with Qt 5.15.0.
 c.colors.webpage.darkmode.policy.images = 'smart'
 
 ## Which pages to apply dark mode to.
@@ -515,7 +522,7 @@ c.colors.webpage.darkmode.policy.images = 'smart'
 ## Valid values:
 ##   - always: Apply dark mode filter to all frames, regardless of content.
 ##   - smart: Apply dark mode filter to frames based on background color.
-c.colors.webpage.darkmode.policy.page = 'always'
+# c.colors.webpage.darkmode.policy.page = 'smart'
 
 ## Threshold for inverting background elements with dark mode. Background
 ## elements with brightness above this threshold will be inverted, and
@@ -546,6 +553,12 @@ c.completion.cmd_history_max_items = 10000
 ## Type: Int
 # c.completion.delay = 0
 
+## Default filesystem autocomplete suggestions for :open. The elements of
+## this list show up in the completion window under the Filesystem
+## category when the command line contains `:open` but no argument.
+## Type: List of String
+# c.completion.favorite_paths = []
+
 ## Height (in pixels or as percentage of the window) of the completion.
 ## Type: PercOrInt
 c.completion.height = '30%'
@@ -561,7 +574,8 @@ c.completion.height = '30%'
 ##   - quickmarks
 ##   - bookmarks
 ##   - history
-# c.completion.open_categories = ['searchengines', 'quickmarks', 'bookmarks', 'history']
+##   - filesystem
+# c.completion.open_categories = ['searchengines', 'quickmarks', 'bookmarks', 'history', 'filesystem']
 
 ## Move on to the next part when there's only one possible completion
 ## left.
@@ -623,10 +637,60 @@ c.completion.shrink = True
 ##   - never: Never show a confirmation.
 c.confirm_quit = ['downloads']
 
-## Automatically start playing `<video>` elements. Note: On Qt < 5.11,
-## this option needs a restart and does not support URL patterns.
+## Automatically start playing `<video>` elements.
 ## Type: Bool
 c.content.autoplay = False
+
+## List of URLs to ABP-style adblocking rulesets.  Only used when Brave's
+## ABP-style adblocker is used (see `content.blocking.method`).  You can
+## find an overview of available lists here:
+## https://adblockplus.org/en/subscriptions - note that the special
+## `subscribe.adblockplus.org` links aren't handled by qutebrowser, you
+## will instead need to find the link to the raw `.txt` file (e.g. by
+## extracting it from the `location` parameter of the subscribe URL and
+## URL-decoding it).
+## Type: List of Url
+c.content.blocking.adblock.lists = ['https://easylist.to/easylist/easylist.txt', 'https://easylist.to/easylist/easyprivacy.txt', 'https://secure.fanboy.co.nz/fanboy-annoyance.txt']
+
+## Enable the ad/host blocker
+## Type: Bool
+# c.content.blocking.enabled = True
+
+## List of URLs to host blocklists for the host blocker.  Only used when
+## the simple host-blocker is used (see `content.blocking.method`).  The
+## file can be in one of the following formats:  - An `/etc/hosts`-like
+## file - One host per line - A zip-file of any of the above, with either
+## only one file, or a file   named `hosts` (with any extension).  It's
+## also possible to add a local file or directory via a `file://` URL. In
+## case of a directory, all files in the directory are read as adblock
+## lists.  The file `~/.config/qutebrowser/blocked-hosts` is always read
+## if it exists.
+## Type: List of Url
+# c.content.blocking.hosts.lists = ['https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts']
+
+## Which method of blocking ads should be used.  Support for Adblock Plus
+## (ABP) syntax blocklists using Brave's Rust library requires the
+## `adblock` Python package to be installed, which is an optional
+## dependency of qutebrowser. It is required when either `adblock` or
+## `both` are selected.
+## Type: String
+## Valid values:
+##   - auto: Use Brave's ABP-style adblocker if available, host blocking otherwise
+##   - adblock: Use Brave's ABP-style adblocker
+##   - hosts: Use hosts blocking
+##   - both: Use both hosts blocking and Brave's ABP-style adblocker
+c.content.blocking.method = 'both'
+
+## A list of patterns that should always be loaded, despite being blocked
+## by the ad-/host-blocker. Local domains are always exempt from
+## adblocking. Note this whitelists otherwise blocked requests, not
+## first-party URLs. As an example, if `example.org` loads an ad from
+## `ads.example.org`, the whitelist entry could be
+## `https://ads.example.org/*`. If you want to disable the adblocker on a
+## given page, use the `content.blocking.enabled` setting with a URL
+## pattern instead.
+## Type: List of UrlPattern
+# c.content.blocking.whitelist = []
 
 ## Enable support for the HTML 5 web application cache feature. An
 ## application cache acts like an HTTP cache in some sense. For documents
@@ -672,8 +736,7 @@ c.content.autoplay = False
 ##   - never: Don't accept cookies at all.
 c.content.cookies.accept = 'no-3rdparty'
 
-## Store cookies. Note this option needs a restart with QtWebEngine on Qt
-## < 5.9.
+## Store cookies.
 ## Type: Bool
 # c.content.cookies.store = True
 
@@ -682,8 +745,7 @@ c.content.cookies.accept = 'no-3rdparty'
 ## Type: String
 c.content.default_encoding = 'utf-8'
 
-## Allow websites to share screen content. On Qt < 5.10, a dialog box is
-## always displayed, even if this is set to "true".
+## Allow websites to share screen content.
 ## Type: BoolAsk
 ## Valid values:
 ##   - true
@@ -759,31 +821,6 @@ c.content.default_encoding = 'utf-8'
 ## Type: FormatString
 # c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}'
 
-## Enable host blocking.
-## Type: Bool
-# c.content.host_blocking.enabled = True
-
-## List of URLs of lists which contain hosts to block.  The file can be
-## in one of the following formats:  - An `/etc/hosts`-like file - One
-## host per line - A zip-file of any of the above, with either only one
-## file, or a file   named `hosts` (with any extension).  It's also
-## possible to add a local file or directory via a `file://` URL. In case
-## of a directory, all files in the directory are read as adblock lists.
-## The file `~/.config/qutebrowser/blocked-hosts` is always read if it
-## exists.
-## Type: List of Url
-# c.content.host_blocking.lists = ['https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts']
-
-## A list of patterns that should always be loaded, despite being ad-
-## blocked. Note this whitelists blocked hosts, not first-party URLs. As
-## an example, if `example.org` loads an ad from `ads.example.org`, the
-## whitelisted host should be `ads.example.org`. If you want to disable
-## the adblocker on a given page, use the `content.host_blocking.enabled`
-## setting with a URL pattern instead. Local domains are always exempt
-## from hostblocking.
-## Type: List of UrlPattern
-# c.content.host_blocking.whitelist = []
-
 ## Enable hyperlink auditing (`<a ping>`).
 ## Type: Bool
 # c.content.hyperlink_auditing = False
@@ -812,26 +849,7 @@ c.content.javascript.can_access_clipboard = True
 
 ## Enable JavaScript.
 ## Type: Bool
-c.content.javascript.enabled = False
-
-js_whitelist = [
-        "*://*.bitbucket.org/*",
-        "*://*.github.com/*",
-        "*://github.com/*",
-        "*://*.mail.google.com/*",
-        "*://*.qutebrowser.org/*",
-        "*://*.youtube.com/*",
-        "*://127.0.0.1/*",
-        "*://localhost/*",
-        "*://news.ycombinator.com/*",
-        "*://translate.google.com/*",
-        "file:///home/neuromante/.config/qutebrowser/homepage.html",
-        "https://clojuredocs.org/*",
-        ]
-
-for site in js_whitelist:
-    with config.pattern(site) as p:
-        p.content.javascript.enabled = True
+# c.content.javascript.enabled = True
 
 ## Log levels to use for JavaScript console logging messages. When a
 ## JavaScript message with the level given in the dictionary key is
@@ -998,8 +1016,7 @@ config.bind('<Alt-Shift-D>', f'config-cycle -t content.user_stylesheets [{css_da
 ## Type: Bool
 # c.content.webgl = True
 
-## Which interfaces to expose via WebRTC. On Qt 5.10, this option doesn't
-## work because of a Qt bug.
+## Which interfaces to expose via WebRTC.
 ## Type: String
 ## Valid values:
 ##   - all-interfaces: WebRTC has the right to enumerate all interfaces and bind them to discover public interfaces.
@@ -1068,6 +1085,30 @@ config.bind('<Alt-Shift-D>', f'config-cycle -t content.user_stylesheets [{css_da
 ## Encoding to use for the editor.
 ## Type: Encoding
 # c.editor.encoding = 'utf-8'
+
+## Handler for selecting file(s) in forms. If `external`, then the
+## commands specified by `fileselect.single_file.command` and
+## `fileselect.multiple_files.command` are used to select one or multiple
+## files respectively.
+## Type: String
+## Valid values:
+##   - default: Use the default file selector.
+##   - external: Use an external command.
+# c.fileselect.handler = 'default'
+
+## Command (and arguments) to use for selecting multiple files in forms.
+## The command should write the selected file paths to the specified
+## file, separated by newlines. The following placeholders are defined: *
+## `{}`: Filename of the file to be written to.
+## Type: ShellCommand
+# c.fileselect.multiple_files.command = ['xterm', '-e', 'ranger', '--choosefiles={}']
+
+## Command (and arguments) to use for selecting a single file in forms.
+## The command should write the selected file path to the specified file.
+## The following placeholders are defined: * `{}`: Filename of the file
+## to be written to.
+## Type: ShellCommand
+# c.fileselect.single_file.command = ['xterm', '-e', 'ranger', '--choosefile={}']
 
 ## Font used in the completion categories.
 ## Type: Font
@@ -1448,6 +1489,11 @@ c.hints.uppercase = True
 ## Type: List of String
 c.qt.args = []
 
+## Additional environment variables to set. Setting an environment
+## variable to null/None will unset it.
+## Type: Dict
+# c.qt.environ = {}
+
 ## Force a Qt platform to use. This sets the `QT_QPA_PLATFORM`
 ## environment variable and is useful to force using the XCB plugin when
 ## running QtWebEngine on Wayland.
@@ -1507,7 +1553,7 @@ c.qt.args = []
 ##   - always: Always show the scrollbar.
 ##   - never: Never show the scrollbar.
 ##   - when-searching: Show the scrollbar when searching for text in the webpage. With the QtWebKit backend, this is equal to `never`.
-##   - overlay: Show an overlay scrollbar. With Qt < 5.11 or on macOS, this is unavailable and equal to `when-searching`; with the QtWebKit backend, this is equal to `never`. Enabling/disabling overlay scrollbars requires a restart.
+##   - overlay: Show an overlay scrollbar. On macOS, this is unavailable and equal to `when-searching`; with the QtWebKit backend, this is equal to `never`. Enabling/disabling overlay scrollbars requires a restart.
 # c.scrolling.bar = 'overlay'
 
 ## Enable smooth scrolling for web pages. Note smooth scrolling does not
@@ -1609,7 +1655,7 @@ c.spellcheck.languages = ["en-US", "es-ES"]
 ##   - always: Always show the statusbar.
 ##   - never: Always hide the statusbar.
 ##   - in-mode: Show the statusbar when in modes other than normal mode.
-c.statusbar.show = 'always'
+# c.statusbar.show = 'always'
 
 ## List of widgets displayed in the statusbar.
 ## Type: List of String
@@ -1625,7 +1671,7 @@ c.statusbar.show = 'always'
 
 ## Open new tabs (middleclick/ctrl+click) in the background.
 ## Type: Bool
-c.tabs.background = True
+# c.tabs.background = True
 
 ## Mouse button with which to close tabs.
 ## Type: String
@@ -1649,7 +1695,9 @@ c.tabs.background = True
 ## Type: Float
 # c.tabs.favicons.scale = 1.0
 
-## When to show favicons in the tab bar.
+## When to show favicons in the tab bar. When switching this from never
+## to always/pinned, note that favicons might not be loaded yet, thus
+## tabs might require a reload to display them.
 ## Type: String
 ## Valid values:
 ##   - always: Always show favicons.
@@ -1669,7 +1717,9 @@ c.tabs.background = True
 ## Type: Int
 # c.tabs.indicator.width = 3
 
-## How to behave when the last tab is closed.
+## How to behave when the last tab is closed. If the
+## `tabs.tabs_are_windows` setting is set, this is ignored and the
+## behavior is always identical to the `close` value.
 ## Type: String
 ## Valid values:
 ##   - ignore: Don't do anything.
@@ -1768,7 +1818,7 @@ c.tabs.select_on_remove = 'last-used'
 ##   - never: Always hide the tab bar.
 ##   - multiple: Hide the tab bar if only one tab is open.
 ##   - switching: Show the tab bar when switching tabs.
-c.tabs.show = 'always'
+# c.tabs.show = 'always'
 
 ## Duration (in milliseconds) to show the tab bar before hiding it when
 ## tabs.show is set to 'switching'.
@@ -1868,7 +1918,8 @@ c.url.default_page = '~/.config/qutebrowser/homepage.html'
 ## * `{quoted}` quotes all characters (for `slash/and&amp` this
 ## placeholder   expands to `slash%2Fand%26amp`). * `{unquoted}` quotes
 ## nothing (for `slash/and&amp` this placeholder   expands to
-## `slash/and&amp`).  The search engine named `DEFAULT` is used when
+## `slash/and&amp`). * `{0}` means the same as `{}`, but can be used
+## multiple times.  The search engine named `DEFAULT` is used when
 ## `url.auto_search` is turned on and something else than a URL was
 ## entered to be opened. Other search engines can be used by prepending
 ## the search engine name to the search term, e.g. `:open google
@@ -1908,9 +1959,18 @@ c.url.start_pages = ['~/.config/qutebrowser/homepage.html']
 ## Type: FormatString
 # c.window.title_format = '{perc}{current_title}{title_sep}qutebrowser'
 
+## Set the main window background to transparent.  This allows having a
+## transparent tab- or statusbar (might require a compositor such as
+## picom). However, it breaks some functionality such as dmenu embedding
+## via its `-w` option. On some systems, it was additionally reported
+## that main window transparency negatively affects performance.  Note
+## this setting only affects windows opened after setting it.
+## Type: Bool
+# c.window.transparent = False
+
 ## Default zoom level.
 ## Type: Perc
-c.zoom.default = '150%'
+c.zoom.default = '125%'
 
 ## Available zoom levels.
 ## Type: List of Perc
@@ -2253,6 +2313,8 @@ config.bind(';z', 'hint links userscript readability-js')
 config.bind('<Ctrl-u>', 'run-with-count 11 scroll up')
 config.bind('d', 'scroll-page 0 0.6')
 
+config.bind('<Ctrl-Shift-c>', 'yank selection')
+config.bind('<Ctrl-Shift-v>', 'insert-text {clipboard}')
 config.bind('<Ctrl-d>', 'run-with-count 11 scroll down')
 
 config.bind('<Ctrl-Q>', 'nop')
@@ -2264,10 +2326,10 @@ config.bind('<Backspace>', 'tab-focus last')
 config.bind('u', 'scroll-page 0 -0.6')
 config.bind('<Ctrl-Tab>', 'tab-next')
 
-config.bind('<Alt-`>', 'enter-mode passthrough')
+config.bind('<Alt-`>', 'mode-enter passthrough')
 config.bind('x', 'tab-close')
 
-config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave;; enter-mode caret;; fake-key --global <Escape>;; fake-key <Escape>;; jseval -q document.activeElement.blur()')
+config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave;; mode-enter caret;; fake-key --global <Escape>;; fake-key <Escape>;; jseval -q document.activeElement.blur()')
 
 config.bind('c', 'tab-close --prev')
 config.bind('C', 'tab-close --next')
@@ -2281,7 +2343,7 @@ config.bind('<Alt-right>', 'forward')
 config.bind('gi', 'hint inputs')
 config.bind('<less>', 'tab-move -')
 config.bind('<greater>', 'tab-move +')
-config.bind('<Space>', 'set-cmd-text -s :buffer')
+config.bind('<Space>', 'set-cmd-text -s :tab-select')
 config.bind('<Ctrl-j>', 'scroll down')
 config.bind('<Ctrl-k>', 'scroll up')
 config.bind('j', 'scroll-px 0 40')
@@ -2294,12 +2356,14 @@ config.bind('tt', 'config-cycle -p -t -u {url:host} content.javascript.enabled ;
 config.bind('tT', 'config-cycle -p -t -u {url:domain} content.javascript.enabled ;; reload')
 
 config.bind('tsH', 'config-cycle -p -u *://*.{url:host}/* content.javascript.enabled ;; reload')
-config.bind('`', 'config-cycle -t tabs.show switching always ;; config-cycle -t statusbar.show in-mode always')
+config.bind('`', 'config-cycle -t tabs.show never always')
 
+config.bind('<Ctrl-Shift-c>', 'yank selection', mode='insert')
 config.bind('<Ctrl-h>', 'fake-key <Backspace>', mode='insert')
 config.bind('<Ctrl-m>', 'fake-key <Enter>', mode='insert')
+config.bind('<Ctrl-Shift-v>', 'insert-text {clipboard}', mode='insert')
 
-config.bind('<Alt-`>', 'leave-mode', mode='passthrough')
+config.bind('<Alt-`>', 'mode-leave', mode='passthrough')
 config.bind('<Alt-k>', 'tab-next', mode='passthrough')
 config.bind('<Alt-j>', 'tab-prev', mode='passthrough')
 config.bind('<Ctrl-t>', 'open -t', mode='passthrough')
@@ -2307,4 +2371,4 @@ config.bind('<Ctrl-w>', 'tab-close', mode='passthrough')
 
 ## This is here so configs done via the GUI are still loaded.
 ## Remove it to not load settings done via the GUI.
-config.load_autoconfig()
+config.load_autoconfig(True)

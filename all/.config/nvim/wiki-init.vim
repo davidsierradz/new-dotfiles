@@ -104,7 +104,7 @@ Plug 'metakirby5/codi.vim'
 Plug 'honza/vim-snippets'
 
 " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode.
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 "}}}
 
 "------Syntax files and Languages------- {{{

@@ -52,6 +52,9 @@ elif test -n "$HOME_TWO_MONITOR"; then
   # xrandr --output eDP1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI1 --rate 75 --mode 2560x1080 --pos 2560x0 --rotate normal --output VIRTUAL1 --off
   xrandr --output eDP1 --primary --mode 1920x1080 --pos 320x1080 --rotate normal --output HDMI1 --rate 75 --mode 2560x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
   CONFIGTOADDTOI3="$HOME/.config/i3/config.home $HOME/.config/i3/config.home2"
+elif test -n "$HOME_DESKTOP"; then
+  xrandr --output DP-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-1 --off --output HDMI-0 --rate 75 --mode 2560x1080 --pos 1920x0 --rotate normal --output DVI-D-0 --off
+  CONFIGTOADDTOI3="$HOME/.config/i3/config.desktop"
 else
   xrandr --output eDP1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI1 --off --output VIRTUAL1 --off
   CONFIGTOADDTOI3="$HOME/.config/i3/config.home2"

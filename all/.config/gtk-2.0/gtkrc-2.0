@@ -2,7 +2,7 @@
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
 include "/home/neuromante/.gtkrc-2.0.mine"
-gtk-theme-name="Arc-Gruvbox"
+gtk-theme-name="Raleigh"
 gtk-icon-theme-name="Adwaita"
 gtk-font-name="Sans 10"
 gtk-cursor-theme-name="Adwaita"
@@ -17,4 +17,3 @@ gtk-xft-antialias=1
 gtk-xft-hinting=1
 gtk-xft-hintstyle="hintfull"
 gtk-xft-rgba="rgb"
-gtk-key-theme-name="Emacs"

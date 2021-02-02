@@ -1,17 +1,22 @@
 #!/usr/bin/env sh
 
 case "$1" in
-  monitor)
+  all)
     case "$2" in
-      up) sudo ddcutil setvcp 10 + $3 && pkill -RTMIN+14 i3blocks ;;
-      down) sudo ddcutil setvcp 10 - $3 && pkill -RTMIN+14 i3blocks ;;
-    esac ;;
-  panel)
+      up) sudo ddcutil --model 'LG HDR WFHD' setvcp 10 + $3 && pkill -RTMIN+14 i3blocks && sudo ddcutil --model 'LG ULTRAGEAR' setvcp 10 + $3 && pkill -RTMIN+13 i3blocks ;;
+      down) sudo ddcutil --model 'LG HDR WFHD' setvcp 10 - $3 && pkill -RTMIN+14 i3blocks && sudo ddcutil --model 'LG ULTRAGEAR' setvcp 10 - $3 && pkill -RTMIN+13 i3blocks ;;
+    esac
+    ;;
+  monitor-a)
     case "$2" in
-      up) xbacklight -inc $3 && pkill -RTMIN+13 i3blocks ;;
-      down) xbacklight -dec $3 && pkill -RTMIN+13 i3blocks ;;
-    esac ;;
+      up) sudo ddcutil --model 'LG ULTRAGEAR' setvcp 10 + $3 && pkill -RTMIN+13 i3blocks ;;
+      down) sudo ddcutil --model 'LG ULTRAGEAR' setvcp 10 - $3 && pkill -RTMIN+13 i3blocks ;;
+    esac
+    ;;
+  monitor-b)
+    case "$2" in
+      up) sudo ddcutil --model 'LG HDR WFHD' setvcp 10 + $3 && pkill -RTMIN+14 i3blocks ;;
+      down) sudo ddcutil --model 'LG HDR WFHD' setvcp 10 - $3 && pkill -RTMIN+14 i3blocks ;;
+    esac
+    ;;
 esac
-
-
-

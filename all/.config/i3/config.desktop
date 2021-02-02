@@ -1,0 +1,93 @@
+
+mode "$mode_backlight" {
+  bindsym 1             mode "$mode_backlight_monitor"
+  bindsym 2             mode "$mode_backlight_panel"
+  bindsym 3             mode "$mode_backlight_all"
+  bindsym Return        mode "default"
+  bindsym Escape        mode "default"
+}
+mode "$mode_backlight_monitor" {
+  bindcode 49           exec --no-startup-id backlight-abs monitor-a 0, mode "default"
+  bindsym 1             exec --no-startup-id backlight-abs monitor-a 10, mode "default"
+  bindsym 2             exec --no-startup-id backlight-abs monitor-a 20, mode "default"
+  bindsym 3             exec --no-startup-id backlight-abs monitor-a 30, mode "default"
+  bindsym 4             exec --no-startup-id backlight-abs monitor-a 40, mode "default"
+  bindsym 5             exec --no-startup-id backlight-abs monitor-a 50, mode "default"
+  bindsym 6             exec --no-startup-id backlight-abs monitor-a 60, mode "default"
+  bindsym 7             exec --no-startup-id backlight-abs monitor-a 70, mode "default"
+  bindsym 8             exec --no-startup-id backlight-abs monitor-a 80, mode "default"
+  bindsym 9             exec --no-startup-id backlight-abs monitor-a 90, mode "default"
+  bindsym 0             exec --no-startup-id backlight-abs monitor-a 100, mode "default"
+  bindsym Return        mode "default"
+  bindsym Escape        mode "default"
+}
+mode "$mode_backlight_panel" {
+  bindcode 49           exec --no-startup-id backlight-abs monitor-b 0, mode "default"
+  bindsym 1             exec --no-startup-id backlight-abs monitor-b 10, mode "default"
+  bindsym 2             exec --no-startup-id backlight-abs monitor-b 20, mode "default"
+  bindsym 3             exec --no-startup-id backlight-abs monitor-b 30, mode "default"
+  bindsym 4             exec --no-startup-id backlight-abs monitor-b 40, mode "default"
+  bindsym 5             exec --no-startup-id backlight-abs monitor-b 50, mode "default"
+  bindsym 6             exec --no-startup-id backlight-abs monitor-b 60, mode "default"
+  bindsym 7             exec --no-startup-id backlight-abs monitor-b 70, mode "default"
+  bindsym 8             exec --no-startup-id backlight-abs monitor-b 80, mode "default"
+  bindsym 9             exec --no-startup-id backlight-abs monitor-b 90, mode "default"
+  bindsym 0             exec --no-startup-id backlight-abs monitor-b 100, mode "default"
+  bindsym Return        mode "default"
+  bindsym Escape        mode "default"
+}
+mode "$mode_backlight_all" {
+  bindcode 49           exec --no-startup-id backlight-abs all 0, mode "default"
+  bindsym 1             exec --no-startup-id backlight-abs all 10, mode "default"
+  bindsym 2             exec --no-startup-id backlight-abs all 20, mode "default"
+  bindsym 3             exec --no-startup-id backlight-abs all 30, mode "default"
+  bindsym 4             exec --no-startup-id backlight-abs all 40, mode "default"
+  bindsym 5             exec --no-startup-id backlight-abs all 50, mode "default"
+  bindsym 6             exec --no-startup-id backlight-abs all 60, mode "default"
+  bindsym 7             exec --no-startup-id backlight-abs all 70, mode "default"
+  bindsym 8             exec --no-startup-id backlight-abs all 80, mode "default"
+  bindsym 9             exec --no-startup-id backlight-abs all 90, mode "default"
+  bindsym 0             exec --no-startup-id backlight-abs all 100, mode "default"
+  bindsym Return        mode "default"
+  bindsym Escape        mode "default"
+}
+
+bindsym $mod+Ctrl+h                      move workspace to output left
+
+bindsym $mod+Ctrl+l                      move workspace to output right
+
+bindsym XF86Explorer                     exec --no-startup-id backlight monitor-a down 5
+bindsym XF86Mail                         exec --no-startup-id backlight monitor-a up 5
+bindsym Shift+XF86Explorer               exec --no-startup-id backlight monitor-a down 10
+bindsym Shift+XF86Mail                   exec --no-startup-id backlight monitor-a up 10
+
+bindsym XF86Search                       exec --no-startup-id backlight monitor-b down 5
+bindsym XF86HomePage                     exec --no-startup-id backlight monitor-b up 5
+bindsym Shift+XF86Search                 exec --no-startup-id backlight monitor-b down 10
+bindsym Shift+XF86HomePage               exec --no-startup-id backlight monitor-b up 10
+
+bindsym XF86Tools                        exec --no-startup-id backlight all down 5
+bindsym XF86AudioPlay                    exec --no-startup-id backlight all up 5
+bindsym Shift+XF86Tools                  exec --no-startup-id backlight all down 10
+bindsym Shift+XF86AudioPlay              exec --no-startup-id backlight all up 10
+
+
+
+
+bar {
+  output DP-0
+  tray_output DP-0
+  status_command i3blocks
+  #status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
+  mode hide
+}
+
+bar {
+  output HDMI-0
+  tray_output none
+  mode hide
+  #status_command i3blocks
+}
+
+workspace 1 output DP-0
+workspace 10 output HDMI-0

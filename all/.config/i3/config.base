@@ -42,9 +42,10 @@ set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 set $mode_spotify p: play/pause j: next k: previous ; Caps to also quit
 set $mode_run Run a:htop s:vifm d:calc f:cal g:rss i:vw h:light j:vit
-set $mode_backlight Light: (1) panel, (2) monitor
-set $mode_backlight_panel Panel light: (1)0% (2)0% (3)0% (4)0% (5)0% (6)0% (7)0% (8)0% (9)0% 1(0)0%
-set $mode_backlight_monitor Monitor light: (1)0% (2)0% (3)0% (4)0% (5)0% (6)0% (7)0% (8)0% (9)0% 1(0)0%
+set $mode_backlight Light: (1) panel, (2) monitor, (3) all
+set $mode_backlight_panel Panel light: (`)0% (1)0% (2)0% (3)0% (4)0% (5)0% (6)0% (7)0% (8)0% (9)0% 1(0)0%
+set $mode_backlight_monitor Monitor light: (`)0% (1)0% (2)0% (3)0% (4)0% (5)0% (6)0% (7)0% (8)0% (9)0% 1(0)0%
+set $mode_backlight_all Light: (`)0% (1)0% (2)0% (3)0% (4)0% (5)0% (6)0% (7)0% (8)0% (9)0% 1(0)0%
 # }}}
 
 # ---Modes--- # {{{
@@ -135,40 +136,6 @@ mode "$mode_run" {
   bindsym Return        mode "default"
   bindsym Escape        mode "default"
 }
-mode "$mode_backlight" {
-  bindsym 1             mode "$mode_backlight_panel"
-  bindsym 2             mode "$mode_backlight_monitor"
-  bindsym Return        mode "default"
-  bindsym Escape        mode "default"
-}
-mode "$mode_backlight_monitor" {
-  bindsym 1             exec --no-startup-id backlight-abs monitor 10, mode "default"
-  bindsym 2             exec --no-startup-id backlight-abs monitor 20, mode "default"
-  bindsym 3             exec --no-startup-id backlight-abs monitor 30, mode "default"
-  bindsym 4             exec --no-startup-id backlight-abs monitor 40, mode "default"
-  bindsym 5             exec --no-startup-id backlight-abs monitor 50, mode "default"
-  bindsym 6             exec --no-startup-id backlight-abs monitor 60, mode "default"
-  bindsym 7             exec --no-startup-id backlight-abs monitor 70, mode "default"
-  bindsym 8             exec --no-startup-id backlight-abs monitor 80, mode "default"
-  bindsym 9             exec --no-startup-id backlight-abs monitor 90, mode "default"
-  bindsym 0             exec --no-startup-id backlight-abs monitor 100, mode "default"
-  bindsym Return        mode "default"
-  bindsym Escape        mode "default"
-}
-mode "$mode_backlight_panel" {
-  bindsym 1             exec --no-startup-id backlight-abs panel 10, mode "default"
-  bindsym 2             exec --no-startup-id backlight-abs panel 20, mode "default"
-  bindsym 3             exec --no-startup-id backlight-abs panel 30, mode "default"
-  bindsym 4             exec --no-startup-id backlight-abs panel 40, mode "default"
-  bindsym 5             exec --no-startup-id backlight-abs panel 50, mode "default"
-  bindsym 6             exec --no-startup-id backlight-abs panel 60, mode "default"
-  bindsym 7             exec --no-startup-id backlight-abs panel 70, mode "default"
-  bindsym 8             exec --no-startup-id backlight-abs panel 80, mode "default"
-  bindsym 9             exec --no-startup-id backlight-abs panel 90, mode "default"
-  bindsym 0             exec --no-startup-id backlight-abs panel 100, mode "default"
-  bindsym Return        mode "default"
-  bindsym Escape        mode "default"
-}
 # }}}
 
 # ---Rules--- # {{{
@@ -177,14 +144,14 @@ for_window [instance="dropdown_*"] floating enable
 for_window [instance="dropdown_*"] move scratchpad
 for_window [instance="dropdown_*"] sticky enable
 for_window [instance="dropdown_*"] scratchpad show
-for_window [instance="dropdown_*"] resize set 1300 700
-for_window [instance="dropdown_tmuxdd"] resize set 1300 700
+for_window [instance="dropdown_*"] resize set 1800 1000
+for_window [instance="dropdown_tmuxdd"] resize set 1800 1000
 for_window [instance="dropdown_dropdowncalc"] resize set 800 300
 for_window [instance="dropdown_tmuxdd"] border pixel 3
 for_window [instance="dropdown_dropdowncalc"] border pixel 2
-for_window [instance="dropdown_nvim"] resize set 1300 700
+for_window [instance="dropdown_nvim"] resize set 1800 1000
 for_window [instance="dropdown_nvim"] border pixel 3
-for_window [instance="dropdown_zsh"] resize set 1300 700
+for_window [instance="dropdown_zsh"] resize set 1800 1000
 for_window [instance="dropdown_zsh"] border pixel 3
 for_window [class="Pinentry"] sticky enable
 for_window [class="sent"] border pixel 0px
@@ -269,8 +236,9 @@ bindsym $mod+h                     focus left
 bindsym $mod+Shift+h               move left 30
 bindsym $mod+Shift+Ctrl+h          focus parent; focus left; focus child
 
-bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
-bindsym $mod+Ctrl+i                exec --no-startup-id ddspawn 'zsh'
+#bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
+bindsym $mod+i                     exec --no-startup-id ddspawn 'zsh'
+bindsym $mod+Ctrl+i                exec $term
 bindsym $mod+Shift+i               exec --no-startup-id i3resize up
 
 bindsym $mod+j                     focus down
@@ -292,6 +260,7 @@ bindsym $mod+n                     border toggle
 bindsym $mod+Shift+n               floating toggle; sticky toggle; exec --no-startup-id hover right
 
 bindsym $mod+o                     exec --no-startup-id ddspawn 'tmux' '-c ~/.config/kitty/kitty.conf' 'new-session -A -s david-local'
+bindsym $mod+Ctrl+o                exec $term tmux new-session -A -s david-local
 bindsym $mod+Shift+o               exec --no-startup-id i3resize right
 
 bindsym $mod+p                     mode "$mode_spotify"
@@ -311,6 +280,9 @@ bindsym $mod+Shift+s               sticky toggle
 bindsym $mod+t                     split toggle
 
 bindsym $mod+Shift+u               exec --no-startup-id i3resize down
+
+bindsym $mod+w                     exec ddspawn 'nvim' '-c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
+bindsym $mod+Shift+w               exec $term -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex
 
 bindsym $mod+x                     exec --no-startup-id mpc pause; pauseallmpv; i3lock -e -f -c 1d2021; xset dpms force off
 bindsym $mod+Ctrl+x --release      exec --no-startup-id xkill

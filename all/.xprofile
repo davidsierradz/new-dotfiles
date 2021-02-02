@@ -6,9 +6,11 @@
 remaps &
 dunst &
 unclutter --ignore-scrolling --timeout 2 --jitter 15 --exclude-root --fork &
-libinput-gestures-setup start &
+# libinput-gestures-setup start &
 greenclip daemon &
 xiccd &
 keynav &
 calcurse --daemon &
 xmodmap-on-input-change &
+nvidia-settings --load-config-only
+redshift-gtk &

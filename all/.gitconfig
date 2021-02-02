@@ -46,3 +46,5 @@
   ui = auto
 [interactive]
   diffFilter = /usr/share/git/diff-highlight/diff-highlight
+[diff]
+  noprefix = true

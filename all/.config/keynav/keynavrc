@@ -116,10 +116,10 @@ a history-back
 #Next cell-select 2x3   # PageDown
 
 ### Example using a 3x3 grid with nethack-vi keys
-super+semicolon start, grid 3x3
-#alt+semicolon start, move-right, grid 3x3
+super+semicolon start, move-left, grid 3x3
+super+apostrophe start, move-right, grid 3x3
 #ctrl+apostrophe start, cell-select 1x3, cell-select 1x3, cell-select 1x3, cell-select 1x3, cell-select 1x3, cell-select 1x3, warp, end
-super+apostrophe start, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, warp, end
+# super+apostrophe start, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, cut-left, cut-down, warp, end
 super+backslash start, cut-right, cut-down, cut-right, cut-down, cut-right, cut-down, cut-right, cut-down, cut-down, cut-down, cut-down, cut-down, warp, end
 h cell-select 1x2      # left
 j cell-select 2x3      # down

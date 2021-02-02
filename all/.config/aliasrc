@@ -27,7 +27,7 @@ alias \
   YT="youtube-viewer" \
   sdn="sudo shutdown -h now" \
   f='$FILE' \
-  e='$EDITOR' \
+  e='nvim --listen /tmp/nvimsocket' \
   v='$EDITOR' \
   p="sudo pacman"
 
@@ -45,6 +45,7 @@ alias b='bat' \
   calcurse="calcurse -D ~/.config/calcurse" \
   ccat="highlight --out-format=ansi" \
   d='docker' \
+  gfu="git fetch upstream" \
   glg="git log --graph --date-order --date=format-local:'%F %R' --full-history --color --decorate --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'" \
   glga="git log --graph --date-order --date=format-local:'%F %R' --full-history --all --color --decorate --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'" \
   gua="git remote | xargs -L1 git push --all" \
@@ -108,6 +109,9 @@ function terminal-scheme() {
   sed --follow-symlinks -i "s#^\(rofi.theme: /usr/share/rofi/themes/gruvbox-*\).*#\1$1-soft.rasi#g" $rofi_config_file
 
   if [[ "$WORK" == 'true' || $3 == 'forcebrowser' ]]; then
+    tridactyl_config_file=~/.tridactylrc
+    sed --follow-symlinks -i "s#^\(colorscheme\s\).*#\1$1#g" $tridactyl_config_file
+
     qute_config_file=~/.config/qutebrowser/config.py
     if [[ $1 == 'light' ]]; then
       # sed --follow-symlinks -i "s#^\(c\.content\.user_stylesheets = \).*#\1[css_base]#" $qute_config_file
@@ -132,6 +136,13 @@ function terminal-scheme() {
       #   qutebrowser ':set --temp content.user_stylesheets ["~/.config/qutebrowser/dark.css"] ;; set --temp colors.webpage.bg "black"' > /dev/null 2>&1
       # fi
     fi
+    if xwininfo -tree -root | grep ' ("firefox" ' > /dev/null 1>&1; then
+      if [[ $2 == 'restart' ]]; then
+        WID=$(xdotool search --name "Mozilla Firefox" | head -1)
+        xdotool windowactivate $WID
+        xdotool type ZR
+      fi
+    fi
   fi
 
   zathura_config_file=~/.config/zathura/zathurarc
@@ -155,6 +166,16 @@ function terminal-scheme() {
       nvr --servername "$i" --remote-send '<c-\><c-n>;set background=dark<cr>'
     fi
   done
+
+  gtk2_config_file="/home/neuromante/.config/gtk-2.0/gtkrc-2.0"
+  gtk3_config_file="/home/neuromante/.config/gtk-3.0/settings.ini"
+  if [[ $1 == 'light' ]]; then
+    sed --follow-symlinks -i "s/\(^gtk-theme-name=\).*/\1\"Raleigh\"/g" $gtk2_config_file
+    sed --follow-symlinks -i "s/\(^gtk-theme-name=\).*/\1Raleigh/g" $gtk3_config_file
+  else
+    sed --follow-symlinks -i "s/\(^gtk-theme-name=\).*/\1\"Arc-Gruvbox\"/g" $gtk2_config_file
+    sed --follow-symlinks -i "s/\(^gtk-theme-name=\).*/\1Arc-Gruvbox/g" $gtk3_config_file
+  fi
 }
 
 # Change background color of current (and child) kitty instance.

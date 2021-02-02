@@ -8,10 +8,6 @@ command=i3blocks-task
 interval=10
 format=json
 
-#[pomodoro]
-#full_text=...
-#interval=1
-
 [i3-pomodoro]
 full_text=...
 command=i3-pomodoro
@@ -22,48 +18,30 @@ full_text=...
 interval=persist
 markup=pango
 LABEL=⬇⬆
-#INTERFACE=(checks all interfaces)
-#USE_BITS=0
-#USE_BYTES=1
-#WARN_RX=0
-#WARN_TX=0
-#CRIT_RX=0
-#CRIT_TX=0
-#USE_SI=0
 
 [memory]
 full_text=...
 label=💽 
 interval=30
 
-[memory]
-full_text=...
-label=💾
-instance=swap
-interval=30
-
 [cpu_usage]
 full_text=...
 interval=10
-#LABEL=⌛
-#min_width=CPU: 100.00%
-#T_WARN=50
-#T_CRIT=80
-#DECIMALS=2
+LABEL=⌛
 
-[extbrightness]
+[extbrightness-a]
 full_text=...
-#label=🖥️
-command=sudo ddcutil getvcp 10 | awk '{gsub(/,/,"%",$9);print $9}'
-interval=once
-signal=14
-
-[displaybrightness]
-full_text=...
-#label=💻
-command=printf "%.0f%%\n" "$(xbacklight -get)"
+label=🖥️
+command=sleep 3 && sudo ddcutil -t --model 'LG ULTRAGEAR' getvcp 10 | awk '{print $4"%"}'
 interval=once
 signal=13
+
+[extbrightness-b]
+full_text=...
+label=📺
+command=sleep 3 && sudo ddcutil -t --model 'LG HDR WFHD' getvcp 10 | awk '{print $4"%"}'
+interval=once
+signal=14
 
 [disk]
 full_text=...
@@ -72,23 +50,14 @@ command=disk /
 
 [iface]
 full_text=...
-#LABEL=wlan0:
-#IFACE=wlan0
-#ADDRESS_FAMILY=inet6?
 interval=600
 
 [internet]
 full_text=...
 interval=10
 
-[battery]
-full_text=...
-command=battery BAT0
-interval=5
-
 [clock]
 full_text=...
-#label=📅
 interval=5
 
 [volume]

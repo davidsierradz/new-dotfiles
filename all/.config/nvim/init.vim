@@ -420,11 +420,13 @@ nnoremap U <c-r>
 " Colon-related mappings.
 nnoremap ; :
 xnoremap ; :
+nnoremap ;; ;
+xnoremap ;; ;
 
 " make ; always "find" forward and , backward
-nnoremap <expr> ;; getcharsearch().forward ? ';' : ','
+" nnoremap <expr> ;; getcharsearch().forward ? ';' : ','
 " nnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
-xnoremap <expr> ;; getcharsearch().forward ? ';' : ','
+" xnoremap <expr> ;; getcharsearch().forward ? ';' : ','
 " xnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
 
 cnoremap <M-b> <S-Left>
@@ -2282,4 +2284,6 @@ endif
 lua require'terminal'.setup()
 "--------------------------------End Colors------------------------------------"
 "}}}
+
+source ~/.config/nvim/local.vim
 " vim: set fdm=marker fmr={{{,}}} :
