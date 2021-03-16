@@ -14,3 +14,4 @@ calcurse --daemon &
 xmodmap-on-input-change &
 nvidia-settings --load-config-only
 redshift-gtk &
+mpDris2 &

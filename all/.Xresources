@@ -10,12 +10,18 @@ xterm*selectToClipboard: true
 xterm*disallowedWindowOps: 20,21,SetXProp
 XTerm.termName: xterm-256color
 XTerm.vt100.locale: true
-XTerm.vt100.metaSendsEscape: true
+XTerm.vt100.metaSendsEscape: false
+XTerm*eightBitControl: false
+XTerm*eightBitInput: false
+XTerm.omitTranslation: fullscreen
+XTerm*fullscreen: never
 XTerm*renderFont: true
-XTerm.vt100.faceName: Iosevka Nerd Font Mono:style=Extralight:size=20:antialias=true:hinting=true
-XTerm.vt100.boldFont: Iosevka Nerd Font Mono:style=Bold:size=20:antialias=true:hinting=true
+XTerm.vt100.faceName: VictorMono Nerd Font Mono:style=Light:size=19:antialias=true:hinting=true
+XTerm.vt100.boldFont: VictorMono Nerd Font Mono:style=Bold:size=19:antialias=true:hinting=true
 XTerm.vt100.translations: #override \n\
     Ctrl <Key> minus: smaller-vt-font() \n\
-    Ctrl <Key> plus: larger-vt-font()
+    Ctrl <Key> plus: larger-vt-font() \n\
+    Ctrl Shift <Key>C:  copy-selection(SELECT) \n\
+    Ctrl Shift <Key>V:  insert-selection(SELECT)
 
 #include ".config/xterm/light"

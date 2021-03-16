@@ -1,0 +1,11 @@
+configuration {
+	modi: "combi,run,window";
+	location: 2;
+	sidebar-mode: true;
+	m: "-1";
+	theme: "/usr/share/rofi/themes/gruvbox-light-soft.rasi";
+	kb-remove-to-eol: "Control+Shift+k";
+	kb-accept-entry: "Control+m,Return,KP_Enter";
+	kb-row-up: "Up,Control+k,ISO_Left_Tab";
+	kb-row-down: "Down,Control+j";
+}

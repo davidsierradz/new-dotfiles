@@ -286,24 +286,26 @@ bindkey "^s" sudo_
 # Press <C-Space> to autocomplete and execute command.
 bindkey '^ ' autosuggest-execute
 
-bindkey '^q' _emacs-forward-capital-word
+# Press <C-q> to autocomplete the next word.
+bindkey '^q' forward-word
 
-# Press <M-q> to autocomplete the next word.
-bindkey '^[q' forward-word
+# Press <C-Q> to autocomplete the next WORD.
+bindkey 'æ' _emacs-forward-capital-word
 
-bindkey '^w' _backward-kill-capital-word
+# Press <C-w> to delete the current word.
+bindkey '^w' backward-kill-word
 
-# Press <M-w> to delete the current word.
-bindkey '^[w' backward-kill-word
+# Press <C-W> to delete the current WORD.
+bindkey 'œ' _backward-kill-capital-word
 
 # Press <M-s> to switch current char with last one.
-bindkey '^[s' transpose-chars
+# bindkey '^[s' transpose-chars
 
 bindkey '^y' fzf-history-widget-accept
 
-bindkey '^[d' fzf-dirr-widget
+# bindkey '^[d' fzf-dirr-widget
 
-bindkey '^[e' kill-word
+# bindkey '^[e' kill-word
 # bindkey '^[r' delete-word
 
 # Vim Surround see: https://github.com/zsh-users/zsh/blob/master/Functions/Zle/surround
@@ -449,4 +451,6 @@ fi
 
 # Lets files beginning with a . be matched without explicitly specifying the dot.
 setopt globdots
+
+bindkey -r '\ec'
 # vim: set fdm=marker fmr={{{,}}} fdl=0 :

@@ -112,16 +112,18 @@ Plug 'lambdalisue/suda.vim'
 " markdown preview plugin for (neo)vim.
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
-" Plug 'mtikekar/nvim-send-to-term'
+Plug 'mtikekar/nvim-send-to-term'
 
 Plug 'metakirby5/codi.vim'
 
 Plug 'davidsierradz/vim-rest-console'
 
 " Plug 'puremourning/vimspector'
-" let g:vimspector_enable_mappings = 'HUMAN'
+" Plug 'mfussenegger/nvim-dap'
 
 Plug 'mhartington/formatter.nvim'
+
+Plug 'tpope/vim-dadbod'
 "}}}
 
 "-------Completions and omnifuncs------- {{{
@@ -180,7 +182,7 @@ Plug 'guns/vim-sexp'
 " nmap <buffer> <silent> <Leader>mpp    <Plug>(acid-eval-expr)
 " nmap <buffer> <silent> <Leader>mqp    <Plug>(acid-eval-print)
 
-Plug 'davidsierradz/nvim-treesitter'
+Plug 'davidsierradz/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 
 " Plug 'HiPhish/guile.vim'
@@ -192,6 +194,8 @@ Plug 'clojure-vim/clojure.vim'
 " Plug 'tpope/vim-classpath'
 
 Plug 'chrisbra/csv.vim'
+
+Plug 'wlangstroth/vim-racket'
 "}}}
 
 " Initialize plugin system
@@ -199,6 +203,25 @@ call plug#end()
 "--------------------------------End Plugins-----------------------------------"
 "}}}
 
+" lua << EOF
+" local dap = require('dap')
+" dap.adapters.node2 = {
+"   type = 'executable',
+"   command = 'node',
+"   args = {os.getenv('HOME') .. '/code/third-party/vscode-node-debug2/out/src/nodeDebug.js'},
+" }
+" dap.configurations.javascript = {
+"   {
+"     type = 'node2',
+"     request = 'launch',
+"     program = '${workspaceFolder}/${file}',
+"     cwd = vim.fn.getcwd(),
+"     sourceMaps = true,
+"     protocol = 'inspector',
+"     console = 'integratedTerminal',
+"   },
+" }
+" EOF
 
 "--------------------------------General---------------------------------------"{{{
 " Settings for tabs and space indents.
@@ -251,7 +274,7 @@ let mapleader = " "
 let maplocalleader = ","
 
 " Wait time for pending mode.
-set timeoutlen=500
+set timeoutlen=1000
 
 " Allow local .nvimrc files.
 set exrc
@@ -291,7 +314,7 @@ set scrolloff=0
 set sidescrolloff=0
 
 " Enable true color support
-if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes'
+if ($TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes') && g:neovide == v:false
   set notermguicolors
 else
   set termguicolors
@@ -364,19 +387,19 @@ xnoremap Y g$y
 " vnoremap Q !$SHELL<CR>
 
 " Change à (Alt-`) to -> in insert mode.
-inoremap <M-1> ->
+" inoremap <M-1> ->
 
 " Change <Alt-1> to => in insert mode.
-inoremap <M-2> =>
+" inoremap <M-2> =>
 
 " Transpose two chars in insert mode <C-t>.
-inoremap <C-t> <ESC>Xpa
+" inoremap <C-t> <ESC>Xpa
 
 " Select text inside line.
 nnoremap vv g^vg$
 
 " Select from current cursor position to before EOL.
-nnoremap <M-v> vg$
+" nnoremap <M-v> vg$
 
 " Go to start or end of non-blank line chars.
 noremap H g^
@@ -384,7 +407,7 @@ noremap L g$
 vnoremap L g_
 
 " Swap join lines behaviour.
-nnoremap <silent> gJ mzJ`zldiw:delmarks z<cr>
+" nnoremap <silent> gJ mzJ`zldiw:delmarks z<cr>
 
 " Execute a macro in visual mode.
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
@@ -394,13 +417,13 @@ xnoremap < <gv
 xnoremap > >gv
 
 " map _ to - see :help -.
-nnoremap _ -
+" nnoremap _ -
 
 " Yank non-blank current line.
-nnoremap <silent> <M-y> mzg^yg$`z:delmarks z<cr>
+" nnoremap <silent> <M-y> mzg^yg$`z:delmarks z<cr>
 
 " Cut non-blank current line.
-nmap <silent> <M-x> mzg^xg$`z:delmarks z<cr>
+" nmap <silent> <M-x> mzg^xg$`z:delmarks z<cr>
 
 " Split a line.
 nnoremap <silent> K i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w:delmarks w<cr>
@@ -412,10 +435,10 @@ nnoremap <silent> J mzJ`z:delmarks z<cr>
 " inoremap <M-Space> <Space><Space><Left>
 
 " (|) -> (|.
-inoremap <M-BS> <Right><BS>
+" inoremap <M-BS> <Right><BS>
 
 " Use U as redo.
-nnoremap U <c-r>
+" nnoremap U <c-r>
 
 " Colon-related mappings.
 nnoremap ; :
@@ -429,40 +452,54 @@ xnoremap ;; ;
 " xnoremap <expr> ;; getcharsearch().forward ? ';' : ','
 " xnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
 
-cnoremap <M-b> <S-Left>
-cnoremap <M-f> <S-Right>
+" cnoremap <M-b> <S-Left>
+" cnoremap <M-f> <S-Right>
 
-tnoremap <M-h> <C-\><C-N><C-w>h
-tnoremap <M-j> <C-\><C-N><C-w>j
-tnoremap <M-k> <C-\><C-N><C-w>k
-tnoremap <M-l> <C-\><C-N><C-w>l
-tnoremap <M-`> <C-\><C-N>
+" tnoremap <M-h> <C-\><C-N><C-w>h
+" tnoremap <M-j> <C-\><C-N><C-w>j
+" tnoremap <M-k> <C-\><C-N><C-w>k
+" tnoremap <M-l> <C-\><C-N><C-w>l
+" tnoremap <M-`> <C-\><C-N>
 
-tnoremap <C-A-j> <C-\><C-N>gT
-tnoremap <C-A-k> <C-\><C-N>gt
-nnoremap <C-A-j> gT
-nnoremap <C-A-k> gt
-inoremap <C-A-j> <C-\><C-N>gT
-inoremap <C-A-k> <C-\><C-N>gt
+" tnoremap <C-M-j> <C-\><C-N>gT
+" tnoremap <C-M-k> <C-\><C-N>gt
+" nnoremap <C-M-j> gT
+" nnoremap <C-M-k> gt
+" inoremap <C-M-j> <C-\><C-N>gT
+" inoremap <C-M-k> <C-\><C-N>gt
 
-nnoremap <M-h> <C-w>h
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-l> <C-w>l
+" nnoremap <M-h> <C-w>h
+" nnoremap <M-j> <C-w>j
+" nnoremap <M-k> <C-w>k
+" nnoremap <M-l> <C-w>l
+function! TmuxMove(direction)
+  let wnr = winnr()
+  silent! execute 'wincmd ' . a:direction
+  " If the winnr is still the same after we moved, it is the last pane
+  if wnr == winnr()
+    call system('tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR'))
+  end
+endfunction
 
-inoremap <M-h> <C-\><C-N><C-w>h
-inoremap <M-j> <C-\><C-N><C-w>j
-inoremap <M-k> <C-\><C-N><C-w>k
-inoremap <M-l> <C-\><C-N><C-w>l
-inoremap <M-`> <C-\><C-N>
+nnoremap <silent> <M-h> :call TmuxMove('h')<cr>
+nnoremap <silent> <M-j> :call TmuxMove('j')<cr>
+nnoremap <silent> <M-k> :call TmuxMove('k')<cr>
+nnoremap <silent> <M-l> :call TmuxMove('l')<cr>
+
+" inoremap <M-h> <C-\><C-N><C-w>h
+" inoremap <M-j> <C-\><C-N><C-w>j
+" inoremap <M-k> <C-\><C-N><C-w>k
+" inoremap <M-l> <C-\><C-N><C-w>l
+" inoremap <M-`> <C-\><C-N>
 
 " make <a-J>, <a-K>, <a-L>, and <a-H> create windows.
-nnoremap <M-J> <c-w>s<c-w>k
-nnoremap <M-K> <c-w>s
-nnoremap <M-H> <c-w>v
-nnoremap <M-L> <c-w>v<c-w>h
+" nnoremap <M-J> <c-w>s<c-w>k
+" nnoremap <M-K> <c-w>s
+" nnoremap <M-H> <c-w>v
+" nnoremap <M-L> <c-w>v<c-w>h
 
-nnoremap <M-w> :w<CR>
+" nnoremap <silent> <M-w> :silent w<CR>
+" nnoremap <silent> <M-C-w> :silent noautocmd w<CR>
 
 " Run xdg-open over a file path.
 " TODO: make function to open directories in vifm (:!$TERMINAL vifm /home/neuromante/).
@@ -494,18 +531,20 @@ nnoremap <silent> <Leader>qa  :qa<CR>
 ""/ file/find/folds (f) {{{
 "/
 " File save
-nnoremap <silent> <Leader>ff :write<CR>
+nnoremap <silent> <Leader>ff :silent write<CR>
+nnoremap <silent> <Leader>fw :silent noautocmd w<CR>
+nmap <silent> <Leader>fF :silent write <bar> silent edit <bar> TSBufEnable highlight<CR>
 "}}}
 ""/ buffers (b) {{{
 "/
 " Reloads a buffer.
-nnoremap <leader>br :e!<CR>
+nnoremap <Leader>br :e!<CR>
 
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab.
-nnoremap <leader>bq :bp <BAR> bd #<CR>
+nnoremap <Leader>bq :bp <BAR> bd #<CR>
 
-nnoremap <leader>bt :bd %<CR>
+nnoremap <Leader>bt :bd %<CR>
 
 " Close the current buffer and move to the previous one and close the window
 " This replicates the idea of closing a tab.
@@ -518,13 +557,13 @@ function! DeleteWindowIfNotLast()
   echo "Only one window or buffer."
   return 0
 endfunction
-nnoremap <leader>bw :call DeleteWindowIfNotLast()<CR>
+nnoremap <Leader>bw :call DeleteWindowIfNotLast()<CR>
 
 " Remap go to last file with backspace.
-nnoremap <leader>bb <C-^>
+nnoremap <Leader>bb <C-^>
 
 " Call close-buffers.vim plugin to list an options menu.
-nnoremap <silent> <leader>bd :Bwipeout menu<CR>
+nnoremap <silent> <Leader>bd :Bwipeout menu<CR>
 
 nnoremap <silent> <Leader>bp :bprevious<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>
@@ -555,13 +594,13 @@ nnoremap <Leader>wL <C-W>L
 nnoremap <Leader>wJ <C-W>J
 nnoremap <Leader>wK <C-W>K
 nnoremap <Leader>w= <C-W>=
-nnoremap <leader>ws <c-w>s
-nnoremap <leader>wv <c-w>v
-nnoremap <leader>w\| <c-w>\|
-nnoremap <leader>w_ <c-w>_
-nnoremap <leader>wo <c-w>o
-nnoremap <leader>w+ <c-w>\|<c-w>_
-nnoremap <leader>wz <c-w>\|<c-w>_
+nnoremap <Leader>ws <c-w>s
+nnoremap <Leader>wv <c-w>v
+nnoremap <Leader>w\| <c-w>\|
+nnoremap <Leader>w_ <c-w>_
+nnoremap <Leader>wo <c-w>o
+nnoremap <Leader>w+ <c-w>\|<c-w>_
+nnoremap <Leader>wz <c-w>\|<c-w>_
 
 " for s:i in range(1, 9)
 "   " <Leader>w[1-9] move to window [1-9]
@@ -571,11 +610,11 @@ nnoremap <leader>wz <c-w>\|<c-w>_
 "}}}
 ""/ tabs (t) {{{
 "/
-" for s:i in range(1, 9)
-"   " <Leader>t[1-9] move to tab [1-9]
-"   execute 'nnoremap <Leader>t'.s:i s:i.'gt'
-" endfor
-" unlet s:i
+for s:i in range(1, 9)
+  " <Leader>t[1-9] move to tab [1-9]
+  execute 'nnoremap <Leader>'.s:i s:i.'gt'
+endfor
+unlet s:i
 "}}}
 ""/ toggles (y) {{{
 "/
@@ -589,16 +628,16 @@ nnoremap <silent> <Leader>yz :<C-R>=&dictionary is# "/usr/share/dict/words" ? "s
 ""/ settings (s) {{{
 "/
 " Change pwd to current file path.
-nnoremap <leader>sc :cd %:p:h<CR>:pwd<CR>
+nnoremap <Leader>sc :cd %:p:h<CR>:pwd<CR>
 "}}}
 ""/ registers (r) {{{
 "/
 " Copy the unnamed register to the z register.
-nnoremap <silent> <leader>rz :let @z=@"<CR>
+nnoremap <silent> <Leader>rz :let @z=@"<CR>
 " Copy the % register (current file path) to + register (clipboard).
-nnoremap <leader>r% :let @+=@%<CR>
+nnoremap <Leader>r% :let @+=@%<CR>
 " Copy the current line number to + register.
-nnoremap <silent> <leader>r. :call setreg('+', line('.'))<CR>
+nnoremap <silent> <Leader>r. :call setreg('+', line('.'))<CR>
 "}}}
 ""/ local filetype (,) {{{
 "/
@@ -622,6 +661,10 @@ nnoremap <F12> mzgggqG`z:delmarks z<cr>
 nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
       \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+nnoremap <Leader>p gT
+nnoremap <Leader>n gt
+" nnoremap <Leader>h <C-W>h
+" nnoremap <Leader>l <C-W>l
 "}}}
 "}}}
 "--------------------------------End General Mappings--------------------------"
@@ -691,7 +734,6 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 let g:coc_global_extensions = [
-      \ 'coc-actions',
       \ 'coc-conjure',
       \ 'coc-conventional',
       \ 'coc-css',
@@ -708,7 +750,6 @@ let g:coc_global_extensions = [
       \ 'coc-sh',
       \ 'coc-snippets',
       \ 'coc-sql',
-      \ 'coc-tslint-plugin',
       \ 'coc-tsserver',
       \ 'coc-vimlsp',
       \ 'coc-yank',
@@ -739,6 +780,9 @@ function! CocExplorerDirvish() abort
     execute 'CocCommand explorer'
   endif
 endfunction
+
+autocmd ColorScheme *
+      \ hi link CocExplorerGitIgnored NormalFloat
 
 " Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
@@ -805,66 +849,55 @@ nmap <silent> ]] <Plug>(coc-diagnostic-next)
 nnoremap <Leader>fa :call CocExplorerDirvish()<CR>
 nnoremap <Leader>fA :CocCommand explorer --position tab<CR>
 
-nmap <silent> <leader>l[ <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>l] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>lgd <Plug>(coc-definition)
-nmap <silent> <leader>lgv :call CocAction('jumpDefinition', 'vsplit')<CR>
-nmap <silent> <leader>lgs :call CocAction('jumpDefinition', 'split')<CR>
-nmap <silent> <leader>lgt :call CocAction('jumpDefinition', 'tab drop')<CR>
-nmap <silent> <leader>lgy <Plug>(coc-type-definition)
-nmap <silent> <leader>lgi <Plug>(coc-implementation)
-nmap <silent> <leader>lgr <Plug>(coc-references)
-nnoremap <silent> <leader>lgk :call <SID>show_documentation()<CR>
-nmap <leader>lr <Plug>(coc-rename)
-xmap <leader>lf  <Plug>(coc-format-selected)
-nmap <leader>lf  <Plug>(coc-format-selected)
-xmap <leader>la  <Plug>(coc-codeaction-selected)
-nmap <leader>la  <Plug>(coc-codeaction-selected)
-nmap <leader>lac  <Plug>(coc-codeaction)
-nmap <leader>lqf  <Plug>(coc-fix-current)
+nmap <silent> <Leader>c[ <Plug>(coc-diagnostic-prev)
+nmap <silent> <Leader>c] <Plug>(coc-diagnostic-next)
+nmap <silent> <Leader>cgd <Plug>(coc-definition)
+nmap <silent> <Leader>cgv :call CocAction('jumpDefinition', 'vsplit')<CR>
+nmap <silent> <Leader>cgs :call CocAction('jumpDefinition', 'split')<CR>
+nmap <silent> <Leader>cgt :call CocAction('jumpDefinition', 'tab drop')<CR>
+nmap <silent> <Leader>cgy <Plug>(coc-type-definition)
+nmap <silent> <Leader>cgi <Plug>(coc-implementation)
+nmap <silent> <Leader>cgr <Plug>(coc-references)
+nnoremap <silent> <Leader>cgk :call <SID>show_documentation()<CR>
+nmap <Leader>cr <Plug>(coc-rename)
+xmap <Leader>cf  <Plug>(coc-format-selected)
+nmap <Leader>cf  <Plug>(coc-format-selected)
+xmap <Leader>ca  <Plug>(coc-codeaction-selected)
+nmap <Leader>ca  <Plug>(coc-codeaction-selected)
+nmap <Leader>cac  <Plug>(coc-codeaction)
+nmap <Leader>cqf  <Plug>(coc-fix-current)
 " Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 " nmap <silent> <C-d> <Plug>(coc-range-select)
 " xmap <silent> <C-d> <Plug>(coc-range-select)
 
-nnoremap <silent> <leader>ph  :<C-u>CocList -A --normal yank<cr>
+" nnoremap <silent> <Leader>ph  :<C-u>CocList -A --normal yank<cr>
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <leader>cda  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <leader>cj  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
-nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
-" nnoremap <silent> <leader>cr :call CocAction('reloadExtension', 'coc-eslint')<CR>
-nnoremap <silent> <leader>cy :call CocAction('diagnosticToggle')<CR>
-" Remap for do codeAction of selected region
-function! s:cocActionsOpenFromSelected(type) abort
-  execute 'CocCommand actions.open ' . a:type
-endfunction
+" nnoremap <silent> <Leader>cda  :<C-u>CocList diagnostics<cr>
+" " Manage extensions
+" nnoremap <silent> <Leader>ce  :<C-u>CocList extensions<cr>
+" " Show commands
+" nnoremap <silent> <Leader>cc  :<C-u>CocList commands<cr>
+" " Find symbol of current document
+" nnoremap <silent> <Leader>co  :<C-u>CocList outline<cr>
+" " Search workspace symbols
+" nnoremap <silent> <Leader>cs  :<C-u>CocList -I symbols<cr>
+" " Do default action for next item.
+" nnoremap <silent> <Leader>cj  :<C-u>CocNext<CR>
+" " Do default action for previous item.
+" nnoremap <silent> <Leader>ck  :<C-u>CocPrev<CR>
+" " Resume latest coc list
+" nnoremap <silent> <Leader>cp  :<C-u>CocListResume<CR>
+nnoremap <silent> <Leader>cR  :<C-u>CocRestart<CR>
+" nnoremap <silent> <Leader>cr :call CocAction('reloadExtension', 'coc-eslint')<CR>
+" nnoremap <silent> <Leader>cy :call CocAction('diagnosticToggle')<CR>
 
-xmap <silent> <leader>ca :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-nmap <silent> <leader>ca :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
-
-" coc-todo
-" nnoremap <silent> <leader>caa  :CocList todolist<CR>
-" nnoremap <silent> <leader>cas  :CocList --input=todolist commands<CR>
-
-command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
-nnoremap <silent> <leader>cta  :<C-u>Jest<CR>
-command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%'])
-nnoremap <silent> <leader>ctc :<C-u>JestCurrent<CR>
-nnoremap <silent> <leader>ctt :call CocAction('runCommand', 'jest.singleTest')<CR>
+" command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
+" nnoremap <silent> <Leader>cta  :<C-u>Jest<CR>
+" command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%'])
+" nnoremap <silent> <Leader>ctc :<C-u>JestCurrent<CR>
+" nnoremap <silent> <Leader>ctt :call CocAction('runCommand', 'jest.singleTest')<CR>
 "}}}
 ""/ codi.vim {{{
 "/
@@ -998,6 +1031,14 @@ local function zprint()
   }
 end
 
+local function racketpp()
+  return {
+    -- exe = "/home/neuromante/code/third-party/prettyprint-s-expression/prettyprint-sexp.rkt",
+    exe = "racket-format",
+    stdin = true
+  }
+end
+
 require('formatter').setup({
   logging = false,
   filetype = {
@@ -1017,6 +1058,7 @@ require('formatter').setup({
     bash = {shfmt},
     zsh = {shfmt},
     clojure = {zprint},
+    racket = {racketpp},
   }
 })
 EOF
@@ -1050,7 +1092,7 @@ let g:fzf_action = {
   \ 'ctrl-l': {l -> execute('args ' . join(map(l, {_, v -> fnameescape(v)}), ' '))},
   \  }
 
-let g:fzf_preview_window = ['right:50%', '?']
+let g:fzf_preview_window = ['right:50%:hidden', '?']
 
 " Show preview window with '?'.
 function! FilesFZF(query, fullscreen)
@@ -1171,17 +1213,17 @@ else
   let g:fzf_layout = { 'window': '-tabnew' }
 endif
 
-nnoremap <leader>zq :Rg<CR>
-nnoremap <leader>zw :Rgg<CR>
-nnoremap <leader>ze :Rggg<CR>
-nnoremap <leader>zQ :RgWithFileName<CR>
-nnoremap <leader>zW :RggWithFileName<CR>
-nnoremap <leader>zE :RgggWithFileName<CR>
-nnoremap <leader>zh :History<CR>
-nnoremap <leader>zx :Snippets<CR>
-nnoremap <leader>zz :Buffers<CR>
-nnoremap <leader>zp :RG<CR>
-nnoremap <leader>zP :AFiles<CR>
+nnoremap <Leader>zq :Rg<CR>
+nnoremap <Leader>zw :Rgg<CR>
+nnoremap <Leader>ze :Rggg<CR>
+nnoremap <Leader>zQ :RgWithFileName<CR>
+nnoremap <Leader>zW :RggWithFileName<CR>
+nnoremap <Leader>zE :RgggWithFileName<CR>
+nnoremap <Leader>zh :History<CR>
+nnoremap <Leader>zx :Snippets<CR>
+nnoremap <Leader>zz :Buffers<CR>
+nnoremap <Leader>zp :RG<CR>
+nnoremap <Leader>zP :AFiles<CR>
 "}}}
 ""/ lightline.vim {{{
 "/
@@ -1325,11 +1367,11 @@ let g:mkdp_browser = '/usr/bin/qutebrowser'
 "}}}
 ""/ nvim-send-to-term {{{
 "/
-" let g:send_disable_mapping = 1
-" nmap <Leader>aa <Plug>SendLine
-" nmap <Leader>am <Plug>Send
-" vmap <Leader>am <Plug>Send
-" nmap <Leader>aM m$
+let g:send_disable_mapping = 1
+nmap <Leader>aa <Plug>SendLine
+nmap <Leader>am <Plug>Send
+vmap <Leader>am <Plug>Send
+nmap <Leader>aM m$
 "}}}
 ""/ nvim-treesitter/nvim-treesitter {{{
 "/
@@ -1338,10 +1380,9 @@ lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
-    use_languagetree = false, -- Use this to enable language injection (this is very unstable)
   },
   indent = {
-    enable = true,
+    enable = false,
   },
 }
 
@@ -1363,13 +1404,13 @@ hlmap["punctuation.delimiter"] = "Delimiter"
 hlmap["punctuation.bracket"] = nil
 EOF
 
-nmap <M-W> :write <bar> edit <bar> TSBufEnable highlight<CR>
+" nmap <silent> <M-W> :silent write <bar> silent edit <bar> TSBufEnable highlight<CR>
 "}}}
 ""/ pear-tree {{{
 "/
 imap <BS> <Plug>(PearTreeBackspace)
 " imap <Esc> <Plug>(PearTreeFinishExpansion)
-imap <M-Space> <Plug>(PearTreeSpace)
+" imap <M-Space> <Plug>(PearTreeSpace)
 imap <C-g><C-g> <Plug>(PearTreeJump)
 let g:pear_tree_pairs = {
       \ '(': {'closer': ')'},
@@ -1388,6 +1429,43 @@ let g:pear_tree_smart_openers = 0
 let g:pear_tree_smart_closers = 0
 let g:pear_tree_smart_backspace = 0
 "}}}
+""/ puremourning/vimspector {{{
+"/
+" let g:vimspector_enable_mappings = 'HUMAN'
+" func! GotoWindow(id)
+"   :call win_gotoid(a:id)
+" endfun
+" func! AddToWatch()
+"   let word = expand("<cexpr>")
+"   call vimspector#AddWatch(word)
+" endfunction
+" let g:vimspector_base_dir = expand('$HOME/.config/vimspector-config')
+" let g:vimspector_sidebar_width = 120
+" let g:vimspector_bottombar_height = 0
+" nnoremap <Leader>da :call vimspector#Launch()<CR>
+" nnoremap <Leader>dc :call GotoWindow(g:vimspector_session_windows.code)<CR>
+" nnoremap <Leader>dv :call GotoWindow(g:vimspector_session_windows.variables)<CR>
+" nnoremap <Leader>dw :call GotoWindow(g:vimspector_session_windows.watches)<CR>
+" nnoremap <Leader>ds :call GotoWindow(g:vimspector_session_windows.stack_trace)<CR>
+" nnoremap <Leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
+" nnoremap <Leader>d? :call AddToWatch()<CR>
+" nnoremap <Leader>dx :call vimspector#Reset()<CR>
+" nnoremap <Leader>dX :call vimspector#ClearBreakpoints()<CR>
+" nnoremap <S-k> :call vimspector#StepOut()<CR>
+" nnoremap <S-l> :call vimspector#StepInto()<CR>
+" nnoremap <S-j> :call vimspector#StepOver()<CR>
+" nnoremap <Leader>d_ :call vimspector#Restart()<CR>
+" nnoremap <Leader>dn :call vimspector#Continue()<CR>
+" nnoremap <Leader>drc :call vimspector#RunToCursor()<CR>
+" nnoremap <Leader>dh :call vimspector#ToggleBreakpoint()<CR>
+" nnoremap <Leader>de :call vimspector#ToggleConditionalBreakpoint()<CR>
+" let g:vimspector_sign_priority = {
+"       \    'vimspectorBP':         998,
+"       \    'vimspectorBPCond':     997,
+"       \    'vimspectorBPDisabled': 996,
+"       \    'vimspectorPC':         999,
+"       \ }
+"}}}
 ""/ rainbow {{{
 "/
 let g:rainbow_active = 1
@@ -1404,7 +1482,9 @@ if &background is? 'light'
         \   'operators': '',
         \   'separately': {
         \       '*': 0,
-        \       'clojure': {}
+        \       'clojure': {},
+        \       'scheme': {},
+        \       'racket': {},
         \   }
         \}
 else
@@ -1414,7 +1494,9 @@ else
         \   'operators': '',
         \   'separately': {
         \       '*': 0,
-        \       'clojure': {}
+        \       'clojure': {},
+        \       'scheme': {},
+        \       'racket': {},
         \   }
         \}
 endif
@@ -1457,13 +1539,13 @@ let g:dirvish_mode = ':sort ,^\v(.*[\/])|\ze,'
 " Doesnt work with g:dirvish_mode dirs first.
 let g:dirvish_relative_paths = 1
 
-" Set <leader>cd to change directories in dirvish buffers.
+" Set <Leader>cd to change directories in dirvish buffers.
 augroup dirvish_events
   autocmd!
   autocmd FileType dirvish setlocal cursorline
 augroup END
 
-" Set <leader>cd to change directories in dirvish buffers.
+" Set <Leader>cd to change directories in dirvish buffers.
 augroup dirvish_config
   autocmd!
 
@@ -1481,8 +1563,6 @@ augroup dirvish_config
 
   autocmd FileType dirvish
         \ nnoremap <buffer> <LocalLeader>cd :cd %<CR>:pwd<CR>
-  autocmd FileType dirvish
-        \ nnoremap <nowait><buffer><silent> <M-n> <C-\><C-n>k:call feedkeys("p")<CR>
 augroup END
 "}}}
 ""/ vim-easymotion {{{
@@ -1492,28 +1572,28 @@ let g:EasyMotion_smartcase = 1
 nmap f <Plug>(easymotion-s)
 xmap f <Plug>(easymotion-s)
 omap f <Plug>(easymotion-s)
-nmap Q <Plug>(easymotion-overwin-f2)
-xmap Q <Plug>(easymotion-s)
-omap Q <Plug>(easymotion-s)
+nmap Q <Nop>
+xmap Q <Nop>
+omap Q <Nop>
 nmap F <Plug>(easymotion-overwin-f2)
 xmap F <Plug>(easymotion-s)
 omap F <Plug>(easymotion-s)
-nmap <leader><leader>ef <Plug>(easymotion-f)
-nmap <leader><leader>eF <Plug>(easymotion-F)
-nmap <leader><leader>e, <Plug>(easymotion-prev)
-nmap <leader><leader>e; <Plug>(easymotion-next)
+nmap <Leader><Leader>ef <Plug>(easymotion-f)
+nmap <Leader><Leader>eF <Plug>(easymotion-F)
+nmap <Leader><Leader>e, <Plug>(easymotion-prev)
+nmap <Leader><Leader>e; <Plug>(easymotion-next)
 "}}}
 ""/ vim-flog {{{
 "/
-nnoremap <leader>gq :Flog<CR>
+nnoremap <Leader>gq :Flog<CR>
 "}}}
 ""/ vim-fugitive {{{
 "/
-nnoremap <leader>gg :Git<CR>
-nnoremap <leader>gb :Git blame<CR>
-nnoremap <leader>gp :Git push<CR>
-nnoremap <leader>gf :Git fetch<CR>
-nnoremap <leader>gl :Gllog<CR>
+nnoremap <Leader>gg :Git<CR>
+nnoremap <Leader>gb :Git blame<CR>
+nnoremap <Leader>gp :Git push<CR>
+nnoremap <Leader>gf :Git fetch<CR>
+nnoremap <Leader>gl :Gllog<CR>
 "}}}
 ""/ vim-matchup {{{
 "/
@@ -1527,7 +1607,7 @@ let g:matchup_matchparen_status_offscreen = 0
 "let g:matchup_matchparen_deferred = 1
 "let g:matchup_matchparen_hi_surround_always = 1
 
-nmap <silent> <leader><leader>mm <plug>(matchup-hi-surround)
+nmap <silent> <Leader><Leader>mm <plug>(matchup-hi-surround)
 "}}}
 ""/ vim-mundo {{{
 "/
@@ -1539,7 +1619,7 @@ let g:gundo_close_on_revert = 1
 
 " let g:mundo_auto_preview = 0
 
-nnoremap <leader><leader>hh :MundoToggle<CR>
+nnoremap <Leader><Leader>hh :MundoToggle<CR>
 "}}}
 ""/ vim-node {{{
 "/
@@ -1620,7 +1700,7 @@ function! s:vim_sexp_mappings()
 endfunction
 augroup VIM_SEXP_MAPPING
   autocmd!
-  autocmd FileType clojure,scheme,lisp,timl call s:vim_sexp_mappings()
+  autocmd FileType clojure,scheme,lisp,timl,racket call s:vim_sexp_mappings()
   autocmd FileType scheme,racket nnoremap <buffer> cP :normal cpaF<cr>
   autocmd FileType scheme,racket nnoremap <buffer> <LocalLeader>\ :normal cpaF<cr>
 augroup END
@@ -1660,6 +1740,7 @@ autocmd  FileType which_key set laststatus=0 noshowmode noruler
 
 let g:which_key_floating_opts = { 'row': '+1', 'width': '+3' }
 let g:which_key_disable_default_offset = 1
+let g:which_key_centered = 0
 
 call which_key#register('<Space>', "g:which_key_map")
 
@@ -1887,7 +1968,7 @@ let g:which_key_map_local['name'] = 'root local'
 
 augroup initWhichKey
   au!
-  autocmd FileType clojure let g:which_key_map_local[','] = [ ':exec "lua require(\"conjure.eval\")[\"root-form\"]()"', 'eval_root_form' ]
+  autocmd FileType clojure,scheme,racket let g:which_key_map_local[','] = [ ':exec "lua require(\"conjure.eval\")[\"root-form\"]()"', 'eval_root_form' ]
 augroup END
 
 let g:which_key_map_local['l'] = {
@@ -1918,8 +1999,8 @@ let g:which_key_map_local['r'] = {
       \ 'name' : 'namespaces',
       \ }
 
-nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
-vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
+nnoremap <silent> <Leader>      :<c-u>WhichKey '<Space>'<CR>
+vnoremap <silent> <Leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
 nnoremap <silent> <LocalLeader> :<c-u>WhichKey ','<CR>
 vnoremap <silent> <LocalLeader> :<c-u>WhichKeyVisual ','<CR>
 nnoremap <silent> [       :<C-u>WhichKey '['<Cr>
@@ -1932,8 +2013,8 @@ let g:yoinkSavePersistently=1
 let g:yoinkIncludeDeleteOperations=1
 nmap p <plug>(YoinkPaste_p)
 nmap P <plug>(YoinkPaste_P)
-nmap <leader>pn <plug>(YoinkPostPasteSwapBack)
-nmap <leader>pp <plug>(YoinkPostPasteSwapForward)
+" nmap <Leader>pn <plug>(YoinkPostPasteSwapBack)
+" nmap <Leader>pp <plug>(YoinkPostPasteSwapForward)
 "}}}
 "--------------------------------End Plugins Configuration---------------------"
 "}}}
@@ -2007,16 +2088,16 @@ function! Set_all_virtual_texts(buf_id, ns_id, line_start, line_end, virtual_tex
   endfor
 endfunction
 
-nnoremap <Space>o1 :Annotate 0<Space>
-nnoremap <Space>o! :Annotate 0<CR>
-nnoremap <Space>o2 :Annotate 1<Space>
-nnoremap <Space>o@ :Annotate 1<CR>
-nnoremap <Space>o3 :Annotate 2<Space>
-nnoremap <Space>o# :Annotate 2<CR>
-nnoremap <Space>o4 :Annotate 3<Space>
-nnoremap <Space>o$ :Annotate 3<CR>
-nnoremap <silent> <Space>o0 :let b:annotatenvim_annotations = [] <bar> call Set_all_virtual_texts(0, 666, 0, -1, b:annotatenvim_annotations)<CR>
-nnoremap <silent> <Space>oo :call Set_all_virtual_texts(0, 666, 0, -1, exists("b:annotatenvim_annotations") ? b:annotatenvim_annotations : [])<CR>
+nnoremap <Leader>o1 :Annotate 0<Space>
+nnoremap <Leader>o! :Annotate 0<CR>
+nnoremap <Leader>o2 :Annotate 1<Space>
+nnoremap <Leader>o@ :Annotate 1<CR>
+nnoremap <Leader>o3 :Annotate 2<Space>
+nnoremap <Leader>o# :Annotate 2<CR>
+nnoremap <Leader>o4 :Annotate 3<Space>
+nnoremap <Leader>o$ :Annotate 3<CR>
+nnoremap <silent> <Leader>o0 :let b:annotatenvim_annotations = [] <bar> call Set_all_virtual_texts(0, 666, 0, -1, b:annotatenvim_annotations)<CR>
+nnoremap <silent> <Leader>oo :call Set_all_virtual_texts(0, 666, 0, -1, exists("b:annotatenvim_annotations") ? b:annotatenvim_annotations : [])<CR>
 "--------------------------------End User Commands-----------------------------"
 "}}}
 
@@ -2034,7 +2115,7 @@ augroup initvim
   autocmd CursorHold * silent! checktime
 
   " Set folding method
-  autocmd FileType json setlocal foldmethod=indent
+  " autocmd FileType json setlocal foldmethod=indent
 
   " Formatters.
   " autocmd FileType javascript setlocal formatprg=prettier\ --parser\ babel
@@ -2228,7 +2309,9 @@ function! MyHighlights() abort
           \   'operators': '',
           \   'separately': {
           \       '*': 0,
-          \       'clojure': {}
+          \       'clojure': {},
+          \       'scheme': {},
+          \       'racket': {},
           \   }
           \}
   else
@@ -2238,7 +2321,9 @@ function! MyHighlights() abort
           \   'operators': '',
           \   'separately': {
           \       '*': 0,
-          \       'clojure': {}
+          \       'clojure': {},
+          \       'scheme': {},
+          \       'racket': {},
           \   }
           \}
   endif
@@ -2263,14 +2348,14 @@ let g:gruvbox_invert_selection='0'
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_light='soft'
 
-if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes'
+if ($TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes') && g:neovide == v:false
   colorscheme default
   syntax off
 else
   colorscheme gruvbox
 endif
 
-if $TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes'
+if ($TERM == 'linux' || $TERM == 'screen' || $TERM == 'tmux' || $IS_TTY == 'yes') && g:neovide == v:false
   let g:lightline.colorscheme = 'deus'
 else
   let g:lightline.colorscheme = 'gruvbox'
@@ -2279,7 +2364,7 @@ endif
 set nohlsearch
 
 if $IS_TTY != 'yes'
-  lua require 'colorizer'.setup { '*'; css = { css = true; }; html = { names = false; }; clojure = { names = false; }; '!vim-plug'; '!git'; '!fzf'; '!floggraph'}
+  lua require 'colorizer'.setup({ '*'; css = { css = true; }; html = { names = false; }; clojure = { names = false; }; '!vim-plug'; '!git'; '!fzf'; '!floggraph'}, { names = false; })
 endif
 
 lua require'terminal'.setup()

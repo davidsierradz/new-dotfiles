@@ -41,11 +41,12 @@ set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 set $mode_spotify p: play/pause j: next k: previous ; Caps to also quit
-set $mode_run Run a:htop s:vifm d:calc f:cal g:rss i:vw h:light j:vit
+set $mode_run Run a:htop s:vifm d:calc f:cal g:rss i:vw h:light j:vit k:ncmpcpp
 set $mode_backlight Light: (1) panel, (2) monitor, (3) all
 set $mode_backlight_panel Panel light: (`)0% (1)0% (2)0% (3)0% (4)0% (5)0% (6)0% (7)0% (8)0% (9)0% 1(0)0%
 set $mode_backlight_monitor Monitor light: (`)0% (1)0% (2)0% (3)0% (4)0% (5)0% (6)0% (7)0% (8)0% (9)0% 1(0)0%
 set $mode_backlight_all Light: (`)0% (1)0% (2)0% (3)0% (4)0% (5)0% (6)0% (7)0% (8)0% (9)0% 1(0)0%
+set $mode_file Dir: (a) media (s) home (d) downloads (f) code (r) root
 # }}}
 
 # ---Modes--- # {{{
@@ -107,19 +108,19 @@ mode "$mode_gaps_outer" {
   bindsym Escape        mode "default"
 }
 mode "$mode_spotify" {
-  bindsym p             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox play-pause"
-  bindsym Shift+p       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox play-pause", mode "default"
-  bindsym j             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox next"
-  bindsym Shift+j       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox next", mode "default"
-  bindsym k             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox previous"
-  bindsym Shift+k       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox previous", mode "default"
+  bindsym p             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox,mpd play-pause"
+  bindsym Shift+p       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox,mpd play-pause", mode "default"
+  bindsym j             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox,mpd next"
+  bindsym Shift+j       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox,mpd next", mode "default"
+  bindsym k             exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox,mpd previous"
+  bindsym Shift+k       exec --no-startup-id "playerctl --player=spotify,mps-youtube,mpv,firefox,mpd previous", mode "default"
   bindsym Return        mode "default"
   bindsym Escape        mode "default"
 }
 mode "$mode_run" {
   bindsym a             exec --no-startup-id ddspawn 'htop', mode "default"
   bindsym Shift+a       exec $term htop, mode "default"
-  bindsym s             exec --no-startup-id ddspawn "$FILE", mode "default"
+  bindsym s             mode "$mode_file"
   bindsym Shift+s       exec $term $FILE, mode "default"
   bindsym d             exec --no-startup-id ddspawn 'dropdowncalc', mode "default"
   bindsym Shift+d       exec $term dropdowncalc, mode "default"
@@ -127,12 +128,22 @@ mode "$mode_run" {
   bindsym Shift+f       exec $term calcurse -D ~/.config/calcurse, mode "default"
   bindsym g             exec --no-startup-id ddspawn 'newsboat', mode "default"
   bindsym Shift+g       exec $term newsboat, mode "default"
-  bindsym i             exec --no-startup-id ddspawn 'nvim' '-c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex', mode "default"
+  bindsym i             exec --no-startup-id ddspawn 'vw' '' '-d ~/notes', mode "default"
   bindsym Shift+i       exec $term -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex, mode "default"
   bindsym h             mode "$mode_backlight"
   bindsym j             exec --no-startup-id ddspawn 'vit', mode "default"
   bindsym Shift+j       exec $term vit, mode "default"
+  bindsym k             exec --no-startup-id ddspawn 'ncmpcpp', mode "default"
 
+  bindsym Return        mode "default"
+  bindsym Escape        mode "default"
+}
+mode "$mode_file" {
+  bindsym a             exec --no-startup-id ddspawn "$FILE" "/media/data/", mode "default"
+  bindsym s             exec --no-startup-id ddspawn "$FILE" "$HOME/", mode "default"
+  bindsym d             exec --no-startup-id ddspawn "$FILE" "$HOME/Downloads/", mode "default"
+  bindsym f             exec --no-startup-id ddspawn "$FILE" "$HOME/code/", mode "default"
+  bindsym r             exec --no-startup-id ddspawn "$FILE" "/", mode "default"
   bindsym Return        mode "default"
   bindsym Escape        mode "default"
 }
@@ -176,9 +187,8 @@ exec --no-startup-id /home/neuromante/.local/bin/i3cmds/windowfocus
 # }}}
 
 # ---Bindings--- # {{{
-bindsym $mod+Return                exec --no-startup-id /usr/bin/kitty
-bindsym $mod+shift+Return          exec --no-startup-id /usr/bin/kitty -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/light.conf
-bindsym $mod+mod1+Return           exec --no-startup-id /usr/bin/kitty -c ~/.config/kitty/kitty.conf
+bindsym $mod+Return                exec /usr/bin/kitty tmux new-session -A -s david-local
+bindsym $mod+Shift+Return          exec /usr/bin/kitty tmux new-session -A -s david-local-2
 bindsym $mod+Ctrl+Return           exec --no-startup-id /usr/bin/xterm
 
 bindsym $mod+space                 focus mode_toggle
@@ -195,7 +205,7 @@ bindsym $mod+Home                  exec --no-startup-id i3lock --color=000000 --
 bindsym $mod+End                   mode "$mode_system"
 
 bindsym $mod+Tab                   workspace back_and_forth
-bindsym $mod1+Tab                  exec --no-startup-id wmfocus --font 'Mono:150'
+# bindsym $mod1+Tab                  exec --no-startup-id wmfocus --font 'Mono:150'
 
 bindsym $mod+minus                 scratchpad show ; move position center
 bindsym $mod+Shift+minus           move scratchpad
@@ -205,21 +215,19 @@ bindsym $mod+Shift+minus           move scratchpad
 bindcode $mod+49                   [con_mark=_prevFocus0] focus
 bindcode $mod+Ctrl+49              [con_mark=_prevFocus2] focus
 
-bindsym $mod+comma [con_mark=_prevFocus0] focus
-bindsym $mod+ctrl+comma [con_mark=_prevFocus2] focus
+bindsym $mod+comma                  exec --no-startup-id wmfocus --font 'Mono:150'
+#bindsym $mod+ctrl+comma [con_mark=_prevFocus2] focus
 
 
 
 
 bindsym $mod+a                     mode "$mode_run"
-# bindsym $mod+Shift+a               exec --no-startup-id /usr/bin/kitty pulsemixer ; exec --no-startup-id pkill -RTMIN+10 i3blocks
 bindsym $mod+Ctrl+a                focus parent
 
 bindsym $mod+Shift+b               floating toggle; sticky toggle; exec --no-startup-id hover left
 
 bindsym $mod+c                     move position center
 bindsym $mod+Shift+c               reload
-# bindsym $mod+Ctrl+c                exec --no-startup-id cabl
 
 bindsym $mod+d                     exec --no-startup-id rofi -m -1 -sidebar-mode -location 2 -show run
 bindsym $mod+Shift+d               exec --no-startup-id lastpass-rofi davidsierradz@gmail.com -t 9 -m password
@@ -236,8 +244,7 @@ bindsym $mod+h                     focus left
 bindsym $mod+Shift+h               move left 30
 bindsym $mod+Shift+Ctrl+h          focus parent; focus left; focus child
 
-#bindsym $mod+i                     exec --no-startup-id ddspawn 'nvim' '-c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
-bindsym $mod+i                     exec --no-startup-id ddspawn 'zsh'
+bindsym $mod+i                     exec --no-startup-id $term --name dropdown_zsh
 bindsym $mod+Ctrl+i                exec $term
 bindsym $mod+Shift+i               exec --no-startup-id i3resize up
 
@@ -259,8 +266,8 @@ bindsym $mod+Shift+m               exec --no-startup-id rofi -m -1 -sidebar-mode
 bindsym $mod+n                     border toggle
 bindsym $mod+Shift+n               floating toggle; sticky toggle; exec --no-startup-id hover right
 
-bindsym $mod+o                     exec --no-startup-id ddspawn 'tmux' '-c ~/.config/kitty/kitty.conf' 'new-session -A -s david-local'
-bindsym $mod+Ctrl+o                exec $term tmux new-session -A -s david-local
+bindsym $mod+o                     exec --no-startup-id ddspawn
+bindsym $mod+Ctrl+o                exec $term tmux new-session -A -s david-local-3
 bindsym $mod+Shift+o               exec --no-startup-id i3resize right
 
 bindsym $mod+p                     mode "$mode_spotify"
@@ -281,7 +288,7 @@ bindsym $mod+t                     split toggle
 
 bindsym $mod+Shift+u               exec --no-startup-id i3resize down
 
-bindsym $mod+w                     exec ddspawn 'nvim' '-c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes' '-u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex'
+bindsym $mod+w                     exec ddspawn 'vw' '' '-d ~/notes'
 bindsym $mod+Shift+w               exec $term -c ~/.config/kitty/kitty.conf -c ~/.config/kitty/writer.conf -d ~/notes -- nvim -u /home/neuromante/.config/nvim/wiki-init.vim -c VimwikiIndex
 
 bindsym $mod+x                     exec --no-startup-id mpc pause; pauseallmpv; i3lock -e -f -c 1d2021; xset dpms force off
@@ -319,6 +326,7 @@ bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id backlight panel up 10
 
 bindsym Print                      exec --no-startup-id maim pic-full-$(date '+%y%m%d-%H%M-%S').png
 bindsym Shift+Print                exec --no-startup-id maimpick
+bindsym Ctrl+Print                 exec --no-startup-id flameshot gui
 
 
 

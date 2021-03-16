@@ -1,5 +1,7 @@
-set foldmethod=indent
-set foldlevel=999
+" set foldmethod=indent
+" set foldlevel=999
+setlocal foldmethod=expr
+setlocal foldexpr=nvim_treesitter#foldexpr()
 
 if (exists("g:pear_tree_pairs"))
   let b:pear_tree_pairs = extend(deepcopy(g:pear_tree_pairs), {

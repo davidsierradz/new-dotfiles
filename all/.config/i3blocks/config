@@ -2,6 +2,11 @@ command=~/.local/bin/statusbar/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
+[mediaplayer]
+command=mediaplayer
+interval=5
+signal=11
+
 [taskw]
 full_text=...
 command=i3blocks-task

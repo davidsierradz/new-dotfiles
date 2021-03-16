@@ -2,7 +2,7 @@
   pager = /usr/share/git/diff-highlight/diff-highlight | less --tabs=2 -iRFSM
   excludesFile = "$HOME/.config/git/ignore"
 [pager]
-  diff = /usr/share/git/diff-highlight/diff-highlight | less --tabs=2 -iRSM -+F --pattern="---" --jump-target=3
+  diff = /usr/share/git/diff-highlight/diff-highlight | less --tabs=2 -iRSM -+F --pattern="^--- " --jump-target=3
 [user]
 	email = davidsierradz@gmail.com
 	name = davidsierradz

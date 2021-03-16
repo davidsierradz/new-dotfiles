@@ -105,8 +105,8 @@ function terminal-scheme() {
     fi
   done
 
-  rofi_config_file=~/.config/rofi/config
-  sed --follow-symlinks -i "s#^\(rofi.theme: /usr/share/rofi/themes/gruvbox-*\).*#\1$1-soft.rasi#g" $rofi_config_file
+  rofi_config_file=~/.config/rofi/config.rasi
+  sed --follow-symlinks -i "s#theme: \"/usr/share/rofi/themes/gruvbox-\(.*\)-soft.rasi\";#theme: \"/usr/share/rofi/themes/gruvbox-$1-soft.rasi\";#g" $rofi_config_file
 
   if [[ "$WORK" == 'true' || $3 == 'forcebrowser' ]]; then
     tridactyl_config_file=~/.tridactylrc
@@ -118,13 +118,13 @@ function terminal-scheme() {
       sed --follow-symlinks -i "s#^\(c\.colors\.webpage\.bg = \).*#\1'white'#" $qute_config_file
       sed --follow-symlinks -i "s#^\(c\.qt\.args = \).*#\1[]#" $qute_config_file
       sed --follow-symlinks -i "s#^\(c\.colors\.webpage\.darkmode\.enabled = \).*#\1False#" $qute_config_file
-      sed --follow-symlinks -i "s#^\(c\.colors\.webpage\.prefers_color_scheme_dark = \).*#\1False#" $qute_config_file
+      sed --follow-symlinks -i "s#^\(c\.colors\.webpage\.preferred_color_scheme = \).*#\1'light'#" $qute_config_file
     else
       # sed --follow-symlinks -i "s#^\(c\.content\.user_stylesheets = \).*#\1[css_base, css_dark]#" $qute_config_file
       sed --follow-symlinks -i "s#^\(c\.colors\.webpage\.bg = \).*#\1'black'#" $qute_config_file
       sed --follow-symlinks -i "s#^\(c\.qt\.args = \).*#\1['force-dark-mode']#" $qute_config_file
       sed --follow-symlinks -i "s#^\(c\.colors\.webpage\.darkmode\.enabled = \).*#\1True#" $qute_config_file
-      sed --follow-symlinks -i "s#^\(c\.colors\.webpage\.prefers_color_scheme_dark = \).*#\1True#" $qute_config_file
+      sed --follow-symlinks -i "s#^\(c\.colors\.webpage\.preferred_color_scheme = \).*#\1'dark'#" $qute_config_file
     fi
     if xwininfo -tree -root | grep ' ("qutebrowser" ' > /dev/null 1>&1; then
       if [[ $2 == 'restart' ]]; then

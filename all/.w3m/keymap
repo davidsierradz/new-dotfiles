@@ -177,13 +177,13 @@ keymap ef       PEEK_LINK
 #external browser command linked to the prefix number.
 #See "External Program Settings" in "Option Setting Panel"(OPTIONS)
 #Open current link with external browser = sensible browser
-keymap M-o      EXTERN
+keymap SPCo      EXTERN
 #copy current url and remove newline at the end.
 keymap yy       EXTERN     copy_url.sh
 #keymap yy       EXTERN     "echo -n %s | xclip -i -selection clipboard"
 #keymap yy       EXTERN     "echo -n %s | xsel -b"
 #open link under cursor with external browser = sensible browser
-keymap M-p      EXTERN_LINK
+keymap SPCp      EXTERN_LINK
 #Copy link under cursor, It does not copy images urls
 #keymap yf       EXTERN_LINK 'env printf %s "$0" | xsel -b'
 keymap yf       EXTERN_LINK  copy_url.sh
@@ -275,13 +275,13 @@ keymap T      TAB_GOTO https://duckduckgo.com/lite/
 #Duplicate current tab
 keymap yt       NEW_TAB
 #Change focus to left tab
-keymap M-k      NEXT_TAB
+keymap SPCk      NEXT_TAB
 #Change focus to right tab
-keymap M-j      PREV_TAB
+keymap SPCj      PREV_TAB
 #Change focus to left tab
-keymap M-m      NEXT_TAB
+keymap SPCm      NEXT_TAB
 #Change focus to right tab
-keymap M-n      PREV_TAB
+keymap SPCn      PREV_TAB
 #Move tab to the left
 keymap gK       TAB_LEFT
 #Move tab to the right
@@ -361,7 +361,7 @@ keymap |        PIPE_BUF
 #Execute shell command and browse
 #keymap       PIPE_SHELL
 #Reload configuration files.
-keymap M-r      REINIT
+keymap SPCr      REINIT
 #Quit w3m with confirmation.
 keymap :q       QUIT
 #Quit w3m without confirmation.
@@ -403,17 +403,16 @@ keymap :E       EDIT_SCREEN
 keymap :e       EDIT
 
 #Show list of all links, anchors and images
-keymap M-u	LIST
+keymap SPCu	LIST
 #Toggle activity of mouse
 #keymap M-m	MOUSE_TOGGLE
 #pendant change SC.View image in extern viewer
-keymap M-i      VIEW_IMAGE
 keymap SPCi      VIEW_IMAGE
-keymap M-I DISPLAY_IMAGE
+keymap SPCI DISPLAY_IMAGE
 keymap C-c  STOP_IMAGE
 keymap `   COMMAND  "SET_OPTION  display_image=toggle ; RESHAPE"
 #Show Context menu. It has specific option for links under the cursor.
-keymap M-c      MENU
+keymap SPCc      MENU
 
 #-word operations...............................................................
 #send word interactively to specified dictionary

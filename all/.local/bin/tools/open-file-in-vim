@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -eo pipefail
+
+function vv() {
+  nvr \
+    --servername "$(nvr --serverlist | head -n1)" \
+    "$1" \
+    && xdotool search --name "NVIM" windowactivate --sync
+}
+
+vv "$1"

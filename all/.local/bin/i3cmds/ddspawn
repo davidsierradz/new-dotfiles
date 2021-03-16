@@ -1,21 +1,61 @@
 #!/usr/bin/env sh
+# set -x
 
 # Toggle floating dropdown terminal in i3, or start if non-existing.
 # $1 is	the script run in the terminal.
 # All other args are terminal settings.
 # Terminal names are in dropdown_* to allow easily setting i3 settings.
 
-[ -z "$1" ] && exit
+if [ -z "$1" ]; then
+  if xwininfo -tree -root | grep "(\"dropdown_tmux\" " > /dev/null; then
+    floating_visible_id=$(xdotool search --onlyvisible --name "david-local-floating" || echo '0')
+    if [ "$floating_visible_id" -ne "$(xdotool getwindowfocus)" ]; then
+      echo "TMUX window visible but unfocused, focus."
+      i3 "[instance=\"dropdown_tmux\"] focus; [instance=\"dropdown_tmux\"] move position center"
+    elif [ "$floating_visible_id" -eq "$(xdotool getwindowfocus)" ]; then
+      echo "TMUX window visible, focus."
+      i3 "[instance=\"dropdown_tmux\"] scratchpad show; [instance=\"dropdown_tmux\"] move position center"
+    fi
+  else
+    echo "TMUX not detected... spawning."
+    i3 "exec --no-startup-id $TERMINAL --name dropdown_tmux -c ~/.config/kitty/kitty.conf -- tmux new-session -A -s david-local-floating"
+  fi
+  exit
+fi
 
 script=$1
-term_args=$2
-script_args=$3
+script_args=$2
+term_args=$3
 shift
-if xwininfo -tree -root | grep "(\"dropdown_$script\" ";
-then
-	echo "Window detected."
-	i3 "[instance=\"dropdown_$script\"] scratchpad show; [instance=\"dropdown_$script\"] move position center"
+if xwininfo -tree -root | grep "(\"dropdown_tmux\" " > /dev/null; then
+  tmux_output=$(tmux list-windows -F '#I #W #{window_active}' -t david-local-floating: | grep "$script")
+  script_id=$(echo "$tmux_output" | head -n1 | cut -d " " -f1)
+  script_name=$(echo "$tmux_output" | head -n1 | cut -d " " -f2)
+  script_active=$(echo "$tmux_output" | head -n1 | cut -d " " -f3)
+  if [ -n "$script_name" ] > /dev/null; then
+    echo "Program detected."
+    tmux select-window -t "david-local-floating:$script_id"
+    floating_visible_id=$(xdotool search --onlyvisible --name "david-local-floating")
+    if [ "$floating_visible_id" -ne "$(xdotool getwindowfocus)" ]; then
+      echo "Floating window visible but unfocused, focus."
+      i3 "[instance=\"dropdown_tmux\"] focus; [instance=\"dropdown_tmux\"] move position center"
+    elif [ "$floating_visible_id" -eq "$(xdotool getwindowfocus)" ] && [ "$script_active" -eq 0 ]; then
+      echo "Floating window visible, focus."
+      i3 "[instance=\"dropdown_tmux\"] focus; [instance=\"dropdown_tmux\"] move position center"
+    else
+      echo "Floating window invisible, show and focus."
+      i3 "[instance=\"dropdown_tmux\"] scratchpad show; [instance=\"dropdown_tmux\"] move position center"
+    fi
+  else
+    echo "Program not detected... spawning."
+    tmux new-window -n "$script" -c "$([ "$script" = 'vw' ] && echo "$HOME/Sync/notes/")" -t david-local-floating: -- "$script $script_args"
+    if xdotool search --onlyvisible --name "david-local-floating" > /dev/null; then
+      i3 "[instance=\"dropdown_tmux\"] focus; [instance=\"dropdown_tmux\"] move position center"
+    else
+      i3 "[instance=\"dropdown_tmux\"] scratchpad show; [instance=\"dropdown_tmux\"] move position center"
+    fi
+  fi
 else
-	echo "Window not detected... spawning."
-	i3 "exec --no-startup-id $TERMINAL --name dropdown_$script $term_args -- $script $script_args"
+  echo "TMUX not detected... spawning."
+  i3 "exec --no-startup-id $TERMINAL --name dropdown_tmux $term_args -- tmux new-session -A -s david-local-floating -n $script -- $script $script_args"
 fi

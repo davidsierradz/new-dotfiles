@@ -284,10 +284,10 @@ xnoremap Y g$y
 " vnoremap Q !$SHELL<CR>
 
 " Change à (Alt-`) to -> in insert mode.
-inoremap <M-1> ->
+" inoremap <M-1> ->
 
 " Change <Alt-1> to => in insert mode.
-inoremap <M-2> =>
+" inoremap <M-2> =>
 
 " Transpose two chars in insert mode <C-t>.
 inoremap <C-T> <ESC>Xpa
@@ -296,7 +296,7 @@ inoremap <C-T> <ESC>Xpa
 nnoremap vv g^vg$
 
 " Select from current cursor position to before EOL.
-nnoremap <M-v> vg$
+" nnoremap <M-v> vg$
 
 " Go to start or end of non-blank line chars.
 noremap H g^
@@ -317,10 +317,10 @@ xnoremap > >gv
 nnoremap _ -
 
 " Yank non-blank current line.
-nnoremap <silent> <M-y> mzg^yg$`z:delmarks z<cr>
+" nnoremap <silent> <M-y> mzg^yg$`z:delmarks z<cr>
 
 " Cut non-blank current line.
-nmap <silent> <M-x> mzg^xg$`z:delmarks z<cr>
+" nmap <silent> <M-x> mzg^xg$`z:delmarks z<cr>
 
 " Split a line.
 nnoremap <silent> K i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w:delmarks w<cr>
@@ -332,7 +332,7 @@ nnoremap <silent> J mzJ`z:delmarks z<cr>
 " inoremap <M-Space> <Space><Space><Left>
 
 " (|) -> (|.
-inoremap <M-BS> <Right><BS>
+" inoremap <M-BS> <Right><BS>
 
 " Use U as redo.
 nnoremap U <c-r>
@@ -347,34 +347,47 @@ nnoremap <expr> ;; getcharsearch().forward ? ';' : ','
 xnoremap <expr> ;; getcharsearch().forward ? ';' : ','
 " xnoremap <expr> ,, getcharsearch().forward ? ',' : ';'
 
-cnoremap <M-b> <S-Left>
-cnoremap <M-f> <S-Right>
+" cnoremap <M-b> <S-Left>
+" cnoremap <M-f> <S-Right>
 
-tnoremap <M-h> <C-\><C-N><C-w>h
-tnoremap <M-j> <C-\><C-N><C-w>j
-tnoremap <M-k> <C-\><C-N><C-w>k
-tnoremap <M-l> <C-\><C-N><C-w>l
-tnoremap <M-`> <C-\><C-N>
+" tnoremap <M-h> <C-\><C-N><C-w>h
+" tnoremap <M-j> <C-\><C-N><C-w>j
+" tnoremap <M-k> <C-\><C-N><C-w>k
+" tnoremap <M-l> <C-\><C-N><C-w>l
+" tnoremap <M-`> <C-\><C-N>
 
-tnoremap <C-A-j> <C-\><C-N>gT
-tnoremap <C-A-k> <C-\><C-N>gt
-nnoremap <C-A-j> gT
-nnoremap <C-A-k> gt
-inoremap <C-A-j> <C-\><C-N>gT
-inoremap <C-A-k> <C-\><C-N>gt
+" tnoremap <C-M-j> <C-\><C-N>gT
+" tnoremap <C-M-k> <C-\><C-N>gt
+" nnoremap <C-M-j> gT
+" nnoremap <C-M-k> gt
+" inoremap <C-M-j> <C-\><C-N>gT
+" inoremap <C-M-k> <C-\><C-N>gt
 
-nnoremap <M-h> <C-w>h
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-l> <C-w>l
+" nnoremap <M-h> <C-w>h
+" nnoremap <M-j> <C-w>j
+" nnoremap <M-k> <C-w>k
+" nnoremap <M-l> <C-w>l
+function! TmuxMove(direction)
+  let wnr = winnr()
+  silent! execute 'wincmd ' . a:direction
+  " If the winnr is still the same after we moved, it is the last pane
+  if wnr == winnr()
+    call system('tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR'))
+  end
+endfunction
 
-inoremap <M-h> <C-\><C-N><C-w>h
-inoremap <M-j> <C-\><C-N><C-w>j
-inoremap <M-k> <C-\><C-N><C-w>k
-inoremap <M-l> <C-\><C-N><C-w>l
-inoremap <M-`> <C-\><C-N>
+nnoremap <silent> <M-h> :call TmuxMove('h')<cr>
+nnoremap <silent> <M-j> :call TmuxMove('j')<cr>
+nnoremap <silent> <M-k> :call TmuxMove('k')<cr>
+nnoremap <silent> <M-l> :call TmuxMove('l')<cr>
 
-nnoremap <M-w> :w<CR>
+" inoremap <M-h> <C-\><C-N><C-w>h
+" inoremap <M-j> <C-\><C-N><C-w>j
+" inoremap <M-k> <C-\><C-N><C-w>k
+" inoremap <M-l> <C-\><C-N><C-w>l
+" inoremap <M-`> <C-\><C-N>
+
+" nnoremap <M-w> :w<CR>
 
 " Run xdg-open over a file path.
 " TODO: make function to open directories in vifm (:!$TERMINAL vifm /home/neuromante/).
@@ -676,8 +689,8 @@ inoremap <silent><expr> <c-space> coc#refresh()
 "       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " inoremap <silent><expr> <M-CR> pumvisible() && coc#rpc#request('hasSelected', []) ? "\<C-y>"
 "       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-imap <silent><expr> <M-CR> complete_info()["selected"] != "-1" ? "\<C-y>"
-      \: "\<Plug>(PearTreeExpand)"
+" imap <silent><expr> <M-CR> complete_info()["selected"] != "-1" ? "\<C-y>"
+      " \: "\<Plug>(PearTreeExpand)"
 
 " Create mappings for function text object, requires document symbols feature of languageserver.
 " xmap if <Plug>(coc-funcobj-i)
@@ -1094,7 +1107,7 @@ let g:mkdp_browser = '/usr/bin/qutebrowser'
 "/
 imap <BS> <Plug>(PearTreeBackspace)
 " imap <Esc> <Plug>(PearTreeFinishExpansion)
-imap <M-Space> <Plug>(PearTreeSpace)
+" imap <M-Space> <Plug>(PearTreeSpace)
 imap <C-g><C-g> <Plug>(PearTreeJump)
 let g:pear_tree_pairs = {
       \ '(': {'closer': ')'},
@@ -1274,8 +1287,6 @@ augroup dirvish_config
 
   autocmd FileType dirvish
         \ nnoremap <buffer> <LocalLeader>cd :cd %<CR>:pwd<CR>
-  autocmd FileType dirvish
-        \ nnoremap <nowait><buffer><silent> <M-n> <C-\><C-n>k:call feedkeys("p")<CR>
 augroup END
 "}}}
 ""/ vim-easymotion {{{

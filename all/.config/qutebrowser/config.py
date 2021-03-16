@@ -541,7 +541,7 @@ c.colors.webpage.darkmode.policy.images = 'smart'
 
 ## Force `prefers-color-scheme: dark` colors for websites.
 ## Type: Bool
-c.colors.webpage.prefers_color_scheme_dark = False
+c.colors.webpage.preferred_color_scheme = 'light'
 
 ## Number of commands to save in the command history. 0: no history / -1:
 ## unlimited
@@ -2298,8 +2298,10 @@ config.bind('zo', 'run-with-count 3 zoom-out')
 config.bind(',z', 'spawn --userscript readability-js')
 config.bind(',t', 'hint all spawn nohup mpv --ytdl-format="[height <=? 480]" {hint-url}')
 config.bind(',T', 'hint all spawn nohup mpv {hint-url}')
+config.bind(',R', 'hint all spawn tmux new-window -t david-local-floating: "mpv --no-video \'{hint-url}\'"')
 config.bind(',,', "hint all run jseval -q let q = document.querySelector('[src*=\"{hint-url}\"],[href*=\"{hint-url}\"]');q.setAttribute('tabIndex', '-1');q.focus()")
 # For YouTube
+config.bind(',N', 'spawn tmux new-window -t david-local-floating: "mpv --no-video \'{url}\'"')
 config.bind(',m', 'spawn nohup mpv --ytdl-format="[height <=? 480]" {url}')
 config.bind(',M', 'spawn nohup mpv {url}')
 config.bind(',w', 'spawn nohup i3 "exec --no-startup-id xterm -e w3m {url}"')

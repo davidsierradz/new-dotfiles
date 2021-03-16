@@ -9,9 +9,10 @@
   "ENCODER": 0,
   "NOTIFIER": "",
   "CHECKUPDATE": true,
-  "SHOW_MPLAYER_KEYS": true,
+  "SHOW_PLAYER_KEYS": true,
   "FULLSCREEN": false,
   "SHOW_STATUS": true,
+  "ALWAYS_REPEAT": false,
   "COLUMNS": "",
   "DDIR": "/home/neuromante/Downloads/mps",
   "OVERWRITE": true,
@@ -20,6 +21,7 @@
   "WINDOW_POS": "",
   "WINDOW_SIZE": "",
   "DOWNLOAD_COMMAND": "",
+  "LOOKUP_METADATA": true,
   "LASTFM_USERNAME": "",
   "LASTFM_PASSWORD": "",
   "LASTFM_API_KEY": "",
@@ -29,5 +31,8 @@
   "API_KEY": "AIzaSyCIM4EzNqi1in22f4Z3Ru3iYvLaY8tc3bo",
   "AUTOPLAY": false,
   "SET_TITLE": true,
-  "MPRIS": true
+  "MPRIS": true,
+  "SHOW_QRCODE": false,
+  "HISTORY": true,
+  "INPUT_HISTORY": true
 }
